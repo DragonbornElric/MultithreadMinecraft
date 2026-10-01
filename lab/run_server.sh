@@ -2,12 +2,14 @@
 # Start the lab server with one mod variant, wait for "Done", print the PID.
 #   lab/run_server.sh <variant> [lab_dir]
 # variant: vanilla   no mods (Fabric loader only)
-#          mtmc      MultithreadMC, parallelDimensions=true
+#          mtmc      MultithreadMC, parallelDimensions=true; mtmc@N = N worker threads (default 0 = one per dimension)
 #          mtmc-off  MultithreadMC loaded but parallelDimensions=false (overhead check)
 #          async     the Async mod (AxalotLDev, parallel entity ticking) from $LAB_DIR/jars, for comparison
 # Env: JAVA (default java on PATH; must be 25+), XMX (default 4G), MTMC_JAR (default the mod's build output).
 set -euo pipefail
 VARIANT="${1:?variant}"
+THREADS=0
+case "$VARIANT" in *@*) THREADS="${VARIANT#*@}"; VARIANT="${VARIANT%@*}" ;; esac
 LAB_DIR="${2:-${LAB_DIR:-/tmp/mtmc-lab}}"
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 JAVA="${JAVA:-java}"
@@ -20,13 +22,13 @@ case "$VARIANT" in
   mtmc|mtmc-off)
     cp "$MTMC_JAR" mods/
     PAR=true; [ "$VARIANT" = mtmc-off ] && PAR=false
-    printf 'parallelDimensions=%s\ndeferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' "$PAR" > config/multithreadmc.properties ;;
+    printf 'parallelDimensions=%s\nthreads=%s\ndeferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' "$PAR" "$THREADS" > config/multithreadmc.properties ;;
   async)
     cp "$LAB_DIR"/jars/async-*.jar mods/ ;;
   *) echo "unknown variant $VARIANT" >&2; exit 2 ;;
 esac
 rm -f mtmc-stats.json
-echo "$VARIANT" > variant.txt
+echo "$1" > variant.txt
 nohup "$JAVA" -Xms"$XMX" -Xmx"$XMX" -jar fabric-server-launch.jar nogui > server.log 2>&1 &
 PID=$!
 echo $PID > server.pid

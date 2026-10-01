@@ -4,7 +4,9 @@ import dev.mtmc.mixin.LevelAccessor;
 import dev.mtmc.mixin.ServerChunkCacheAccessor;
 import dev.mtmc.mixin.ServerLevelInvoker;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +27,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 /**
- * Ticks every dimension of the server at the same time, one thread per dimension.
+ * Ticks every dimension of the server at the same time: one thread per dimension, or
+ * {@code threads} workers each ticking a group of dimensions.
  *
  * <p>Vanilla's {@code MinecraftServer.tickChildren} ticks the levels one after another. The
  * levels share almost no mutable state, and vanilla already fences each level off by thread:
@@ -45,7 +48,8 @@ import net.minecraft.world.level.Level;
 public final class ParallelLevelTicker {
     private static volatile boolean active;
     private static volatile boolean timeHoisted;
-    private static final ThreadLocal<ServerLevel> OWNED = new ThreadLocal<>();
+    private static final ThreadLocal<List<ServerLevel>> OWNED = new ThreadLocal<>();
+    private static final Map<ServerLevel, Long> RECENT_NANOS = new IdentityHashMap<>();
     private static final ConcurrentLinkedQueue<Runnable> DEFERRED = new ConcurrentLinkedQueue<>();
     private static final List<ServerLevel> PENDING = new ArrayList<>();
     private static final Set<String> LOGGED_KINDS = ConcurrentHashMap.newKeySet();
@@ -63,8 +67,8 @@ public final class ParallelLevelTicker {
     /** True on a level worker when {@code level} belongs to another worker. */
     public static boolean isForeign(Level level) {
         if (!active) return false;
-        ServerLevel own = OWNED.get();
-        return own != null && level != own;
+        List<ServerLevel> own = OWNED.get();
+        return own != null && !own.contains(level);
     }
 
     /** ServerLevel.tick asks whether the overworld clock already moved this tick. */
@@ -85,15 +89,28 @@ public final class ParallelLevelTicker {
         return true;
     }
 
+    /** Worker threads for {@code levels} levels with the current config. */
+    public static int effectiveThreads(int levels) {
+        int t = Mtmc.config().threads;
+        return t <= 0 ? levels : Math.min(t, levels);
+    }
+
     /** Called where vanilla's level loop has finished: tick the collected levels together. */
     public static void runCollected(MinecraftServer server, BooleanSupplier haveTime) {
         if (PENDING.isEmpty()) return;
         List<ServerLevel> levels = new ArrayList<>(PENDING);
         PENDING.clear();
         long start = System.nanoTime();
-        if (levels.size() == 1) {
-            tickSerial(levels.get(0), haveTime);
-            MtmcStats.phase(start, System.nanoTime(), levels, new long[] {System.nanoTime() - start});
+        int threads = effectiveThreads(levels.size());
+        if (threads < 2) {
+            long[] nanos = new long[levels.size()];
+            for (int i = 0; i < levels.size(); i++) {
+                long t0 = System.nanoTime();
+                tickSerial(levels.get(i), haveTime);
+                nanos[i] = System.nanoTime() - t0;
+            }
+            record(levels, nanos);
+            MtmcStats.phase(start, System.nanoTime(), levels, nanos, 1);
             drainDeferred();
             return;
         }
@@ -106,17 +123,16 @@ public final class ParallelLevelTicker {
         }
         timeHoisted = true;
 
-        ExecutorService exec = pool(levels.size());
+        List<List<ServerLevel>> groups = assign(levels, threads);
+        ExecutorService exec = pool(groups.size());
         Thread serverThread = Thread.currentThread();
-        CountDownLatch ticking = new CountDownLatch(levels.size());
+        CountDownLatch ticking = new CountDownLatch(groups.size());
         long[] nanos = new long[levels.size()];
-        List<Future<?>> futures = new ArrayList<>(levels.size());
+        List<Future<?>> futures = new ArrayList<>(groups.size());
         active = true;
         try {
-            for (int i = 0; i < levels.size(); i++) {
-                ServerLevel level = levels.get(i);
-                int idx = i;
-                futures.add(exec.submit(() -> tickOnWorker(level, haveTime, ticking, serverThread, nanos, idx)));
+            for (List<ServerLevel> group : groups) {
+                futures.add(exec.submit(() -> tickOnWorker(group, levels, haveTime, ticking, serverThread, nanos)));
             }
             Throwable failure = null;
             for (Future<?> f : futures) {
@@ -135,8 +151,37 @@ public final class ParallelLevelTicker {
             active = false;
             timeHoisted = false;
         }
-        MtmcStats.phase(start, System.nanoTime(), levels, nanos);
+        record(levels, nanos);
+        MtmcStats.phase(start, System.nanoTime(), levels, nanos, groups.size());
         drainDeferred();
+    }
+
+    /**
+     * Split the levels over {@code threads} workers, longest recent tick first onto the least
+     * loaded worker, so with fewer threads than levels the busiest level gets one to itself.
+     */
+    static List<List<ServerLevel>> assign(List<ServerLevel> levels, int threads) {
+        List<List<ServerLevel>> groups = new ArrayList<>();
+        long[] load = new long[threads];
+        for (int i = 0; i < threads; i++) groups.add(new ArrayList<>());
+        List<ServerLevel> byCost = new ArrayList<>(levels);
+        byCost.sort((a, b) -> Long.compare(RECENT_NANOS.getOrDefault(b, 0L), RECENT_NANOS.getOrDefault(a, 0L)));
+        for (ServerLevel level : byCost) {
+            int best = 0;
+            for (int i = 1; i < threads; i++) if (load[i] < load[best]) best = i;
+            groups.get(best).add(level);
+            load[best] += Math.max(1L, RECENT_NANOS.getOrDefault(level, 0L));
+        }
+        groups.removeIf(List::isEmpty);
+        return groups;
+    }
+
+    /** Smoothed tick time per level (server thread only), for assign(). */
+    private static void record(List<ServerLevel> levels, long[] nanos) {
+        for (int i = 0; i < levels.size(); i++) {
+            long prev = RECENT_NANOS.getOrDefault(levels.get(i), nanos[i]);
+            RECENT_NANOS.put(levels.get(i), (prev * 7 + nanos[i]) / 8);
+        }
     }
 
     private static void tickSerial(ServerLevel level, BooleanSupplier haveTime) {
@@ -149,29 +194,39 @@ public final class ParallelLevelTicker {
         }
     }
 
-    private static void tickOnWorker(ServerLevel level, BooleanSupplier haveTime, CountDownLatch ticking,
-                                     Thread serverThread, long[] nanos, int idx) {
+    private static void tickOnWorker(List<ServerLevel> group, List<ServerLevel> all, BooleanSupplier haveTime,
+                                     CountDownLatch ticking, Thread serverThread, long[] nanos) {
         Thread me = Thread.currentThread();
-        claim(level, me);
-        OWNED.set(level);
-        long t0 = System.nanoTime();
+        for (ServerLevel level : group) claim(level, me);
+        OWNED.set(group);
         try {
-            tickSerial(level, haveTime);
+            for (ServerLevel level : group) {
+                long t0 = System.nanoTime();
+                try {
+                    tickSerial(level, haveTime);
+                } finally {
+                    nanos[all.indexOf(level)] = System.nanoTime() - t0;
+                }
+            }
         } finally {
-            nanos[idx] = System.nanoTime() - t0;
             ticking.countDown();
             try {
-                // Keep answering the other workers' chunk requests into this level until all
-                // levels are done ticking.
-                ServerChunkCache cache = level.getChunkSource();
+                // Keep answering the other workers' chunk requests into these levels until all
+                // workers are done ticking.
                 while (ticking.getCount() > 0) {
-                    if (!cache.pollTask()) LockSupport.parkNanos(20_000L);
+                    if (!pollOwn(group)) LockSupport.parkNanos(20_000L);
                 }
             } finally {
                 OWNED.remove();
-                claim(level, serverThread);
+                for (ServerLevel level : group) claim(level, serverThread);
             }
         }
+    }
+
+    private static boolean pollOwn(List<ServerLevel> group) {
+        boolean any = false;
+        for (ServerLevel level : group) any |= level.getChunkSource().pollTask();
+        return any;
     }
 
     private static void claim(ServerLevel level, Thread owner) {
@@ -184,12 +239,11 @@ public final class ParallelLevelTicker {
      * while waiting so a worker waiting on it in turn can't deadlock.
      */
     public static void awaitForeign(CompletableFuture<?> future, ServerChunkCache target) {
-        ServerLevel own = active ? OWNED.get() : null;
-        if (own == null || own.getChunkSource() == target) return;
-        crossLevel("getChunk " + own.dimension().identifier() + " -> " + target.getLevel().dimension().identifier());
-        ServerChunkCache ownCache = own.getChunkSource();
+        List<ServerLevel> own = active ? OWNED.get() : null;
+        if (own == null || own.contains(target.getLevel())) return;
+        crossLevel("getChunk " + own.get(0).dimension().identifier() + " -> " + target.getLevel().dimension().identifier());
         while (!future.isDone()) {
-            if (!ownCache.pollTask()) LockSupport.parkNanos(20_000L);
+            if (!pollOwn(own)) LockSupport.parkNanos(20_000L);
         }
     }
 
@@ -212,11 +266,11 @@ public final class ParallelLevelTicker {
         }
     }
 
-    private static synchronized ExecutorService pool(int levels) {
-        if (pool == null || poolSize < levels) {
+    private static synchronized ExecutorService pool(int threads) {
+        if (pool == null || poolSize != threads) {
             if (pool != null) pool.shutdown();
-            poolSize = levels;
-            pool = Executors.newFixedThreadPool(levels, r -> {
+            poolSize = threads;
+            pool = Executors.newFixedThreadPool(threads, r -> {
                 Thread t = new Thread(r, "MTMC Level Thread #" + THREAD_IDS.incrementAndGet());
                 t.setDaemon(true);
                 return t;

@@ -12,7 +12,8 @@ public final class Mtmc implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
         MtmcConfig cfg = config();
-        LOGGER.info("MultithreadMC: parallelDimensions={} deferCommandBlocks={}", cfg.parallelDimensions, cfg.deferCommandBlocks);
+        LOGGER.info("MultithreadMC: parallelDimensions={} threads={} deferCommandBlocks={}", cfg.parallelDimensions,
+            cfg.threads <= 0 ? "one per dimension" : cfg.threads, cfg.deferCommandBlocks);
     }
 
     public static MtmcConfig config() {

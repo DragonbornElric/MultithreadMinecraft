@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_25",
   "server": [
     "BaseCommandBlockMixin",
+    "CommandsMixin",
     "CommandBlockMixin",
     "EntityInvoker",
     "EntityMixin",

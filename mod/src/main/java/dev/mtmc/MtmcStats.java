@@ -24,6 +24,13 @@ public final class MtmcStats {
     private static final Map<String, long[]> LEVEL_NANOS = new LinkedHashMap<>(); // server thread only: {sum, max}
     private static long phases, phaseNanos, phaseMaxNanos, levelSumNanos;
     private static long windowStart = System.nanoTime();
+    private static int lastWorkers;
+    private static volatile String last = "{}";
+
+    /** The most recent stats window as JSON ("{}" before the first one). */
+    public static String last() {
+        return last;
+    }
 
     private MtmcStats() {}
 
@@ -36,7 +43,8 @@ public final class MtmcStats {
     }
 
     /** One level phase: wall time from start to end, and each level's own tick time. */
-    static void phase(long start, long end, List<ServerLevel> levels, long[] nanos) {
+    static void phase(long start, long end, List<ServerLevel> levels, long[] nanos, int workers) {
+        lastWorkers = workers;
         long wall = end - start;
         phases++;
         phaseNanos += wall;
@@ -57,6 +65,7 @@ public final class MtmcStats {
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("window_seconds", (now - windowStart) / 1e9);
         out.put("parallel", Mtmc.config().parallelDimensions);
+        out.put("threads", lastWorkers);
         out.put("phases", phases);
         out.put("phase_avg_ms", phases == 0 ? 0 : phaseNanos / 1e6 / phases);
         out.put("phase_max_ms", phaseMaxNanos / 1e6);
@@ -68,6 +77,7 @@ public final class MtmcStats {
         out.put("deferred", snapshot(DEFERRED));
         out.put("cross_level", snapshot(CROSS));
         String json = toJson(out);
+        last = json;
         Mtmc.LOGGER.info("[stats] {}", json);
         try {
             Path tmp = Path.of("mtmc-stats.json.tmp");
