@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.mtmc.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "server": [
+    "BaseCommandBlockMixin",
+    "CommandBlockMixin",
+    "EntityInvoker",
+    "EntityMixin",
+    "LevelAccessor",
+    "MinecraftServerMixin",
+    "SavedDataStorageMixin",
+    "ServerChunkCacheAccessor",
+    "ServerChunkCacheMixin",
+    "ServerLevelInvoker",
+    "ServerLevelMixin",
+    "ServerPlayerMixin",
+    "ThrownEnderpearlInvoker",
+    "ThrownEnderpearlMixin"
+  ],
+  "injectors": { "defaultRequire": 1 }
+}

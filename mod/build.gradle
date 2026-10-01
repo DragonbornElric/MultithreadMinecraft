@@ -1,0 +1,30 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.18.2'
+}
+
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+base { archivesName = 'multithreadmc' }
+
+repositories { mavenCentral() }
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+}
+
+tasks.withType(JavaCompile).configureEach { it.options.release = 25 }
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand 'version': project.version }
+}
+
+test { useJUnitPlatform() }

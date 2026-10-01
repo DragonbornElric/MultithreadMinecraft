@@ -1,0 +1,6 @@
+mod/build/
+mod/.gradle/
+mod/run/
+.gradle/
+__pycache__/
+*.pyc
