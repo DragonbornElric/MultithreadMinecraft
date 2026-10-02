@@ -6,6 +6,9 @@
   "server": [
     "BaseCommandBlockMixin",
     "BoundTickingBlockEntityLagMixin",
+    "ChunkMapAccessor",
+    "ChunkMapGuardMixin",
+    "ChunkSystemGuardMixin",
     "CommandBlockMixin",
     "CommandsMixin",
     "EntityInvoker",

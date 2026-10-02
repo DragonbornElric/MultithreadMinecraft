@@ -256,6 +256,19 @@ the first set of runs (2–5 vs 0–2 per 200); in a later paired set both varia
 it as a possible small timing difference in when the portal is processed (end of the tick
 instead of the entity's next tick start), not a correctness problem.
 
+## Ownership guard (2026-10-02, `cloud-4`)
+
+* **`/mtmc selftest`:** 120/120 cross-dimension chunk loads, and 120 cross-dimension tickets
+  caught and handed to their owner per run. The handed-over tickets took effect: the target
+  chunk read as loaded in all three dimensions within about 6 s, including its generation.
+* **No false alarms:** 0 `[diag]` lines at startup and world generation, and through each of
+  these suites:
+  * TNT suite: pass, fingerprint `3f99461661c4`
+  * throttle test: pass
+  * benchmark at 800 mobs per dimension
+  * bot scenarios: command blocks 497/497, portal stream 197 + 3 came back + 0 never went,
+    pearls, portal trips, 90 s hero in the Overworld and in the Nether
+
 ## Combat across threads (owner question, 2026-10-02)
 
 **Can a player fighting a mob be hurt by them being on different threads?** Not in v0.1:
@@ -327,6 +340,22 @@ with 132 ghosts loading fresh view-12 areas in two dimensions.
   reaching another level's `ChunkMap` off its owner thread — something to check with a thread-owner assert in
   `ChunkMap.updateChunkScheduling` / `processUnloads`), or GC pressure near the heap limit. A fastutil open-hash `remove`
   that doesn't return is the classic sign of the first.
+* **Follow-up (2026-10-02, branch `-next`, then merged): ownership guard added** (DESIGN.md, "Ownership guard").
+  * **Review:** every path MultithreadMC itself takes into a level's chunk system is owner-only:
+    * the level tick
+    * the help loop (own levels only)
+    * cross-dimension `getChunk` (through the owner's queue)
+    * deferred work (after ownership is back)
+    * ServerCore's dynamic distance (its end-of-tick event on the server thread)
+  * **What's left:** code from other mods that runs inside a level's tick, which is on that
+    level's worker under MultithreadMC (world-tick and chunk events, mixins), or a mod thread
+    touching tickets or chunks directly.
+  * **The guard** hands foreign ticket changes to the owner and logs any other foreign access
+    with the caller's stack.
+  * **In the lab** it is silent in all suites (see "Ownership guard" below), and `/mtmc selftest`
+    shows it catching and handing over 120 cross-level tickets per run.
+  * **On the next owner run,** any `[diag] foreign_chunk_access` line in the log names the
+    culprit.
 
 ## Open items
 

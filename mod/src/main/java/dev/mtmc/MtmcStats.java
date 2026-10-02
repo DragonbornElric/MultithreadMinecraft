@@ -38,6 +38,11 @@ public final class MtmcStats {
         DEFERRED.computeIfAbsent(kind, k -> new LongAdder()).increment();
     }
 
+    public static long crossCount(String kind) {
+        LongAdder a = CROSS.get(kind);
+        return a == null ? 0 : a.sum();
+    }
+
     static void crossLevel(String kind) {
         CROSS.computeIfAbsent(kind, k -> new LongAdder()).increment();
     }

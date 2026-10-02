@@ -61,6 +61,11 @@ public final class ParallelLevelTicker {
 
     private ParallelLevelTicker() {}
 
+    /** True while the levels tick in parallel (any thread). */
+    public static boolean phaseActive() {
+        return active;
+    }
+
     /** True while the levels tick in parallel and the caller is one of the level workers. */
     public static boolean onWorker() {
         return active && OWNED.get() != null;
@@ -241,7 +246,8 @@ public final class ParallelLevelTicker {
 
     public static String selfTestResult() {
         return "cross-dimension chunk loads from workers: " + SELF_TEST_OK.get() + " ok, " + SELF_TEST_FAIL.get()
-            + " failed" + (selfTestTicks > 0 ? " (" + selfTestTicks + " ticks to go)" : "");
+            + " failed; cross-dimension tickets handed to their owner: " + MtmcStats.crossCount("diag:foreign_chunk_access:addTicketWithRadius")
+            + (selfTestTicks > 0 ? " (" + selfTestTicks + " ticks to go)" : "");
     }
 
     /**
@@ -255,6 +261,10 @@ public final class ParallelLevelTicker {
             try {
                 ChunkAccess chunk = other.getChunkSource().getChunk(0, 0, ChunkStatus.FULL, true);
                 if (chunk != null) SELF_TEST_OK.incrementAndGet(); else SELF_TEST_FAIL.incrementAndGet();
+                // the unsafe pattern a mod hook might use: a ticket in a level another worker is
+                // ticking. OwnerGuard must hand it to that worker (counted as diag:foreign_chunk_access)
+                other.getChunkSource().addTicketWithRadius(net.minecraft.server.level.TicketType.PORTAL,
+                    new net.minecraft.world.level.ChunkPos(64, 64), 2); // radius 2: entity-ticking at the centre, so /execute if loaded sees it
             } catch (Throwable t) {
                 SELF_TEST_FAIL.incrementAndGet();
                 Mtmc.LOGGER.error("selftest: cross-dimension getChunk into {} failed", other.dimension().identifier(), t);

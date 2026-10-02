@@ -56,6 +56,34 @@ done, so a request from another worker still gets answered.
 Deferred work runs on the server thread in the order it was requested, right after all
 workers have finished, with ownership already back on the server thread.
 
+## Ownership guard (`OwnerGuard`, since 2026-10-02)
+
+A level's chunk system belongs to one thread at a time: the server thread, or the level's
+worker during the parallel phase (`ServerChunkCache.mainThread`). This covers the ChunkMap, the
+DistanceManager, the tickets and the unload queue. Vanilla never checks this, and its fastutil
+maps corrupt silently when two threads write at once. The next lookup can then spin forever.
+
+That is the likely cause of the owner's 60 s watchdog in `ChunkMap.processUnloads`
+(2026-10-02, `lab/results/eesmp-scale-2026-10-02/`).
+
+The guard sits on the entry points: `addTicket`, `addTicketWithRadius`,
+`removeTicketWithRadius`, `runDistanceManagerUpdates`, `save`, `updateChunkForced`,
+`ChunkMap.updateChunkScheduling`, `processUnloads` and `scheduleUnload`. When a call comes from
+a thread that doesn't own the level:
+* **Ticket changes** are handed to the owner's task queue, so they apply a moment later
+  instead of racing.
+* **Everything else** is counted as `diag:foreign_chunk_access:<site>` (in the stats file
+  and `/mtmc status`) and logged at ERROR with the caller's stack trace, the first 5 times per
+  site.
+
+`/mtmc selftest` exercises it on purpose: each worker adds a ticket in the other levels.
+
+**Rule for other mods:** anything that runs inside a level's tick runs on that level's
+worker, in parallel with the other levels. That includes Fabric `ServerTickEvents.*_WORLD_TICK`,
+`ServerChunkEvents` load and unload, and mixins into `ServerLevel.tick`. Such code must not
+touch other levels or unsynchronised global state. The guard names the code that touches
+another level's chunk system.
+
 ## Compatibility
 
 * **Moonrise:** declared `breaks`. It overwrites `getChunk`, `getChunkNow` and
