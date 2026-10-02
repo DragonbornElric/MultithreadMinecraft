@@ -5,8 +5,9 @@
   "compatibilityLevel": "JAVA_25",
   "server": [
     "BaseCommandBlockMixin",
-    "CommandsMixin",
+    "BoundTickingBlockEntityLagMixin",
     "CommandBlockMixin",
+    "CommandsMixin",
     "EntityInvoker",
     "EntityMixin",
     "LevelAccessor",
@@ -15,10 +16,13 @@
     "ServerChunkCacheAccessor",
     "ServerChunkCacheMixin",
     "ServerLevelInvoker",
+    "ServerLevelLagMixin",
     "ServerLevelMixin",
     "ServerPlayerMixin",
     "ThrownEnderpearlInvoker",
     "ThrownEnderpearlMixin"
   ],
-  "injectors": { "defaultRequire": 1 }
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

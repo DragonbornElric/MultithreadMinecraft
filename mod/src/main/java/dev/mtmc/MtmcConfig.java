@@ -17,6 +17,8 @@ public final class MtmcConfig {
      * the levels tick on the server thread as in vanilla. /mtmc threads N.
      */
     public volatile int threads;
+    /** Time every chunk's ticks by category (/mtmc lag). Costs two clock reads per ticked thing. /mtmc lag on|off. */
+    public volatile boolean lagAccounting;
     /** Run command blocks after the parallel phase (a command may touch any dimension). */
     public final boolean deferCommandBlocks;
     /** Log the first stack trace of each kind of cross-dimension access seen during the parallel phase. */
@@ -28,6 +30,7 @@ public final class MtmcConfig {
         parallelDimensions = bool(p, "parallelDimensions", true);
         threads = Integer.parseInt(p.getProperty("threads", "0").trim());
         deferCommandBlocks = bool(p, "deferCommandBlocks", true);
+        lagAccounting = bool(p, "lagAccounting", true);
         logCrossLevelAccess = bool(p, "logCrossLevelAccess", true);
         statsIntervalSeconds = Integer.parseInt(p.getProperty("statsIntervalSeconds", "30").trim());
     }
@@ -63,6 +66,7 @@ public final class MtmcConfig {
                     + "parallelDimensions=" + parallelDimensions + "\n"
                     + "threads=" + threads + "\n"
                     + "deferCommandBlocks=" + deferCommandBlocks + "\n"
+                    + "lagAccounting=" + lagAccounting + "\n"
                     + "logCrossLevelAccess=" + logCrossLevelAccess + "\n"
                     + "statsIntervalSeconds=" + statsIntervalSeconds + "\n");
             }

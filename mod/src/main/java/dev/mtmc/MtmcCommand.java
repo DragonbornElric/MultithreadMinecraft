@@ -7,7 +7,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
 /**
- * {@code /mtmc status|on|off|threads <n>|selftest [result]} (admins). Changes apply from the next tick and are
+ * {@code /mtmc status|on|off|threads <n>|selftest [result]|lag ...} (admins). Changes apply from the next tick and are
  * written to the config file.
  */
 public final class MtmcCommand {
@@ -20,6 +20,7 @@ public final class MtmcCommand {
             .then(Commands.literal("status").executes(c -> status(c.getSource())))
             .then(Commands.literal("on").executes(c -> setParallel(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> setParallel(c.getSource(), false)))
+            .then(dev.mtmc.lag.LagCommand.node())
             .then(Commands.literal("selftest")
                 .executes(c -> selfTest(c.getSource()))
                 .then(Commands.literal("result").executes(c -> selfTestResult(c.getSource()))))
