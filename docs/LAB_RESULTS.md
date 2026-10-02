@@ -475,6 +475,22 @@ In the Lithium run:
 * 8522 deferred tasks, mostly section moves
 * 1.9 s of parked time over the run
 
+**Benchmark on the owner's server mod list** (`bench.py`, 2026-10-02, `cloud-4`, `XMX=6G`). The
+list: Lithium, Chunky, No Chat Reports, BlueMap, FabricExporter, FerriteCore, Krypton, spark,
+View Distance Fix, Simple Voice Chat, Enhanced Groups, Emma-EndInv 1.4.5, emma-mob-targeting
+and emma-smp. Each variant ran twice; the table shows the mean MSPT and the sprint TPS range.
+
+| Variant | Overworld only: 3000 mobs in 6 pens | 1000 mobs in each dimension, 3 pens each |
+| --- | --- | --- |
+| mod off (`vanilla`) | 37.6 ms, 28 TPS | 37.2 ms, 28–30 TPS |
+| parallel dimensions (`mtmc`) | 39.2 ms, 25 TPS | 16.9 ms, 66–71 TPS |
+| parallel dimensions + regions (`mtmcr`) | 20.3 ms, 55–59 TPS | 15.2 ms, 75–77 TPS |
+
+* With one busy dimension, parallel dimensions alone cost about 4%, and regions give 1.85×.
+* With all three busy, regions add about 10% on top of parallel dimensions on 4 cores.
+* Every run logged emma-smp's `bad fact name world/escalation.decayAt` about once a minute,
+  with the mod off too. Its fact names must be lowercase. That is an emma-smp bug.
+
 **Mob fights** (`region_lab.py fights`): 7 mob-vs-mob fights on Hard, each in 6 closed
 arenas at once, so each arena is its own region. Every fight was run with regions on and with
 them off, 2 rounds each, alternating, which gives 12 fights per side. Mob counts and total
@@ -527,6 +543,21 @@ came at similar times (1.8–7.2 s on, 1.8–2.5 s off; the 7.2 s run had the bo
 
 The server logged no errors from this mod. Region counters: 29122 phases, 0 escapes, and 10
 deaths that went through the death lock.
+
+**Movement** (`region_lab.py moves`, on the owner's mod list, below). 6 arenas at once, 2
+rounds per side, alternating, which gives 12 arenas per side. Every mob's position was read
+every 2 s for 40 s. All metrics were the same on and off: a metric counts as different when
+the means are more than 3 standard errors apart and more than 15%.
+
+| Card | Metric | On | Off |
+| --- | --- | --- | --- |
+| 3 pillagers + 8 villagers (day) | pillager blocks walked / share standing still | 21.9 / 0.59 | 24.5 / 0.54 |
+| | villager blocks walked / share standing still | 47.4 / 0.29 | 47.5 / 0.28 |
+| | villager distance to nearest pillager, start / middle / end | 13.8 / 14.5 / 14.1 | 13.9 / 14.8 / 14.9 |
+| 8 villagers, 8 beds, 8 job sites | blocks walked / share standing still | 29.3 / 0.42 | 27.8 / 0.43 |
+| | villagers with a home / a job site after 40 s | 8 / 8 | 8 / 8 |
+| 4 zombies + 8 villagers (night) | zombie / villager blocks walked | 83.8 / 81.1 | 84.1 / 80.8 |
+| | villager distance to nearest zombie, start / middle / end | 12.8 / 9.6 / 10.3 | 12.6 / 10.6 / 10.4 |
 
 **Bugs found and fixed:**
 * **Lithium `entity.inactive_navigations`:** the first Lithium run crashed after 462 ticks with

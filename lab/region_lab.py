@@ -481,9 +481,163 @@ def summarize_card(runs: dict, types: list[str]) -> dict:
     out["verdict"] = {"same": not diffs, "differs": diffs}
     return out
 
+
+# ── moves ────────────────────────────────────────────────────────────
+# How mobs move, regions on vs off. Every mob is tagged at summon and its position read every
+# MOVE_STEP seconds for MOVE_SECONDS (ticks frozen while reading). Per mob type: distance walked,
+# share of steps standing still, and the mean distance between pillagers and villagers; for the
+# village card, how many villagers have claimed a bed and a job site by the end.
+MOVE_CARDS = {
+    # villagers panic near illagers and run; pillagers wander and close in
+    "flee": {"roster": [("pillager", 3), ("villager", 8)], "day": True, "village": False},
+    # villagers walk to free beds and job sites and claim them
+    "village": {"roster": [("villager", 8)], "day": True, "village": True},
+    # zombies chase villagers, villagers flee
+    "chase": {"roster": [("zombie", 4), ("villager", 8)], "day": False, "village": False},
+}
+MOVE_SECONDS = 40
+MOVE_STEP = 2
+JOBS = ["composter", "lectern", "smoker", "barrel", "blast_furnace", "cartography_table", "fletching_table", "loom"]
+
+
+def pos_of(r: Rcon, tag: str) -> tuple[float, float, float] | None:
+    txt = r.cmd(f"execute in minecraft:overworld run data get entity @e[tag={tag},limit=1] Pos")
+    m = re.findall(r"(-?[\d.E-]+)d", txt)
+    return tuple(float(v) for v in m[:3]) if len(m) >= 3 else None
+
+
+def village_props(r: Rcon, cx: int) -> None:
+    ex = "execute in minecraft:overworld run "
+    y = bench.PEN_Y + 1
+    for i in range(8):
+        x = cx - ARENA + 2 + i * 3
+        r_cmd(r, ex + f"setblock {x} {y} {ARENA - 1} minecraft:red_bed[facing=north,part=head]")
+        r_cmd(r, ex + f"setblock {x} {y} {ARENA - 2} minecraft:red_bed[facing=north,part=foot]")
+        r_cmd(r, ex + f"setblock {x} {y} {-ARENA + 1} minecraft:{JOBS[i]}")
+
+
+def claimed(r: Rcon, cx: int, memory: str) -> int:
+    txt = r.cmd(f"execute in minecraft:overworld positioned {cx} {bench.PEN_Y} 0 if entity "
+                f"@e[type=minecraft:villager,distance=..30,nbt={{Brain:{{memories:{{\"minecraft:{memory}\":{{}}}}}}}}]")
+    m = re.search(r"Count: (\d+)", txt)
+    return int(m.group(1)) if m else 0
+
+
+def moves(args) -> dict:
+    r = start(args)
+    r.cmd("difficulty hard")
+    rng = random.Random(args.seed)
+    centers = bench.pen_centers(args.pens, args.pen_spacing)
+    for cx in centers:
+        bench.build_pen(r, OW, cx)
+        build_arena(r, cx)
+    since = log_offset()
+    results = {}
+    for card in args.move_cards or list(MOVE_CARDS):
+        spec = MOVE_CARDS[card]
+        r.cmd("time set noon" if spec["day"] else "time set midnight")
+        runs = {"on": [], "off": []}
+        for trial in range(args.trials):
+            for mode in (("on", "off") if trial % 2 == 0 else ("off", "on")):
+                r.cmd(f"mtmc regions {mode}")
+                r.cmd("tick freeze")
+                mobs = []  # (cx, type, tag)
+                for p, cx in enumerate(centers):
+                    clear_arena(r, cx)
+                    ex = "execute in minecraft:overworld run "
+                    r_cmd(r, ex + f"fill {cx - ARENA} {bench.PEN_Y + 1} {-ARENA} {cx + ARENA} {bench.PEN_Y + 3} {ARENA} minecraft:air")
+                    if spec["village"]:
+                        village_props(r, cx)
+                    for k, (mob, n) in enumerate(spec["roster"]):
+                        for j in range(n):
+                            side = -1 if k == 0 and len(spec["roster"]) > 1 else 1
+                            x = cx + side * rng.uniform(3, ARENA - 3)
+                            z = rng.uniform(-ARENA + 3, ARENA - 3)
+                            tag = f"mv{p}_{k}_{j}"
+                            mobs.append((cx, mob, tag))
+                            r_cmd(r, f"execute in minecraft:overworld run summon minecraft:{mob} {x:.2f} {bench.PEN_Y + 1} {z:.2f} "
+                                     f"{{PersistenceRequired:1b,Tags:[\"{tag}\"]}}")
+                tracks = {tag: [] for _, _, tag in mobs}
+                for step in range(MOVE_SECONDS // MOVE_STEP + 1):
+                    if step:
+                        r.cmd("tick unfreeze")
+                        time.sleep(MOVE_STEP)
+                        r.cmd("tick freeze")
+                    for _, _, tag in mobs:
+                        tracks[tag].append(pos_of(r, tag))
+                for cx in centers:
+                    runs[mode].append(move_metrics(r, cx, spec, [(t, tag) for c, t, tag in mobs if c == cx], tracks))
+                r.cmd("tick unfreeze")
+        results[card] = summarize_moves(runs)
+        print(card, json.dumps(results[card]["verdict"]))
+    for cx in centers:
+        clear_arena(r, cx)
+    r.cmd("mtmc regions on")
+    stats = regions_stats(r)
+    problems = log_problems(since)
+    res = {"scenario": "moves", "pens": args.pens, "rounds_per_mode": args.trials, "cards": results, "regions": stats,
+           "problems": problems}
+    res["ok"] = not problems and all(c["verdict"]["same"] for c in results.values())
+    return res
+
+
+def move_metrics(r: Rcon, cx: int, spec: dict, mobs: list, tracks: dict) -> dict:
+    out = {}
+    by_type: dict[str, list[list]] = {}
+    for t, tag in mobs:
+        by_type.setdefault(t, []).append(tracks[tag])
+    for t, ts in by_type.items():
+        walked, still = [], []
+        for tr in ts:
+            pts = [p for p in tr if p is not None]
+            if len(pts) < 2:
+                continue
+            steps = [((a[0] - b[0]) ** 2 + (a[2] - b[2]) ** 2) ** 0.5 for a, b in zip(pts, pts[1:])]
+            walked.append(sum(steps))
+            still.append(sum(1 for d in steps if d < 0.2) / len(steps))
+        out[f"{t}_walked"] = statistics.mean(walked) if walked else 0.0
+        out[f"{t}_still_share"] = statistics.mean(still) if still else 0.0
+        out[f"{t}_alive_end"] = sum(1 for tr in ts if tr[-1] is not None)
+    attackers = [tr for t, ts in by_type.items() if t in ("pillager", "zombie") for tr in ts]
+    for when, idx in (("start", 0), ("mid", len(next(iter(tracks.values()))) // 2), ("end", -1)):
+        ds = []
+        for v in by_type.get("villager", []):
+            if v[idx] is None:
+                continue
+            near = [((v[idx][0] - a[idx][0]) ** 2 + (v[idx][2] - a[idx][2]) ** 2) ** 0.5 for a in attackers if a[idx] is not None]
+            if near:
+                ds.append(min(near))
+        if attackers:
+            out[f"villager_to_nearest_attacker_{when}"] = statistics.mean(ds) if ds else 0.0
+    if spec["village"]:
+        out["villagers_with_home"] = claimed(r, cx, "home")
+        out["villagers_with_job_site"] = claimed(r, cx, "job_site")
+    return out
+
+
+def summarize_moves(runs: dict) -> dict:
+    """Same test as the fights: a metric differs when the means are more than 3 standard errors
+    apart and more than 15% of the larger mean (or 1 for counts)."""
+    out = {"n": {m: len(v) for m, v in runs.items()}, "metrics": {}}
+    diffs = []
+    for k in runs["on"][0]:
+        on = [s[k] for s in runs["on"] if k in s]
+        off = [s[k] for s in runs["off"] if k in s]
+        mo, mf = statistics.mean(on), statistics.mean(off)
+        se = ((statistics.pvariance(on) / len(on)) + (statistics.pvariance(off) / len(off))) ** 0.5
+        floor = 0.15 * max(abs(mo), abs(mf)) if not k.endswith(("_alive_end", "_with_home", "_with_job_site")) else 1.0
+        tol = max(3 * se, floor)
+        entry = {"on": round(mo, 2), "off": round(mf, 2), "tol": round(tol, 2)}
+        if abs(mo - mf) > tol:
+            entry["differs"] = True
+            diffs.append(k)
+        out["metrics"][k] = entry
+    out["verdict"] = {"same": not diffs, "differs": diffs}
+    return out
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("scenario", choices=["ab", "tnt", "chaos", "fights"])
+    ap.add_argument("scenario", choices=["ab", "tnt", "chaos", "fights", "moves"])
     ap.add_argument("--variant", default="mtmcr")
     ap.add_argument("--running", action="store_true", help="use the server that is up")
     ap.add_argument("--pens", type=int, default=6)
@@ -501,8 +655,9 @@ def main() -> None:
     ap.add_argument("--zoo-scale", type=int, default=1)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--cards", nargs="+", choices=list(CARDS), help="fights: which fights (default all)")
+    ap.add_argument("--move-cards", nargs="+", choices=list(MOVE_CARDS), help="moves: which cards (default all)")
     args = ap.parse_args()
-    res = {"ab": ab, "tnt": tnt, "chaos": chaos, "fights": fights}[args.scenario](args)
+    res = {"ab": ab, "tnt": tnt, "chaos": chaos, "fights": fights, "moves": moves}[args.scenario](args)
     res["time"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     res["variant"] = "(running)" if args.running else args.variant
     res["host"] = bench.host_info()
