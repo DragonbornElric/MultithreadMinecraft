@@ -7,7 +7,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
 /**
- * {@code /mtmc status|on|off|threads <n>} (admins). Changes apply from the next tick and are
+ * {@code /mtmc status|on|off|threads <n>|selftest [result]} (admins). Changes apply from the next tick and are
  * written to the config file.
  */
 public final class MtmcCommand {
@@ -20,6 +20,9 @@ public final class MtmcCommand {
             .then(Commands.literal("status").executes(c -> status(c.getSource())))
             .then(Commands.literal("on").executes(c -> setParallel(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> setParallel(c.getSource(), false)))
+            .then(Commands.literal("selftest")
+                .executes(c -> selfTest(c.getSource()))
+                .then(Commands.literal("result").executes(c -> selfTestResult(c.getSource()))))
             .then(Commands.literal("threads")
                 .executes(c -> status(c.getSource()))
                 .then(Commands.argument("count", IntegerArgumentType.integer(0, 256))
@@ -39,6 +42,19 @@ public final class MtmcCommand {
         String stats = MtmcStats.last();
         src.sendSuccess(() -> Component.literal("last stats: " + stats), false);
         return effective;
+    }
+
+    private static int selfTest(CommandSourceStack src) {
+        ParallelLevelTicker.startSelfTest(20);
+        src.sendSuccess(() -> Component.literal("MultithreadMC selftest: the next 20 parallel ticks load chunks across dimensions"
+            + " from the workers; /mtmc selftest result"), false);
+        return 1;
+    }
+
+    private static int selfTestResult(CommandSourceStack src) {
+        String r = ParallelLevelTicker.selfTestResult();
+        src.sendSuccess(() -> Component.literal(r), false);
+        return 1;
     }
 
     private static int setParallel(CommandSourceStack src, boolean on) {

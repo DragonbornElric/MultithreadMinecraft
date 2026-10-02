@@ -51,10 +51,21 @@ done, so a request from another worker still gets answered.
 | Command blocks and command-block minecarts | A command can name any dimension (`execute in`, `/tp`, `/setblock`) | Deferred, still within the same tick (`deferCommandBlocks`). The lab shows they run exactly once per tick. |
 | Everyone asleep | Moves the server-wide clock | Deferred. |
 | `SavedDataStorage` (maps, map index, raids index, random sequences) | A plain `HashMap` reachable from any level, e.g. held maps updating in two dimensions | `computeIfAbsent`, `get` and `set` are `synchronized`. |
-| `getChunk` into another level | Joins on the other level's queue | The asking worker runs its own levels' queues while it waits, so two workers waiting on each other cannot deadlock. Counted and logged as `cross_level`. |
+| `getChunk` into another level | Joins on the other level's queue | Hooked at the head of `getChunk`: the request goes through the public `getChunkFuture` to the owner's queue, and the asking worker runs its own levels' queues while it waits, so two workers waiting on each other cannot deadlock. Counted and logged as `cross_level`. The hook is at the method head because Lithium (and Moonrise) replace the method body. `/mtmc selftest` exercises this path on purpose. |
 
 Deferred work runs on the server thread in the order it was requested, right after all
 workers have finished, with ownership already back on the server thread.
+
+## Compatibility
+
+* **Moonrise:** declared `breaks`. It overwrites `getChunk`, `getChunkNow` and
+  `getChunkFutureMainThread`, and asserts its own tick thread (`TickThread.ensureTickThread`).
+  Supporting it would mean making the workers Moonrise tick threads, and its chunk scheduler
+  accepting several levels being ticked at once.
+* **Lithium:** `world.chunk_access` overwrites `getChunk`. Its off-thread branch still compares
+  against the same `mainThread` field and hands off with `supplyAsync(...).join()`, so ownership
+  works unchanged. Only a hook on the vanilla `join` call would miss, which is why the hook is
+  at the method head.
 
 ## Known limits and open items
 

@@ -25,6 +25,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 
 /**
  * Ticks every dimension of the server at the same time: one thread per dimension, or
@@ -152,6 +154,7 @@ public final class ParallelLevelTicker {
             timeHoisted = false;
         }
         record(levels, nanos);
+        if (selfTestTicks > 0 && --selfTestTicks == 0) Mtmc.LOGGER.info("selftest done: {}", selfTestResult());
         MtmcStats.phase(start, System.nanoTime(), levels, nanos, groups.size());
         drainDeferred();
     }
@@ -208,6 +211,7 @@ public final class ParallelLevelTicker {
                     nanos[all.indexOf(level)] = System.nanoTime() - t0;
                 }
             }
+            if (selfTestTicks > 0) crossLevelSelfTest(group, all);
         } finally {
             ticking.countDown();
             try {
@@ -219,6 +223,41 @@ public final class ParallelLevelTicker {
             } finally {
                 OWNED.remove();
                 for (ServerLevel level : group) claim(level, serverThread);
+            }
+        }
+    }
+
+    // ── /mtmc selftest ───────────────────────────────────────────────
+    private static volatile int selfTestTicks;
+    private static final AtomicInteger SELF_TEST_OK = new AtomicInteger();
+    private static final AtomicInteger SELF_TEST_FAIL = new AtomicInteger();
+
+    /** For the next {@code ticks} parallel phases, every worker loads a chunk in every level it doesn't own. */
+    public static void startSelfTest(int ticks) {
+        SELF_TEST_OK.set(0);
+        SELF_TEST_FAIL.set(0);
+        selfTestTicks = ticks;
+    }
+
+    public static String selfTestResult() {
+        return "cross-dimension chunk loads from workers: " + SELF_TEST_OK.get() + " ok, " + SELF_TEST_FAIL.get()
+            + " failed" + (selfTestTicks > 0 ? " (" + selfTestTicks + " ticks to go)" : "");
+    }
+
+    /**
+     * Exercises the cross-level getChunk path (ServerChunkCacheMixin + awaitForeign) on purpose:
+     * all workers ask each other at the same time, mid-phase, which is the deadlock case.
+     * Vanilla play rarely takes this path, because what crosses dimensions is deferred.
+     */
+    private static void crossLevelSelfTest(List<ServerLevel> group, List<ServerLevel> all) {
+        for (ServerLevel other : all) {
+            if (group.contains(other)) continue;
+            try {
+                ChunkAccess chunk = other.getChunkSource().getChunk(0, 0, ChunkStatus.FULL, true);
+                if (chunk != null) SELF_TEST_OK.incrementAndGet(); else SELF_TEST_FAIL.incrementAndGet();
+            } catch (Throwable t) {
+                SELF_TEST_FAIL.incrementAndGet();
+                Mtmc.LOGGER.error("selftest: cross-dimension getChunk into {} failed", other.dimension().identifier(), t);
             }
         }
     }

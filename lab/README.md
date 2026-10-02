@@ -14,7 +14,9 @@ load, and a stress/correctness run driven by the Emma bridge bot.
 | File | What it does |
 | --- | --- |
 | `setup_server.sh [lab_dir]` | Creates `$LAB_DIR/server` (default `/tmp/mtmc-lab`) with the following settings, applied to every variant: Fabric 26.2 / loader 0.19.5, offline mode, a normal world, RCON on 25575 (password `mtmclab`), command blocks on, `pause-when-empty-seconds=0`. |
-| `run_server.sh <variant>` | Starts the server with `vanilla` (Fabric only), `mtmc` / `mtmc@N` (the mod, N worker threads, default one per dimension), `mtmc-off` (mod loaded, parallel off) or `async` (the Async mod from `$LAB_DIR/jars/`). Waits for `Done`. |
+| `run_server.sh <variant>` | Starts the server with `vanilla` (Fabric only), `mtmc` / `mtmc@N` (the mod, N worker threads, default one per dimension), `mtmc-off` (mod loaded, parallel off) or `async` (the Async mod from `$LAB_DIR/jars/`). Waits for `Done`. Append `+slug` for other mods (`mtmc+lithium+servercore`; Fabric API is added automatically). Env: `CONFIGS` (a config dir copied in, e.g. `lab/configs/owner-stack`), `VIEW`, `SIM`, `XMX`, `JVM_FLAGS`. |
+| `fetch_mods.sh [slug ...]` | Downloads the newest Fabric 26.2 build of each Modrinth project into `$LAB_DIR/jars/all/` (default: fabric-api, lithium, servercore, moonrise-opt). |
+| `configs/owner-stack/` | The owner's test stack: ServerCore dynamic on, Lithium experimental on (see its README). |
 | `stop_server.sh` | RCON `stop`, then kills the server if needed. |
 | `rcon.py` | `python lab/rcon.py "mtmc status" "tick query"` |
 | `bench.py` | The benchmark (below) |

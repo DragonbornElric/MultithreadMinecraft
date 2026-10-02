@@ -45,7 +45,21 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 /mtmc status          mode, threads, last stats window
 /mtmc on | off        toggle parallel dimension ticking
 /mtmc threads <n>     0 = one per dimension
+/mtmc selftest        for 20 ticks, every worker loads chunks in the other dimensions
+                      (the cross-dimension path); /mtmc selftest result to read it
 ```
+
+## Compatibility
+
+| Mod | Status |
+| --- | --- |
+| Moonrise | **Incompatible.** The loader refuses to start with both (`breaks`). Moonrise replaces the chunk system and only allows chunk scheduling from its own tick thread (`TickThread.ensureTickThread`), which the dimension workers are not. |
+| Lithium 0.25.3 (default and `mixin.experimental=true`) | Works. Lithium replaces `ServerChunkCache.getChunk` (`world.chunk_access`); since 2026-10-02, MultithreadMC hooks the method head instead of a call inside it. Tested in the lab: boot, `/mtmc selftest`, benchmark, bot scenarios. |
+| ServerCore 1.5.19 (`dynamic` on) | Works. Tested together with Lithium as above. |
+| C2ME, Async, others | Not tested. C2ME also replaces large parts of the chunk system. |
+
+To test a stack in the lab: `lab/fetch_mods.sh <modrinth slugs>`, then use a variant like
+`mtmc+lithium+servercore` (see `lab/README.md`).
 
 ## Results so far (lab, 4 vCPU, 26.2)
 
