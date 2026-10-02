@@ -1,5 +1,6 @@
 package dev.mtmc.lag;
 
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.mtmc.Mtmc;
@@ -26,7 +27,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * /mtmc lag [top [n]] | here | on | off | reset
+ * /mtmc lag [top [n]] | here | on | off | reset | release | throttle [on|off|budget <ms>]
  *
  * <p>Runs on the server thread between ticks, so reading the per-level trackers is safe.
  */
@@ -43,7 +44,14 @@ public final class LagCommand {
             .then(Commands.literal("here").executes(c -> here(c.getSource())))
             .then(Commands.literal("on").executes(c -> toggle(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> toggle(c.getSource(), false)))
-            .then(Commands.literal("reset").executes(c -> reset(c.getSource())));
+            .then(Commands.literal("reset").executes(c -> reset(c.getSource())))
+            .then(Commands.literal("release").executes(c -> release(c.getSource())))
+            .then(Commands.literal("throttle")
+                .executes(c -> throttleStatus(c.getSource()))
+                .then(Commands.literal("on").executes(c -> setThrottle(c.getSource(), true)))
+                .then(Commands.literal("off").executes(c -> setThrottle(c.getSource(), false)))
+                .then(Commands.literal("budget").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0.1, 1000))
+                    .executes(c -> setBudget(c.getSource(), DoubleArgumentType.getDouble(c, "ms"))))));
     }
 
     /** A chunk's lag with the level it is in. */
@@ -106,6 +114,38 @@ public final class LagCommand {
         return 1;
     }
 
+    private static int release(CommandSourceStack src) {
+        for (ServerLevel level : src.getServer().getAllLevels()) ((LagAccess) level).mtmc$lag().releaseAll();
+        src.sendSuccess(() -> Component.literal("All slowed chunks are back to full speed (they are slowed again if they stay over budget while throttling is on)"), true);
+        return 1;
+    }
+
+    private static int throttleStatus(CommandSourceStack src) {
+        var cfg = Mtmc.config();
+        int n = 0;
+        for (ServerLevel level : src.getServer().getAllLevels()) n += ((LagAccess) level).mtmc$lag().throttledChunks();
+        int slowed = n;
+        src.sendSuccess(() -> Component.literal(String.format(Locale.ROOT,
+            "Lag throttle %s: chunk budget %.1f ms/t, while server MSPT >= %.0f, or always above %.1f ms/t; slowest 1 tick in %d. Slowed now: %d chunks",
+            cfg.lagThrottle ? "ON" : "off", cfg.lagChunkBudgetMs, cfg.lagServerBusyMs, cfg.lagHardBudgetMs, 1 << cfg.lagMaxThrottle, slowed)), false);
+        return slowed;
+    }
+
+    private static int setThrottle(CommandSourceStack src, boolean on) {
+        Mtmc.config().lagThrottle = on;
+        if (on) Mtmc.config().lagAccounting = true;
+        Mtmc.config().save();
+        src.sendSuccess(() -> Component.literal("MultithreadMC lag throttle " + (on ? "on" : "off (slowed chunks go back to full speed within a second)")), true);
+        return 1;
+    }
+
+    private static int setBudget(CommandSourceStack src, double ms) {
+        Mtmc.config().lagChunkBudgetMs = ms;
+        Mtmc.config().save();
+        src.sendSuccess(() -> Component.literal(String.format(Locale.ROOT, "MultithreadMC chunk budget %.2f ms/t", ms)), true);
+        return 1;
+    }
+
     static MutableComponent line(int rank, Entry e) {
         LagTracker.ChunkLag c = e.lag();
         ServerLevel level = e.level();
@@ -122,8 +162,9 @@ public final class LagCommand {
             parts.append(String.format(Locale.ROOT, "%s %.2f (%.0f/t)", LagCategory.ALL[i].label, c.avgMs[i], c.avgCount[i]));
         }
         String near = nearestPlayer(level, bx, bz);
-        String text = String.format(Locale.ROOT, "%s%s [%d, %d] (x %d, z %d): %.2f ms/t (peak %.2f) - %s%s",
-            rank > 0 ? "#" + rank + " " : "", dim, cx, cz, bx, bz, c.avgTotalMs, c.peakMs, parts, near);
+        String slowed = c.throttle > 0 ? " [SLOWED 1/" + (1 << c.throttle) + "]" : "";
+        String text = String.format(Locale.ROOT, "%s%s [%d, %d] (x %d, z %d): %.2f ms/t (peak %.2f)%s - %s%s",
+            rank > 0 ? "#" + rank + " " : "", dim, cx, cz, bx, bz, c.avgTotalMs, c.peakMs, slowed, parts, near);
         int y = level.hasChunk(cx, cz) ? level.getHeight(Heightmap.Types.MOTION_BLOCKING, bx, bz) + 1 : 128;
         String tp = String.format(Locale.ROOT, "/execute in %s run tp @s %d %d %d", level.dimension().identifier(), bx, y, bz);
         ChatFormatting colour = c.avgTotalMs >= 10 ? ChatFormatting.RED : c.avgTotalMs >= 2 ? ChatFormatting.YELLOW : ChatFormatting.WHITE;

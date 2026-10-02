@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.mtmc.lag.LagAccess;
 import dev.mtmc.lag.LagCategory;
 import dev.mtmc.lag.LagTracker;
+import dev.mtmc.lag.ThrottleNotices;
+import net.minecraft.world.entity.player.Player;
 import java.util.function.BooleanSupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -39,9 +41,38 @@ abstract class ServerLevelLagMixin implements LagAccess {
         return ChunkPos.pack(pos.getX() >> 4, pos.getZ() >> 4);
     }
 
+    @Unique
+    private boolean mtmc$hooked;
+
+    /** Throttle phase follows game time; hook up notifications on the first tick. */
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void mtmc$startLagTick(BooleanSupplier haveTime, CallbackInfo ci) {
+        ServerLevel self = (ServerLevel) (Object) this;
+        if (!mtmc$hooked) {
+            mtmc$hooked = true;
+            mtmc$lagTracker.hooks(change -> ThrottleNotices.changed(self, change), () -> self.getServer().getCurrentSmoothedTickTime());
+        }
+        mtmc$lagTracker.startTick(self.getGameTime());
+    }
+
+    /** Throttle: a slowed chunk is "not ticking" on its off ticks, as outside simulation distance. */
+    @WrapMethod(method = "shouldTickBlocksAt(J)Z")
+    private boolean mtmc$throttleBlockTicking(long chunkPos, Operation<Boolean> original) {
+        return original.call(chunkPos) && !mtmc$lagTracker.skipNow(chunkPos);
+    }
+
+    /** The check scheduled block and fluid ticks use (LevelTicks): skipped containers keep their ticks queued, in order. */
+    @WrapMethod(method = "isPositionTickingWithEntitiesLoaded")
+    private boolean mtmc$throttleScheduledTicks(long chunkPos, Operation<Boolean> original) {
+        return original.call(chunkPos) && !mtmc$lagTracker.skipNow(chunkPos);
+    }
+
     @WrapMethod(method = "tickNonPassenger")
     private void mtmc$timeEntity(Entity entity, Operation<Void> original) {
         long chunk = entity.chunkPosition().pack();
+        if (mtmc$lagTracker.skipNow(chunk) && !(entity instanceof Player) && !entity.hasPassenger(e -> e instanceof Player)) {
+            return; // throttled chunk, off tick: the entity waits, as outside simulation distance
+        }
         long t = mtmc$lagTracker.begin();
         try {
             original.call(entity);
@@ -82,6 +113,7 @@ abstract class ServerLevelLagMixin implements LagAccess {
 
     @WrapMethod(method = "tickChunk")
     private void mtmc$timeChunkTick(LevelChunk chunk, int tickSpeed, Operation<Void> original) {
+        if (mtmc$lagTracker.skipNow(chunk.getPos().pack())) return; // throttled: no random ticks this tick
         long t = mtmc$lagTracker.begin();
         try {
             original.call(chunk, tickSpeed);

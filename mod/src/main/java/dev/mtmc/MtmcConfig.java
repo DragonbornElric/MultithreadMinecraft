@@ -19,6 +19,16 @@ public final class MtmcConfig {
     public volatile int threads;
     /** Time every chunk's ticks by category (/mtmc lag). Costs two clock reads per ticked thing. /mtmc lag on|off. */
     public volatile boolean lagAccounting;
+    /** Slow chunks that stay over budget (see LagTracker). Off by default: it changes how fast machines run. */
+    public volatile boolean lagThrottle;
+    /** A chunk over this many ms per tick (5 s average) is over budget. */
+    public volatile double lagChunkBudgetMs;
+    /** Throttle over-budget chunks only while the server's smoothed MSPT is at least this... */
+    public volatile double lagServerBusyMs;
+    /** ...or always, when the chunk alone is over this. */
+    public volatile double lagHardBudgetMs;
+    /** Slowest throttle level: 1 tick in 2^this (5 = 1 in 32). */
+    public volatile int lagMaxThrottle;
     /** Run command blocks after the parallel phase (a command may touch any dimension). */
     public final boolean deferCommandBlocks;
     /** Log the first stack trace of each kind of cross-dimension access seen during the parallel phase. */
@@ -31,6 +41,11 @@ public final class MtmcConfig {
         threads = Integer.parseInt(p.getProperty("threads", "0").trim());
         deferCommandBlocks = bool(p, "deferCommandBlocks", true);
         lagAccounting = bool(p, "lagAccounting", true);
+        lagThrottle = bool(p, "lagThrottle", false);
+        lagChunkBudgetMs = Double.parseDouble(p.getProperty("lagChunkBudgetMs", "2.0").trim());
+        lagServerBusyMs = Double.parseDouble(p.getProperty("lagServerBusyMs", "40.0").trim());
+        lagHardBudgetMs = Double.parseDouble(p.getProperty("lagHardBudgetMs", "10.0").trim());
+        lagMaxThrottle = Integer.parseInt(p.getProperty("lagMaxThrottle", "5").trim());
         logCrossLevelAccess = bool(p, "logCrossLevelAccess", true);
         statsIntervalSeconds = Integer.parseInt(p.getProperty("statsIntervalSeconds", "30").trim());
     }
@@ -67,6 +82,11 @@ public final class MtmcConfig {
                     + "threads=" + threads + "\n"
                     + "deferCommandBlocks=" + deferCommandBlocks + "\n"
                     + "lagAccounting=" + lagAccounting + "\n"
+                    + "lagThrottle=" + lagThrottle + "\n"
+                    + "lagChunkBudgetMs=" + lagChunkBudgetMs + "\n"
+                    + "lagServerBusyMs=" + lagServerBusyMs + "\n"
+                    + "lagHardBudgetMs=" + lagHardBudgetMs + "\n"
+                    + "lagMaxThrottle=" + lagMaxThrottle + "\n"
                     + "logCrossLevelAccess=" + logCrossLevelAccess + "\n"
                     + "statsIntervalSeconds=" + statsIntervalSeconds + "\n");
             }

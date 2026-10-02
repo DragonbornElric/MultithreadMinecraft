@@ -21,6 +21,12 @@ much /mtmc lag charged to that build's chunk. Pass: every build that added at le
 was charged within +-50% of what it added (below 1 ms the MSPT noise on a shared VM is too
 large to compare). The ranking by charge is printed too.
 
+throttle: a hot chunk (observer clock -> command block counting pulses, chest -> 10 hoppers ->
+chest with 64 stone, 300 minecarts) next to an identical cool chunk without the minecarts.
+Throttle on: the hot chunk must get slowed and MSPT drop; the hot clock keeps running, slower;
+the cool clock is unchanged; no stone lost or duplicated in either hopper line; all 300
+minecarts still there; after release the hot clock is back to speed.
+
 overhead: bench.py's pens (all three dimensions), then alternates /mtmc lag on and off
 every --period seconds, sampling /tick query; reports MSPT with and without accounting.
 
@@ -113,10 +119,12 @@ def build(r: Rcon, name: str, x0: int, z0: int) -> None:
 def lag_top(r: Rcon) -> list[dict]:
     out = []
     for line in r.cmd("mtmc lag top 20").split("#")[1:]:
-        m = re.match(r"(\d+) (\S+) \[(-?\d+), (-?\d+)\] \(x (-?\d+), z (-?\d+)\): ([\d.]+) ms/t \(peak ([\d.]+)\) - (.*)", line.strip())
+        m = re.match(r"(\d+) (\S+) \[(-?\d+), (-?\d+)\] \(x (-?\d+), z (-?\d+)\): ([\d.]+) ms/t \(peak ([\d.]+)\)"
+                     r"(?: \[SLOWED 1/(\d+)\])? - (.*)", line.strip())
         if m:
             out.append({"rank": int(m.group(1)), "dim": m.group(2), "cx": int(m.group(3)), "cz": int(m.group(4)),
-                        "ms": float(m.group(7)), "peak": float(m.group(8)), "detail": m.group(9)[:160]})
+                        "ms": float(m.group(7)), "peak": float(m.group(8)),
+                        "slowed": int(m.group(9)) if m.group(9) else 1, "detail": m.group(10)[:160]})
     return out
 
 
@@ -206,9 +214,105 @@ def overhead(args) -> dict:
     return res
 
 
+def clock_and_hoppers(r: Rcon, x0: int, z0: int, counter: str) -> None:
+    """Observer clock -> command block counting pulses; chest(64 stone) -> 10 hoppers -> chest."""
+    c = lambda cmd: r.cmd("execute in minecraft:overworld run " + cmd)
+    c(f"forceload add {x0} {z0} {x0 + 15} {z0 + 15}")
+    c(f"fill {x0} {Y - 1} {z0} {x0 + 15} {Y + 4} {z0 + 15} minecraft:air")
+    c(f"fill {x0} {Y - 1} {z0} {x0 + 15} {Y - 1} {z0 + 15} minecraft:glass")
+    x, z = x0 + 2, z0 + 2
+    # observer A (east) looks at B, its back (x) powers the command block
+    c(f"setblock {x} {Y} {z} minecraft:command_block{{Command:\"scoreboard players add {counter} mtmc 1\"}}")
+    c(f"setblock {x + 2} {Y} {z} minecraft:observer[facing=west]")
+    c(f"setblock {x + 1} {Y} {z} minecraft:observer[facing=east]")
+    # items: chest -> hoppers (east) -> chest, a few blocks away
+    hz = z0 + 10
+    c(f"setblock {x0 + 1} {Y + 1} {hz} minecraft:chest{{Items:[{{Slot:0b,id:\"minecraft:stone\",count:64}}]}}")
+    for i in range(10):
+        c(f"setblock {x0 + 2 + i} {Y} {hz} minecraft:hopper[facing=east]")
+    c(f"setblock {x0 + 12} {Y} {hz} minecraft:chest")
+    # the first hopper must sit under the source chest: put the chest above hopper 0
+    c(f"setblock {x0 + 1} {Y + 1} {hz} minecraft:air")
+    c(f"setblock {x0 + 2} {Y + 1} {hz} minecraft:chest{{Items:[{{Slot:0b,id:\"minecraft:stone\",count:64}}]}}")
+
+
+def stone_in(r: Rcon, x0: int, z0: int) -> int:
+    """Stone in the source chest, the 10 hoppers and the end chest of a clock_and_hoppers build."""
+    hz = z0 + 10
+    total = 0
+    spots = [(x0 + 2, Y + 1, hz)] + [(x0 + 2 + i, Y, hz) for i in range(10)] + [(x0 + 12, Y, hz)]
+    for (x, y, z) in spots:
+        txt = r.cmd(f"execute in minecraft:overworld run data get block {x} {y} {z} Items")
+        total += sum(int(n) for n in re.findall(r"count: (\d+)", txt))
+    return total
+
+
+def score(r: Rcon, who: str) -> int:
+    m = re.search(r"has (-?\d+)", r.cmd(f"scoreboard players get {who} mtmc"))
+    return int(m.group(1)) if m else 0
+
+
+def rate(r: Rcon, who: str, seconds: float) -> tuple[float, int]:
+    """Pulses per game second over a window (game time, so server slowness doesn't skew it)."""
+    gt = lambda: int(re.search(r"(\d+)", r.cmd("time query gametime")).group(1))
+    g0, s0 = gt(), score(r, who)
+    time.sleep(seconds)
+    g1, s1 = gt(), score(r, who)
+    return (s1 - s0) / max(1, (g1 - g0)) * 20, g1 - g0
+
+
+def throttle(args) -> dict:
+    """A hot chunk (clock + hopper line + 300 minecarts) next to an identical cool one."""
+    if not args.running:
+        bench.start(args.variant)
+    r = Rcon(password="mtmclab")
+    bench.gamerule(r, "spawn_mobs", "doMobSpawning", "false")
+    bench.gamerule(r, "max_entity_cramming", "maxEntityCramming", "0")
+    r.cmd("scoreboard objectives add mtmc dummy")
+    r.cmd("mtmc lag throttle off")
+    hot, cool = (0, 40 * 16), (0, 44 * 16)
+    clock_and_hoppers(r, *hot, "hot")
+    clock_and_hoppers(r, *cool, "cool")
+    for _ in range(300):
+        r.cmd(f"execute in minecraft:overworld run summon minecraft:minecart {hot[0] + 8.5} {Y} {hot[1] + 4.5}")
+    time.sleep(10)
+    out = {"mode": "throttle", "variant": (bench.SERVER / "variant.txt").read_text().strip()}
+    out["before"] = {"mspt": mspt_avg(r, 2), "hot_rate": rate(r, "hot", 10)[0], "cool_rate": rate(r, "cool", 10)[0]}
+    r.cmd("mtmc lag throttle on")
+    time.sleep(args.settle + 10)
+    hot_line = next((t for t in lag_top(r) if (t["cx"], t["cz"]) == (hot[0] >> 4, hot[1] >> 4)), {})
+    out["throttled"] = {"mspt": mspt_avg(r, 2), "hot_rate": rate(r, "hot", 20)[0], "cool_rate": rate(r, "cool", 20)[0],
+                        "hot_slowed_1_in": hot_line.get("slowed"), "hot_ms": hot_line.get("ms")}
+    time.sleep(20)  # let the hopper lines finish moving
+    carts = int(re.search(r"Count: (\d+)", r.cmd(
+        f"execute in minecraft:overworld if entity @e[type=minecraft:minecart,x={hot[0] + 8},y={Y},z={hot[1] + 4},distance=..20]")).group(1))
+    out["conservation"] = {"hot_stone": stone_in(r, *hot), "cool_stone": stone_in(r, *cool), "minecarts": carts}
+    r.cmd("mtmc lag throttle off")
+    r.cmd("mtmc lag release")
+    time.sleep(3)
+    out["released"] = {"hot_rate": rate(r, "hot", 10)[0], "cool_rate": rate(r, "cool", 10)[0]}
+    log = (bench.SERVER / "server.log").read_text(errors="replace")
+    out["log_notices"] = re.findall(r"\[lag\] .*", log)[-6:]
+    b, t, rel, cons = out["before"], out["throttled"], out["released"], out["conservation"]
+    out["checks"] = {
+        "hot chunk slowed": (t["hot_slowed_1_in"] or 1) > 1,
+        "MSPT dropped": t["mspt"] < b["mspt"],
+        "hot clock still runs": t["hot_rate"] > 0,
+        "hot clock slower": t["hot_rate"] < 0.75 * b["hot_rate"],
+        "cool clock unchanged (+-25%)": abs(t["cool_rate"] - b["cool_rate"]) <= 0.25 * b["cool_rate"],
+        "no stone lost or duplicated": cons["hot_stone"] == 64 and cons["cool_stone"] == 64,
+        "all minecarts still there": cons["minecarts"] == 300,
+        "hot clock back to speed after release": rel["hot_rate"] >= 0.75 * b["hot_rate"],
+    }
+    out["ok"] = all(out["checks"].values())
+    out["time"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    r.close()
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["detect", "overhead"])
+    ap.add_argument("mode", choices=["detect", "overhead", "throttle"])
     ap.add_argument("--variant", default="mtmc")
     ap.add_argument("--running", action="store_true")
     ap.add_argument("--settle", type=float, default=20)
@@ -217,7 +321,7 @@ def main() -> None:
     ap.add_argument("--minutes", type=float, default=6)
     ap.add_argument("--period", type=float, default=40)
     args = ap.parse_args()
-    res = detect(args) if args.mode == "detect" else overhead(args)
+    res = {"detect": detect, "overhead": overhead, "throttle": throttle}[args.mode](args)
     print(json.dumps(res, indent=1))
     with (LAB_DIR / "lag_lab.jsonl").open("a") as f:
         f.write(json.dumps(res) + "\n")
