@@ -153,7 +153,7 @@ public final class RegionTicker {
 
     private static void run(ServerLevel level, Region[] order, Consumer<Entity> action, Long2IntOpenHashMap cellRegion, int cell,
                             MtmcConfig cfg) {
-        RegionPhase phase = new RegionPhase(level, Thread.currentThread());
+        RegionPhase phase = new RegionPhase(level, Thread.currentThread(), dev.mtmc.ParallelLevelTicker.ownedLevels());
         Run run = new Run();
         long start = System.nanoTime();
         RegionPhase.RUNNING.incrementAndGet();

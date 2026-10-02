@@ -55,6 +55,13 @@ threads resume when it returns. Exclusive is reentrant. It covers:
 * scoreboards (kill score), stats, and advancement triggers a player actually listens to
 * raids (joining, waves, leaders, the boss bar, hero of the village)
 
+**Deaths, one at a time, server-wide** (`region/Deaths`). A death (`LivingEntity.die`, and
+`ServerPlayer.die` around it) takes the level exclusively and then a server-wide lock. This
+covers the kill score, Fabric API's death events and the death loot. Kill hooks are where mods
+most often keep "server thread only" state. For example, Emma-EndInv's death-loot capture keeps
+the dying mob and its drops in static fields. The lock also covers two deaths in different
+dimensions, which parallel dimensions alone could already overlap.
+
 **Deferred.** These wait for the end of the phase and then run in the order they were asked
 for, on the level's thread:
 * entity-section bookkeeping: an entity moving into another 16-block section, or being removed

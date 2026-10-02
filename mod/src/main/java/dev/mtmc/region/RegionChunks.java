@@ -34,8 +34,9 @@ public final class RegionChunks {
             ServerChunkCacheAccessor acc = (ServerChunkCacheAccessor) cache;
             Thread owner = acc.mtmc$getMainThread();
             if (owner != phase.ownerThread) {
-                // owned by another dimension worker: it answers its queue while it ticks or waits
-                return cache.getChunkFuture(x, z, status, true).join().orElse(null);
+                // owned by another dimension worker: it answers its queue while it ticks or waits, and it
+                // may be waiting on this level, so this level's queue is run while we wait
+                return phase.awaitForeign(cache.getChunkFuture(x, z, status, true)).orElse(null);
             }
             // owned by this phase's level thread, which is blocked waiting for the phase: borrow it
             LevelAccessor level = (LevelAccessor) cache.getLevel();

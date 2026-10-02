@@ -139,7 +139,9 @@ after the phase. Full write-up: REGIONS.md.
 
 * **Gain only where there is work in more than one dimension**, unless regions are on
   (REGIONS.md): then a busy Overworld with its entities spread over separate areas gains too.
-* **Scoreboards and advancements are not synchronized.** A kill in one dimension and a
+* **Deaths run one at a time server-wide** (`region/Deaths`, since 2026-10-02): the kill score,
+  death events and death loot of two dimensions no longer overlap.
+* **Scoreboards and advancements are not synchronized** outside deaths. A kill in one dimension and a
   criterion in another at the same instant could race on `ServerScoreboard`'s maps. These are
   rare (players tick on the server thread), but not proven impossible. A lab scenario should
   target them.

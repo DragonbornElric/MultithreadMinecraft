@@ -34,6 +34,8 @@ public final class RegionPhase {
 
     final ServerLevel level;
     final Thread ownerThread;
+    /** Every level the owner thread runs this tick (this one included), or null off the parallel dimension phase. */
+    final java.util.List<ServerLevel> ownerLevels;
     private final Object lock = new Object();
     private volatile boolean stopRequested;
     private Thread exclusiveOwner;
@@ -41,9 +43,42 @@ public final class RegionPhase {
     private int running, parked;
     final ConcurrentLinkedQueue<Runnable> deferred = new ConcurrentLinkedQueue<>();
 
-    RegionPhase(ServerLevel level, Thread ownerThread) {
+    RegionPhase(ServerLevel level, Thread ownerThread, java.util.List<ServerLevel> ownerLevels) {
         this.level = level;
         this.ownerThread = ownerThread;
+        this.ownerLevels = ownerLevels;
+    }
+
+    /**
+     * With the level held exclusively, wait for another dimension's chunk load. That dimension's
+     * worker may be waiting on one of this phase's levels in turn, and their owner thread is
+     * stopped in this phase, so their task queues are run here meanwhile (as
+     * ParallelLevelTicker.awaitForeign does for a worker). The other levels the owner thread runs
+     * are borrowed for each poll; the owner is parked or is this thread, so nothing else uses them.
+     */
+    <T> T awaitForeign(java.util.concurrent.CompletableFuture<T> future) {
+        Thread me = Thread.currentThread();
+        while (!future.isDone()) {
+            boolean any = level.getChunkSource().pollTask();
+            if (ownerLevels != null) {
+                for (ServerLevel other : ownerLevels) {
+                    if (other == level) continue;
+                    ServerChunkCacheAccessor cache = (ServerChunkCacheAccessor) other.getChunkSource();
+                    Thread prevMain = cache.mtmc$getMainThread();
+                    Thread prevThread = ((LevelAccessor) other).mtmc$getThread();
+                    cache.mtmc$setMainThread(me);
+                    ((LevelAccessor) other).mtmc$setThread(me);
+                    try {
+                        any |= other.getChunkSource().pollTask();
+                    } finally {
+                        cache.mtmc$setMainThread(prevMain);
+                        ((LevelAccessor) other).mtmc$setThread(prevThread);
+                    }
+                }
+            }
+            if (!any) java.util.concurrent.locks.LockSupport.parkNanos(20_000L);
+        }
+        return future.join();
     }
 
     /** The phase the calling thread is ticking a region of, or null. */
