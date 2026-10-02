@@ -67,6 +67,31 @@ workers have finished, with ownership already back on the server thread.
   works unchanged. Only a hook on the vanilla `join` call would miss, which is why the hook is
   at the method head.
 
+## Explosions
+
+**v0.1.** An explosion runs entirely on its level's worker, in vanilla order:
+1. rays and the block list
+2. entity damage and knockback
+3. block removal and drops
+4. neighbour updates
+5. the explosion packet
+
+Nothing else touches that level during the phase, and the server thread doesn't run then.
+`lab/tnt_test.py` checks this on all three levels exploding on the same tick: drops equal
+destroyed blocks, chains use up every TNT, a deterministic cannon gives the same fingerprint
+as vanilla, and the client sees the same blocks as the server.
+
+**Rules for in-level regions (not built yet):**
+* **Buffer by explosion reach.** A ray travels at most about 1.7 × power blocks, and entities
+  are affected out to 2 × power. TNT is 4, beds and anchors 5, crystals and charged creepers
+  6, so about 16 blocks covers normal play.
+* **Oversized or boundary-crossing explosions run alone.** A summoned fireball can be power
+  127. An explosion whose reach crosses its region's edge is deferred to after the phase, as
+  cross-dimension work is now.
+* **Primed TNT is a moving entity.** Chains fling it; when it leaves its region it moves over
+  at the phase boundary, or the regions merge (Folia).
+* **The cannon fingerprint stays the regression test** for any change to tick order.
+
 ## Known limits and open items
 
 * **Gain only where there is work in more than one dimension.** One busy Overworld gets

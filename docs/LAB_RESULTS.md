@@ -151,6 +151,50 @@ the server thread, outside the parallel phase.
   were 200/200. The likely cause is a chicken that fluttered off the portal, but that isn't
   proven. Repeat this scenario several times on both variants to settle it.
 
+## TNT (`lab/tnt_test.py`, 2026-10-02, `cloud-4`)
+
+Every trial runs the same setups in all three dimensions. They are built under `/tick
+freeze` and start on the same tick, so with the mod three workers explode at once.
+
+| Check | What it proves | Pass condition |
+| --- | --- | --- |
+| crater | Blocks get broken and drop | 15³ dirt cube, one TNT in the middle, `tnt_explosion_drop_decay` off: dirt items dropped == blocks destroyed, exactly, in every dimension |
+| chain | Chain reactions finish | 300 TNT blocks in a sealed obsidian box: no TNT blocks and no primed TNT left |
+| cannon | Effects are identical | On barrier blocks, 8 TNT launch a TNT projectile past three no-AI 200 HP pigs, run with `/tick step 60`. Knockback and damage use no randomness, so the projectile's position and motion and the pigs' health hash must match across the three dimensions and across variants. |
+| sync (bot) | Clients stay in sync | The bot's client sees the crater cube (`scan_area`) block for block as the server has it |
+
+| Variant | Trials | crater (drops == destroyed) | Destroyed per crater (mean ± sd, n=15) | chain (all TNT used) | cannon fingerprint | Exceptions |
+| --- | --- | --- | --- | --- | --- | --- |
+| vanilla | 5 | 15/15 | 225.1 ± 3.2 | 15/15 | `3f99461661c4` | none |
+| mtmc | 5 | 15/15 | 225.8 ± 3.1 | 15/15 | `3f99461661c4` | none |
+| vanilla+lithium+servercore (owner stack) | 5 | 15/15 | 224.3 ± 4.4 | 15/15 | `3f99461661c4` | none |
+| mtmc+lithium+servercore (owner stack) | 5 | 15/15 | 224.1 ± 3.3 | 15/15 | `3f99461661c4` | none |
+
+Client sync, bot in spectator 20 blocks from the Overworld crater, 3 trials each:
+
+| Variant | Client == server, block for block | Dirt blocks compared |
+| --- | --- | --- |
+| mtmc | 3/3 | 3145, 3148, 3150 |
+| vanilla | 3/3 | 3147, 3139, 3151 |
+
+**Reading.**
+* **Identical effects.** The cannon fingerprint is the same in all four setups and in all
+  three dimensions: projectile position to 14 digits, and damage such as 195.06367 HP. Neither
+  the parallel workers nor Lithium's explosion code change any damage or motion.
+* **Blocks and drops are exact.** Every destroyed block dropped, in every dimension, with all
+  three exploding on the same tick.
+* **Crater size is random.** The rays use randomness, so it is compared as a distribution: the
+  means are within 1 block of each other.
+* **The chain's worst tick isn't a useful comparison.** One 300-TNT chain per dimension, three
+  at once, gives about 230–560 ms in the worst `/tick query` sample, scattered between runs
+  and variants alike.
+
+**Test bugs found and fixed:**
+* The cleanup between trials used `/kill` on the cannon's pigs, and their porkchops were
+  counted into the next crater. Trials 1–4 failed the same way on vanilla and on the mod.
+  Cleanup now removes items after mobs, and the crater counts only dirt items.
+* The first sync runs read the wrong field of the bridge reply (`data.blocks`).
+
 ## Combat across threads (owner question, 2026-10-02)
 
 **Can a player fighting a mob be hurt by them being on different threads?** Not in v0.1:
