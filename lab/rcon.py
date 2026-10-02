@@ -39,10 +39,26 @@ class Rcon:
         return buf
 
     def cmd(self, command: str) -> str:
+        """Run a command. The server splits responses into 4096-character packets, so keep
+        reading while a packet is exactly that long (a short timeout covers a response that is
+        an exact multiple). Only one request is ever in flight: the server's RCON reader handles
+        just the first request of each network read, so pipelining would lose requests."""
         self._id += 1
         data = struct.pack("<ii", self._id, 2) + command.encode() + b"\x00\x00"
         self.sock.sendall(struct.pack("<i", len(data)) + data)
-        return self._read()[1]
+        _, body = self._read()
+        parts = [body]
+        while len(body) == 4096:
+            old = self.sock.gettimeout()
+            self.sock.settimeout(1.0)
+            try:
+                _, body = self._read()
+                parts.append(body)
+            except (socket.timeout, TimeoutError):
+                break
+            finally:
+                self.sock.settimeout(old)
+        return "".join(parts)
 
     def close(self) -> None:
         self.sock.close()

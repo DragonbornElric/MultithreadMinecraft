@@ -46,7 +46,13 @@ public final class LagTracker {
     private Consumer<ThrottleChange> onThrottleChange = c -> {};
     private java.util.function.DoubleSupplier serverMspt = () -> 0;
 
+    /** ThrottleChange level meaning "frozen". */
+    public static final int FROZEN = 99;
+
     public record ThrottleChange(ChunkLag chunk, int from, int to) {}
+
+    /** Entities waiting for room under a chunk's cap, in arrival order (EntityCaps). */
+    public final java.util.ArrayDeque<net.minecraft.world.entity.Entity> pending = new java.util.ArrayDeque<>();
 
     public void hooks(Consumer<ThrottleChange> onThrottleChange, java.util.function.DoubleSupplier serverMspt) {
         this.onThrottleChange = onThrottleChange;
@@ -62,7 +68,8 @@ public final class LagTracker {
     public boolean skipNow(long chunkPos) {
         if (throttledChunks == 0) return false;
         ChunkLag c = chunks.get(chunkPos);
-        if (c == null || c.throttle == 0) return false;
+        if (c == null || (c.throttle == 0 && !c.frozen)) return false;
+        if (c.frozen) return true;
         int period = 1 << c.throttle;
         long phase = it.unimi.dsi.fastutil.HashCommon.mix(chunkPos);
         return ((gameTime + phase) & (period - 1)) != 0;
@@ -84,7 +91,11 @@ public final class LagTracker {
         int idleWindows;
         /** Throttle level: ticks on 1 in 2^level game ticks. 0 = full speed. */
         public int throttle;
-        int overWindows, underWindows;
+        /** Frozen: no ticks at all until /mtmc lag release. */
+        public boolean frozen;
+        int overWindows, underWindows, freezeWindows;
+        /** Entities waiting for room under the chunk's cap (EntityCaps). */
+        public int delayed;
 
         ChunkLag(long pos) {
             this.pos = pos;
@@ -99,6 +110,26 @@ public final class LagTracker {
     public long begin() {
         if (depth++ > 0 || !enabled()) return 0L;
         return System.nanoTime();
+    }
+
+    /** Count without timing (light updates). */
+    public void count(long chunkPos, LagCategory cat) {
+        if (!enabled()) return;
+        ChunkLag c = chunks.get(chunkPos);
+        if (c == null) {
+            c = new ChunkLag(chunkPos);
+            chunks.put(chunkPos, c);
+        }
+        c.winCount[cat.ordinal()]++;
+    }
+
+    public ChunkLag getOrCreate(long chunkPos) {
+        ChunkLag c = chunks.get(chunkPos);
+        if (c == null) {
+            c = new ChunkLag(chunkPos);
+            chunks.put(chunkPos, c);
+        }
+        return c;
     }
 
     public void end(long start, long chunkPos, LagCategory cat) {
@@ -140,7 +171,7 @@ public final class LagTracker {
             c.peakMs = Math.max(c.peakMs * PEAK_DECAY, total);
             c.idleWindows = active ? 0 : c.idleWindows + 1;
             updateThrottle(c);
-            if (c.idleWindows > 30 && c.avgTotalMs < 0.001 && c.throttle == 0) it.remove();
+            if (c.idleWindows > 30 && c.avgTotalMs < 0.001 && c.throttle == 0 && !c.frozen && c.delayed == 0) it.remove();
         }
     }
 
@@ -152,13 +183,34 @@ public final class LagTracker {
         MtmcConfig cfg = Mtmc.config();
         int before = c.throttle;
         if (!cfg.lagThrottle) {
-            if (c.throttle != 0) setThrottle(c, 0);
+            if (c.throttle != 0 || c.frozen) {
+                boolean wasFrozen = c.frozen;
+                c.frozen = false;
+                setThrottle(c, 0);
+                onThrottleChange.accept(new ThrottleChange(c, wasFrozen ? FROZEN : before, 0));
+            }
             return;
         }
+        if (c.frozen) return; // sticky until /mtmc lag release
         boolean busy = serverMspt.getAsDouble() >= cfg.lagServerBusyMs;
-        boolean over = c.avgTotalMs > cfg.lagChunkBudgetMs && (busy || c.avgTotalMs > cfg.lagHardBudgetMs);
+        double light = c.avgCount[LagCategory.LIGHT.ordinal()];
+        // light work happens off the tick thread, so it has its own budget (updates per tick) and no busy gate
+        boolean lightOver = cfg.lagLightBudget > 0 && light > cfg.lagLightBudget;
+        boolean over = lightOver || c.avgTotalMs > cfg.lagChunkBudgetMs && (busy || c.avgTotalMs > cfg.lagHardBudgetMs);
         // what it would cost one level faster (2x the ticks)
-        boolean wellUnder = c.avgTotalMs * 2 < cfg.lagChunkBudgetMs * 0.5;
+        boolean wellUnder = c.avgTotalMs * 2 < cfg.lagChunkBudgetMs * 0.5 && (cfg.lagLightBudget <= 0 || light * 2 < cfg.lagLightBudget * 0.5);
+        // last resort: still far over at the slowest level
+        if (cfg.lagFreeze && c.throttle >= cfg.lagMaxThrottle
+            && (c.avgTotalMs > cfg.lagFreezeMs || cfg.lagLightBudget > 0 && light > cfg.lagLightBudget * 4)) {
+            if (++c.freezeWindows >= 5) {
+                c.frozen = true;
+                c.freezeWindows = 0;
+                onThrottleChange.accept(new ThrottleChange(c, before, FROZEN));
+                return;
+            }
+        } else {
+            c.freezeWindows = 0;
+        }
         if (over) {
             c.underWindows = 0;
             if (++c.overWindows >= 2 && c.throttle < cfg.lagMaxThrottle) {
@@ -183,7 +235,11 @@ public final class LagTracker {
 
     /** Back to full speed everywhere (/mtmc lag release). */
     public void releaseAll() {
-        for (ChunkLag c : chunks.values()) setThrottle(c, 0);
+        for (ChunkLag c : chunks.values()) {
+            c.frozen = false;
+            c.freezeWindows = 0;
+            setThrottle(c, 0);
+        }
     }
 
     /** Chunks by average ms/tick, worst first. */

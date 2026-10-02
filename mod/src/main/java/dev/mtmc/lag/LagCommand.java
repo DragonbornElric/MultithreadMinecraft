@@ -27,7 +27,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * /mtmc lag [top [n]] | here | on | off | reset | release | throttle [on|off|budget|busy|hard <ms>]
+ * /mtmc lag [top [n]] | here | on | off | reset | release | caps [on|off] | throttle [on|off|budget|busy|hard|freeze <ms>|light <per tick>]
  *
  * <p>Runs on the server thread between ticks, so reading the per-level trackers is safe.
  */
@@ -46,6 +46,10 @@ public final class LagCommand {
             .then(Commands.literal("off").executes(c -> toggle(c.getSource(), false)))
             .then(Commands.literal("reset").executes(c -> reset(c.getSource())))
             .then(Commands.literal("release").executes(c -> release(c.getSource())))
+            .then(Commands.literal("caps")
+                .executes(c -> caps(c.getSource()))
+                .then(Commands.literal("on").executes(c -> setCaps(c.getSource(), true)))
+                .then(Commands.literal("off").executes(c -> setCaps(c.getSource(), false))))
             .then(Commands.literal("throttle")
                 .executes(c -> throttleStatus(c.getSource()))
                 .then(Commands.literal("on").executes(c -> setThrottle(c.getSource(), true)))
@@ -55,7 +59,11 @@ public final class LagCommand {
                 .then(Commands.literal("busy").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0, 1000))
                     .executes(c -> setBudget(c.getSource(), "busy", DoubleArgumentType.getDouble(c, "ms")))))
                 .then(Commands.literal("hard").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0.1, 1000))
-                    .executes(c -> setBudget(c.getSource(), "hard", DoubleArgumentType.getDouble(c, "ms"))))));
+                    .executes(c -> setBudget(c.getSource(), "hard", DoubleArgumentType.getDouble(c, "ms")))))
+                .then(Commands.literal("freeze").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0, 10000))
+                    .executes(c -> setBudget(c.getSource(), "freeze", DoubleArgumentType.getDouble(c, "ms")))))
+                .then(Commands.literal("light").then(Commands.argument("per_tick", DoubleArgumentType.doubleArg(0, 1000000))
+                    .executes(c -> setBudget(c.getSource(), "light", DoubleArgumentType.getDouble(c, "per_tick"))))));
     }
 
     /** A chunk's lag with the level it is in. */
@@ -124,14 +132,35 @@ public final class LagCommand {
         return 1;
     }
 
+    private static int caps(CommandSourceStack src) {
+        var cfg = Mtmc.config();
+        int waiting = 0;
+        for (ServerLevel level : src.getServer().getAllLevels()) waiting += ((LagAccess) level).mtmc$lag().pending.size();
+        int w = waiting;
+        src.sendSuccess(() -> Component.literal(String.format(Locale.ROOT,
+            "Entity caps %s, per chunk: items %d, primed TNT %d, falling blocks %d, vehicles %d, armor stands %d, mobs %d. Waiting now: %d. So far: %s",
+            cfg.lagCaps ? "ON" : "off", cfg.capItems, cfg.capTnt, cfg.capFallingBlocks, cfg.capVehicles, cfg.capArmorStands, cfg.capMobs,
+            w, MtmcCapStats.snapshot())), false);
+        return w;
+    }
+
+    private static int setCaps(CommandSourceStack src, boolean on) {
+        Mtmc.config().lagCaps = on;
+        Mtmc.config().save();
+        src.sendSuccess(() -> Component.literal("MultithreadMC entity caps " + (on ? "on" : "off")), true);
+        return 1;
+    }
+
     private static int throttleStatus(CommandSourceStack src) {
         var cfg = Mtmc.config();
         int n = 0;
         for (ServerLevel level : src.getServer().getAllLevels()) n += ((LagAccess) level).mtmc$lag().throttledChunks();
         int slowed = n;
         src.sendSuccess(() -> Component.literal(String.format(Locale.ROOT,
-            "Lag throttle %s: chunk budget %.1f ms/t, while server MSPT >= %.0f, or always above %.1f ms/t; slowest 1 tick in %d. Slowed now: %d chunks",
-            cfg.lagThrottle ? "ON" : "off", cfg.lagChunkBudgetMs, cfg.lagServerBusyMs, cfg.lagHardBudgetMs, 1 << cfg.lagMaxThrottle, slowed)), false);
+            "Lag throttle %s: chunk budget %.1f ms/t, while server MSPT >= %.0f, or always above %.1f ms/t; light budget %.0f updates/t; "
+                + "slowest 1 tick in %d; freeze %s above %.1f ms/t at the slowest level. Slowed now: %d chunks",
+            cfg.lagThrottle ? "ON" : "off", cfg.lagChunkBudgetMs, cfg.lagServerBusyMs, cfg.lagHardBudgetMs, cfg.lagLightBudget,
+            1 << cfg.lagMaxThrottle, cfg.lagFreeze ? "on" : "off", cfg.lagFreezeMs, slowed)), false);
         return slowed;
     }
 
@@ -149,6 +178,8 @@ public final class LagCommand {
         switch (which) {
             case "budget" -> cfg.lagChunkBudgetMs = ms;
             case "busy" -> cfg.lagServerBusyMs = ms;
+            case "freeze" -> cfg.lagFreezeMs = ms;
+            case "light" -> cfg.lagLightBudget = ms;
             default -> cfg.lagHardBudgetMs = ms;
         }
         cfg.save();
@@ -166,12 +197,16 @@ public final class LagCommand {
         for (int i = 0; i < order.length; i++) order[i] = i;
         java.util.Arrays.sort(order, (a, b) -> Double.compare(c.avgMs[b], c.avgMs[a]));
         for (int i : order) {
+            if (LagCategory.ALL[i] == LagCategory.LIGHT) continue;
             if (c.avgMs[i] < 0.005) continue;
             if (!parts.isEmpty()) parts.append(", ");
             parts.append(String.format(Locale.ROOT, "%s %.2f (%.0f/t)", LagCategory.ALL[i].label, c.avgMs[i], c.avgCount[i]));
         }
+        double light = c.avgCount[LagCategory.LIGHT.ordinal()];
+        if (light >= 1) parts.append(parts.isEmpty() ? "" : ", ").append(String.format(Locale.ROOT, "light updates %.0f/t", light));
         String near = nearestPlayer(level, bx, bz);
-        String slowed = c.throttle > 0 ? " [SLOWED 1/" + (1 << c.throttle) + "]" : "";
+        String slowed = (c.frozen ? " [FROZEN]" : c.throttle > 0 ? " [SLOWED 1/" + (1 << c.throttle) + "]" : "")
+            + (c.delayed > 0 ? " [" + c.delayed + " entities waiting under cap]" : "");
         String text = String.format(Locale.ROOT, "%s%s [%d, %d] (x %d, z %d): %.2f ms/t (peak %.2f)%s - %s%s",
             rank > 0 ? "#" + rank + " " : "", dim, cx, cz, bx, bz, c.avgTotalMs, c.peakMs, slowed, parts, near);
         int y = level.hasChunk(cx, cz) ? level.getHeight(Heightmap.Types.MOTION_BLOCKING, bx, bz) + 1 : 128;

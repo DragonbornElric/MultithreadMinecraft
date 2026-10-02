@@ -7,7 +7,9 @@ public enum LagCategory {
     BLOCK_TICKS("block ticks"),
     FLUID_TICKS("fluid ticks"),
     BLOCK_EVENTS("block events"),
-    CHUNK_TICK("random ticks");
+    CHUNK_TICK("random ticks"),
+    /** Count only: block changes that queued a light check (light is computed off the tick thread). */
+    LIGHT("light updates");
 
     public final String label;
 

@@ -10,6 +10,7 @@
 #                    fabric-api comes along whenever another mod is added.
 # Env: JAVA (default java on PATH; must be 25+), XMX (default 4G), MTMC_JAR (default the mod's build output),
 #      JVM_FLAGS (extra JVM flags, e.g. "-XX:+UseZGC"), VIEW / SIM (view / simulation distance; default 8 / 8),
+#      MTMC_PROPS (space-separated key=value lines appended to the mod's config),
 #      CONFIGS (a directory copied over config/ after the mod's own file, e.g. lab/configs/owner-stack).
 set -euo pipefail
 VARIANT="${1:?variant}"
@@ -30,7 +31,9 @@ case "$VARIANT" in
   mtmc|mtmc-off)
     cp "$MTMC_JAR" mods/
     PAR=true; [ "$VARIANT" = mtmc-off ] && PAR=false
-    printf 'parallelDimensions=%s\nthreads=%s\ndeferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' "$PAR" "$THREADS" > config/multithreadmc.properties ;;
+    printf 'parallelDimensions=%s\nthreads=%s\ndeferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' "$PAR" "$THREADS" > config/multithreadmc.properties
+    # MTMC_PROPS: extra lines for the mod's config, e.g. "lagCaps=true capItems=50"
+    for kv in ${MTMC_PROPS:-}; do echo "$kv" >> config/multithreadmc.properties; done ;;
   async)
     cp "$LAB_DIR"/jars/async-*.jar mods/ ;;
   *) echo "unknown variant $VARIANT" >&2; exit 2 ;;

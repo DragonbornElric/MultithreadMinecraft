@@ -4,9 +4,14 @@ Research, 2026-10-02. **[V]** means read in official docs or source code. **[C]*
 community or plugin-page claims.
 
 **Status (branch `ccr-c36973eb-axes2h-next`):**
-* **Built:** steps 1 (accounting, `/mtmc lag`) and 2 (throttle by slowing) of the design below.
+* **Built:**
+  * step 1: accounting, `/mtmc lag`
+  * step 2: throttle by slowing, now including light updates
+  * step 3: entity caps
+  * step 4: freeze escalation
+
   Lab results are at the end of this file.
-* **Not built:** steps 3 (hard caps) and 4 (freeze escalation).
+* **Not built:** packet and NBT limits, which existing mods already cover.
 
 ## What lag machines load
 
@@ -212,10 +217,49 @@ chest→10 hoppers→chest line with 64 stone) next to an identical cool chunk w
 | Stone in hopper lines (hot/cool) | | 64/64, 64/64 | |
 | Minecarts | | 300/300 | |
 
+## Built: light, caps, freeze (2026-10-02)
+
+**Light** (`LevelChunkLightMixin`):
+* Every block change that queues a light check (`LevelLightEngine.checkBlock` in
+  `LevelChunk.setBlockState`) is counted for its chunk.
+* `/mtmc lag` shows it as "light updates N/t".
+* Above `lagLightBudget` (default 2000/t) the chunk counts as over budget for the throttle. No
+  busy gate here: light work doesn't show in MSPT.
+* Lab (`lag_lab.py light`): an observer-lamp machine made ~40 light updates/t; with the light
+  budget set to 13 (and the ms budgets out of the way) it was slowed to 1/32 on light alone,
+  and light updates fell to 8/t.
+
+**Freeze:**
+* Applies at the slowest throttle level when the chunk is still over `lagFreezeMs` (default
+  20 ms/t, i.e. ~640 ms/t unthrottled), or over 4× the light budget, for 5 s.
+* The chunk is then "not ticking" on every tick (players still tick), until
+  `/mtmc lag release`. Ops are alerted.
+* Lab (`lag_lab.py freeze`):
+  * slowed 1/8 → 1/16 → 1/32 → FROZEN
+  * clock in it 3.3 → 0 pulses/s
+  * after release 3.4 pulses/s
+  * 300/300 minecarts kept
+
+**Entity caps** (`EntityCaps`, hook on `ServerLevel.addFreshEntity`; loaded and portal-arriving
+entities are never touched):
+* The count comes straight from the chunk's entity sections. `level.getEntities` only sees
+  chunks whose entities are accessible: the first version read a just-loaded chunk as empty
+  and capped nothing there (caught by the lab).
+* Lab (`lag_lab.py caps`, caps set low: items 50, TNT 20, falling 20, vehicles 10):
+
+| Case | Result |
+| --- | --- |
+| 240 items of 60 kinds into one chunk | 50 item entities while capped (150 merged, 40 waiting); after `save-all`, all 240 items in the world |
+| 100 primed TNT | at most 20 at a time, 80 waited; 0 left after 45 s (all went off) |
+| 50 sand dropped | at most 20 falling at a time; all 50 landed |
+| 30 minecarts | 10 minecarts and 20 minecart items |
+
+**Lab tooling fix:** responses over 4096 characters come in several RCON packets, and the lab
+client read only the first, which corrupted the next read. It now reads continuation packets.
+Sending a marker request after each command (the usual trick) does not work: 26.2's RCON
+reader handles only the first request per network read.
+
 **Known gaps:**
-* **Light updates** are computed on the light engine's own thread, so a light-spam machine
-  costs CPU that doesn't appear in tick time. It needs its own counter (pending light work per
-  chunk).
 * **Network-side machines** (map art, book bans, packet spam) aren't tick time either. Use
   packet and NBT limits.
 * **Neighbour updates from a normal chunk into a slowed one** still apply immediately, as

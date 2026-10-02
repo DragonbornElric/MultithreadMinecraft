@@ -56,7 +56,10 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 /mtmc lag throttle budget <ms>      per-chunk budget (default 2 ms/t)
 /mtmc lag throttle busy <ms>        throttle only while server MSPT >= this (default 40)...
 /mtmc lag throttle hard <ms>        ...or always when a chunk alone is over this (default 10)
-/mtmc lag release                   all slowed chunks back to full speed
+/mtmc lag throttle freeze <ms>      freeze a chunk still over this at the slowest level (default 20)
+/mtmc lag throttle light <n>        light updates per tick a chunk may queue (default 2000)
+/mtmc lag release                   all slowed and frozen chunks back to full speed
+/mtmc lag caps [on|off]             per-chunk caps for new entities (off by default), and what they did so far
 ```
 
 ### Lag machines: accounting and throttle
@@ -83,9 +86,29 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 * **When it engages:** only while the server is busy (smoothed MSPT ≥ `lagServerBusyMs`, default
   40), or always when one chunk alone is over `lagHardBudgetMs` (default 10 ms). It eases off on
   its own. Ops get a chat notice with a teleport link.
+* **Light updates:** counted per chunk too, because light is computed off the tick thread and
+  never shows in tick time. A chunk over `lagLightBudget` updates per tick counts as over
+  budget for the throttle; slowing it slows the redstone flipping the lamps.
+* **Freeze, the last resort:** a chunk still over `lagFreezeMs` (default 20) at the slowest
+  level (1 in 32, i.e. ~640 ms/t at full speed) for 5 s stops ticking entirely until
+  `/mtmc lag release`. Ops are alerted. Players in it still tick.
+* **Entity caps (opt-in, `lagCaps`):** per chunk, for **new** entities only. Saved entities and
+  portal arrivals are never touched.
+
+  | Category | Cap | At the cap |
+  | --- | --- | --- |
+  | Items | `capItems` 400 | merge into a stack with room, else wait |
+  | Primed TNT | `capTnt` 300 | wait, then explode |
+  | Falling blocks | `capFallingBlocks` 200 | wait, then fall |
+  | Minecarts and boats | `capVehicles` 64 | refused and dropped as their item |
+  | Armor stands | `capArmorStands` 64 | refused and dropped as their item |
+  | Mobs | `capMobs` 300 | refused |
+
+  Waiting entities join the world before every save, so nothing is lost.
 * **Settings:** `lagAccounting`, `lagThrottle`, `lagChunkBudgetMs`, `lagServerBusyMs`,
-  `lagHardBudgetMs`, `lagMaxThrottle` in `config/multithreadmc.properties`. Design and
-  research: [docs/LAG_MACHINES.md](docs/LAG_MACHINES.md).
+  `lagHardBudgetMs`, `lagMaxThrottle`, `lagLightBudget`, `lagFreeze`, `lagFreezeMs`,
+  `lagCaps`, `cap*` in `config/multithreadmc.properties`. Design and research:
+  [docs/LAG_MACHINES.md](docs/LAG_MACHINES.md).
 
 ## Compatibility
 

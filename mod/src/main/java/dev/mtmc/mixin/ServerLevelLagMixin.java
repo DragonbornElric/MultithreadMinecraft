@@ -2,6 +2,7 @@ package dev.mtmc.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.mtmc.lag.EntityCaps;
 import dev.mtmc.lag.LagAccess;
 import dev.mtmc.lag.LagCategory;
 import dev.mtmc.lag.LagTracker;
@@ -53,6 +54,20 @@ abstract class ServerLevelLagMixin implements LagAccess {
             mtmc$lagTracker.hooks(change -> ThrottleNotices.changed(self, change), () -> self.getServer().getCurrentSmoothedTickTime());
         }
         mtmc$lagTracker.startTick(self.getGameTime());
+        EntityCaps.release(self);
+    }
+
+    /** Per-chunk caps for new entities (EntityCaps). */
+    @WrapMethod(method = "addFreshEntity")
+    private boolean mtmc$capFreshEntity(Entity entity, Operation<Boolean> original) {
+        Boolean decided = EntityCaps.onAdd((ServerLevel) (Object) this, entity);
+        return decided != null ? decided : original.call(entity);
+    }
+
+    /** Entities waiting under a cap go into the world before every save. */
+    @Inject(method = "save", at = @At("HEAD"))
+    private void mtmc$flushDelayedEntities(net.minecraft.util.ProgressListener listener, boolean flush, boolean noSave, CallbackInfo ci) {
+        EntityCaps.flushAll((ServerLevel) (Object) this);
     }
 
     /** Throttle: a slowed chunk is "not ticking" on its off ticks, as outside simulation distance. */

@@ -16,12 +16,13 @@ public final class ThrottleNotices {
     public static void changed(ServerLevel level, LagTracker.ThrottleChange change) {
         LagTracker.ChunkLag c = change.chunk();
         int cx = ChunkPos.getX(c.pos), cz = ChunkPos.getZ(c.pos);
-        String what = change.to() == 0 ? "back to full speed"
+        String what = change.to() == LagTracker.FROZEN ? "FROZEN (no ticks until /mtmc lag release)"
+            : change.to() == 0 ? (change.from() == LagTracker.FROZEN ? "unfrozen, back to full speed" : "back to full speed")
             : "slowed to 1 tick in " + (1 << change.to()) + (change.to() > change.from() ? "" : " (easing off)");
         Mtmc.LOGGER.warn("[lag] {} chunk [{}, {}] (x {}, z {}) {}: {} ms/t", level.dimension().identifier(), cx, cz,
             (cx << 4) + 8, (cz << 4) + 8, what, String.format(java.util.Locale.ROOT, "%.2f", c.avgTotalMs));
         // tell ops when a chunk is first slowed, hits the slowest level, or is released
-        if (!(change.from() == 0 || change.to() == 0 || change.to() == Mtmc.config().lagMaxThrottle)) return;
+        if (!(change.from() == 0 || change.to() == 0 || change.to() == Mtmc.config().lagMaxThrottle || change.to() == LagTracker.FROZEN)) return;
         MinecraftServer server = level.getServer();
         Component line = Component.literal("[MultithreadMC] ").withStyle(ChatFormatting.GOLD)
             .append(LagCommand.line(0, new LagCommand.Entry(level, c)).append(Component.literal(" - " + what)));

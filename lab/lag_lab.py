@@ -310,9 +310,185 @@ def throttle(args) -> dict:
     return out
 
 
+def count(r: Rcon, sel: str, dim: str = "overworld") -> int:
+    m = re.search(r"Count: (\d+)", r.cmd(f"execute in minecraft:{dim} if entity {sel}"))
+    return int(m.group(1)) if m else 0
+
+
+def item_sum(r: Rcon, sel: str) -> int:
+    r.cmd("scoreboard objectives add mtmc_cnt dummy")
+    r.cmd(f"execute in minecraft:overworld as {sel} store result score @s mtmc_cnt run data get entity @s Item.count")
+    r.cmd("scoreboard players set #sum mtmc_cnt 0")
+    r.cmd(f"execute in minecraft:overworld as {sel} run scoreboard players operation #sum mtmc_cnt += @s mtmc_cnt")
+    m = re.search(r"has (-?\d+)", r.cmd("scoreboard players get #sum mtmc_cnt"))
+    return int(m.group(1)) if m else -1
+
+
+def floor(r: Rcon, x0: int, z0: int, block: str = "glass") -> None:
+    c = lambda cmd: r.cmd("execute in minecraft:overworld run " + cmd)
+    c(f"forceload add {x0} {z0} {x0 + 15} {z0 + 15}")
+    c(f"fill {x0} {Y - 1} {z0} {x0 + 15} {Y + 20} {z0 + 15} minecraft:air")
+    c(f"fill {x0} {Y - 1} {z0} {x0 + 15} {Y - 1} {z0 + 15} minecraft:{block}")
+
+
+ITEM_IDS = ["stone", "dirt", "cobblestone", "oak_planks", "spruce_planks", "birch_planks", "sand", "gravel", "oak_log",
+            "glass", "white_wool", "orange_wool", "magenta_wool", "light_blue_wool", "yellow_wool", "lime_wool", "pink_wool",
+            "gray_wool", "cyan_wool", "purple_wool", "blue_wool", "brown_wool", "green_wool", "red_wool", "black_wool",
+            "bricks", "bookshelf", "obsidian", "torch", "chest", "crafting_table", "furnace", "ladder", "rail", "lever",
+            "stone_button", "cactus", "clay_ball", "sugar_cane", "netherrack", "soul_sand", "glowstone", "pumpkin", "melon",
+            "iron_ingot", "gold_ingot", "diamond", "emerald", "coal", "redstone", "lapis_lazuli", "quartz", "bone", "string",
+            "feather", "gunpowder", "wheat", "bread", "apple", "arrow"]
+
+
+def caps(args) -> dict:
+    """Caps on (low values so they bite): items wait or merge and none are lost, primed TNT
+    waits and all of it still goes off, falling sand waits and all of it lands, minecarts over
+    the cap come back as items; pending entities are flushed by a save."""
+    import os
+    os.environ["MTMC_PROPS"] = "lagCaps=true capItems=50 capTnt=20 capFallingBlocks=20 capVehicles=10 capArmorStands=10"
+    if not args.running:
+        bench.start(args.variant)
+    r = Rcon(password="mtmclab")
+    bench.gamerule(r, "spawn_mobs", "doMobSpawning", "false")
+    bench.gamerule(r, "max_entity_cramming", "maxEntityCramming", "0")
+    out = {"mode": "caps", "variant": (bench.SERVER / "variant.txt").read_text().strip()}
+    sel = lambda t, x0, z0: f"@e[type=minecraft:{t},x={x0},y={Y - 5},z={z0},dx=15,dy=40,dz=15]"
+    # items: 240 items, 4 of each of 60 kinds, in one chunk
+    ix, iz = 0, 50 * 16
+    floor(r, ix, iz)
+    sent = 0
+    for i in range(240):
+        r.cmd(f"execute in minecraft:overworld run summon minecraft:item {ix + 2 + i % 12}.5 {Y} {iz + 2 + (i // 12) % 12}.5 "
+              f"{{Item:{{id:\"minecraft:{ITEM_IDS[i % len(ITEM_IDS)]}\",count:1}},PickupDelay:32767}}")
+        sent += 1
+    time.sleep(3)
+    entities_now = count(r, sel("item", ix, iz))
+    total_now = item_sum(r, sel("item", ix, iz))
+    r.cmd("save-all flush")
+    time.sleep(3)
+    total_after_save = item_sum(r, sel("item", ix, iz))
+    out["items"] = {"sent": sent, "item_entities_while_capped": entities_now, "items_in_world_while_capped": total_now,
+                    "items_after_save": total_after_save, "ok": entities_now <= 50 and total_after_save == sent}
+    # TNT: 100 primed TNT (fuse 60) in an obsidian pit, cap 20
+    tx, tz = 0, 54 * 16
+    floor(r, tx, tz, "obsidian")
+    r.cmd(f"execute in minecraft:overworld run fill {tx} {Y} {tz} {tx + 15} {Y + 6} {tz + 15} minecraft:obsidian hollow")
+    r.cmd(f"execute in minecraft:overworld run fill {tx + 1} {Y + 6} {tz + 1} {tx + 14} {Y + 6} {tz + 14} minecraft:air")
+    for i in range(100):
+        r.cmd(f"execute in minecraft:overworld run summon minecraft:tnt {tx + 3 + i % 10}.5 {Y + 1} {tz + 3 + i // 10}.5 {{fuse:60}}")
+    time.sleep(1)
+    tnt_while = count(r, sel("tnt", tx, tz))
+    time.sleep(45)
+    tnt_end = count(r, sel("tnt", tx, tz))
+    caps_line = r.cmd("mtmc lag caps")
+    delayed = re.search(r"tnt_delayed=(\d+)", caps_line)
+    out["tnt"] = {"summoned": 100, "primed_while_capped": tnt_while, "primed_left_after_45s": tnt_end,
+                  "tnt_delayed": int(delayed.group(1)) if delayed else 0,
+                  "ok": tnt_while <= 20 and tnt_end == 0 and delayed is not None and int(delayed.group(1)) >= 70}
+    # falling sand: 50 sand at y+10 over a glass floor, cap 20
+    fx, fz = 0, 58 * 16
+    floor(r, fx, fz)
+    for i in range(50):
+        r.cmd(f"execute in minecraft:overworld run setblock {fx + 2 + i % 10} {Y + 10} {fz + 2 + i // 10} minecraft:sand")
+    time.sleep(1)
+    falling_while = count(r, sel("falling_block", fx, fz))
+    time.sleep(15)
+    landed = re.search(r"cloned (\d+)", r.cmd(f"execute in minecraft:overworld run clone {fx} {Y} {fz} {fx + 15} {Y + 15} {fz + 15} "
+                                               f"{fx} {Y + 40} {fz} filtered minecraft:sand force"))
+    landed = int(landed.group(1)) if landed else 0
+    out["falling"] = {"sand": 50, "falling_while_capped": falling_while, "sand_landed": landed,
+                      "ok": falling_while <= 20 and landed == 50}
+    # minecarts: 30 in one chunk, cap 10 -> 10 carts + 20 minecart items
+    mx, mz = 0, 62 * 16
+    floor(r, mx, mz)
+    for i in range(30):
+        r.cmd(f"execute in minecraft:overworld run summon minecraft:minecart {mx + 8.5} {Y} {mz + 8.5}")
+    time.sleep(2)
+    carts = count(r, sel("minecart", mx, mz))
+    cart_items = item_sum(r, sel("item", mx, mz)[:-1] + ',nbt={Item:{id:"minecraft:minecart"}}]')
+    out["vehicles"] = {"summoned": 30, "minecarts": carts, "minecart_items": cart_items, "ok": carts == 10 and cart_items == 20}
+    out["cap_stats"] = caps_line.split("So far:")[-1].strip()
+    out["ok"] = all(out[k]["ok"] for k in ("items", "tnt", "falling", "vehicles"))
+    out["time"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    r.close()
+    return out
+
+
+def light(args) -> dict:
+    """Observer-lamp machine: light updates show in /mtmc lag; with the light budget below what
+    it makes (and the ms budgets out of the way), the throttle slows it on light alone."""
+    if not args.running:
+        bench.start(args.variant)
+    r = Rcon(password="mtmclab")
+    x0, z0 = 0, 66 * 16
+    build(r, "observer_lamps", x0, z0)
+    r.cmd("mtmc lag reset")
+    time.sleep(12)
+    def line():
+        return next((t for t in lag_top(r) if (t["cx"], t["cz"]) == (x0 >> 4, z0 >> 4)), {})
+    before = line()
+    m = re.search(r"light updates (\d+)/t", before.get("detail", ""))
+    lu = int(m.group(1)) if m else 0
+    r.cmd("mtmc lag throttle budget 1000")
+    r.cmd("mtmc lag throttle hard 1000")
+    r.cmd(f"mtmc lag throttle light {max(1, lu // 3)}")
+    r.cmd("mtmc lag throttle on")
+    time.sleep(15)
+    after = line()
+    m2 = re.search(r"light updates (\d+)/t", after.get("detail", ""))
+    out = {"mode": "light", "light_updates_per_tick_before": lu, "light_budget_set": max(1, lu // 3),
+           "after": after, "light_updates_per_tick_after": int(m2.group(1)) if m2 else 0,
+           "ok": lu > 0 and (after.get("slowed") or 1) > 1}
+    r.cmd("mtmc lag throttle off")
+    r.close()
+    return out
+
+
+def freeze(args) -> dict:
+    """Hot chunk (300 minecarts + counting clock): with a low freeze threshold it is slowed to
+    1/32, then frozen (clock stops); release brings it back."""
+    if not args.running:
+        bench.start(args.variant)
+    r = Rcon(password="mtmclab")
+    bench.gamerule(r, "max_entity_cramming", "maxEntityCramming", "0")
+    r.cmd("scoreboard objectives add mtmc dummy")
+    hot = (0, 70 * 16)
+    clock_and_hoppers(r, *hot, "frz")
+    for _ in range(300):
+        r.cmd(f"execute in minecraft:overworld run summon minecraft:minecart {hot[0] + 8.5} {Y} {hot[1] + 4.5}")
+    time.sleep(8)
+    before = rate(r, "frz", 8)[0]
+    # freezing is only for a chunk still over budget at the slowest level (1 in 32): budgets this
+    # low keep it over budget all the way down, and 0.3 ms/t at 1 in 32 is ~10 ms/t at full speed
+    r.cmd("mtmc lag throttle budget 0.1")
+    r.cmd("mtmc lag throttle hard 0.1")
+    r.cmd("mtmc lag throttle freeze 0.3")
+    r.cmd("mtmc lag throttle on")
+    frozen_line, t0 = {}, time.time()
+    while time.time() - t0 < 150:
+        time.sleep(3)
+        frozen_line = next((t for t in lag_top(r) if (t["cx"], t["cz"]) == (hot[0] >> 4, hot[1] >> 4)), {})
+        if "FROZEN" in r.cmd("mtmc lag here") or "[FROZEN]" in str(frozen_line):
+            break
+    top_txt = r.cmd("mtmc lag top 3")
+    is_frozen = "[FROZEN]" in top_txt
+    during = rate(r, "frz", 8)[0]
+    r.cmd("mtmc lag release")
+    r.cmd("mtmc lag throttle off")
+    time.sleep(2)
+    after = rate(r, "frz", 8)[0]
+    carts = count(r, f"@e[type=minecraft:minecart,x={hot[0] + 8},y={Y},z={hot[1] + 4},distance=..20]")
+    log = (bench.SERVER / "server.log").read_text(errors="replace")
+    out = {"mode": "freeze", "clock_before": before, "frozen": is_frozen, "clock_while_frozen": during, "clock_after_release": after,
+           "minecarts": carts, "log": re.findall(r"\[lag\] .*", log)[-4:],
+           "ok": is_frozen and during == 0 and after >= 0.75 * before and carts == 300}
+    r.close()
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["detect", "overhead", "throttle"])
+    ap.add_argument("mode", choices=["detect", "overhead", "throttle", "light", "caps", "freeze"])
     ap.add_argument("--variant", default="mtmc")
     ap.add_argument("--running", action="store_true")
     ap.add_argument("--settle", type=float, default=20)
@@ -321,7 +497,7 @@ def main() -> None:
     ap.add_argument("--minutes", type=float, default=6)
     ap.add_argument("--period", type=float, default=40)
     args = ap.parse_args()
-    res = {"detect": detect, "overhead": overhead, "throttle": throttle}[args.mode](args)
+    res = {"detect": detect, "overhead": overhead, "throttle": throttle, "light": light, "caps": caps, "freeze": freeze}[args.mode](args)
     print(json.dumps(res, indent=1))
     with (LAB_DIR / "lag_lab.jsonl").open("a") as f:
         f.write(json.dumps(res) + "\n")
