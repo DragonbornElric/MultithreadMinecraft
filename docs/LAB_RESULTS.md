@@ -544,7 +544,7 @@ came at similar times (1.8–7.2 s on, 1.8–2.5 s off; the 7.2 s run had the bo
 The server logged no errors from this mod. Region counters: 29122 phases, 0 escapes, and 10
 deaths that went through the death lock.
 
-**Movement** (`region_lab.py moves`, on the owner's mod list, below). 6 arenas at once, 2
+**Movement** (`region_lab.py moves`, on the owner's mod list, above). 6 arenas at once, 2
 rounds per side, alternating, which gives 12 arenas per side. Every mob's position was read
 every 2 s for 40 s. All metrics were the same on and off: a metric counts as different when
 the means are more than 3 standard errors apart and more than 15%.
