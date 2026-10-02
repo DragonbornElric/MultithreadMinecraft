@@ -37,6 +37,12 @@ public final class MtmcConfig {
     /** Per-chunk entity caps for new entities (EntityCaps). Off by default. */
     public volatile boolean lagCaps;
     public volatile int capItems, capTnt, capFallingBlocks, capVehicles, capArmorStands, capMobs;
+    /** Parallel sensor phase (SensorPhase). Off by default: sensors run early see the start-of-entity-phase world. */
+    public volatile boolean sensorPhase;
+    /** Sensor pool threads; 0 = CPUs - 1. */
+    public volatile int sensorThreads;
+    /** Fewer mobs with due sensors than this in a level tick: run them the vanilla way (pool overhead). */
+    public volatile int sensorPhaseMin;
     /** Run command blocks after the parallel phase (a command may touch any dimension). */
     public final boolean deferCommandBlocks;
     /** Log the first stack trace of each kind of cross-dimension access seen during the parallel phase. */
@@ -58,6 +64,9 @@ public final class MtmcConfig {
         lagFreeze = bool(p, "lagFreeze", true);
         lagFreezeMs = Double.parseDouble(p.getProperty("lagFreezeMs", "20.0").trim());
         lagCaps = bool(p, "lagCaps", false);
+        sensorPhase = bool(p, "sensorPhase", false);
+        sensorThreads = Integer.parseInt(p.getProperty("sensorThreads", "0").trim());
+        sensorPhaseMin = Integer.parseInt(p.getProperty("sensorPhaseMin", "32").trim());
         capItems = Integer.parseInt(p.getProperty("capItems", "400").trim());
         capTnt = Integer.parseInt(p.getProperty("capTnt", "300").trim());
         capFallingBlocks = Integer.parseInt(p.getProperty("capFallingBlocks", "200").trim());
@@ -108,6 +117,9 @@ public final class MtmcConfig {
                     + "lagLightBudget=" + lagLightBudget + "\n"
                     + "lagFreeze=" + lagFreeze + "\n"
                     + "lagFreezeMs=" + lagFreezeMs + "\n"
+                    + "sensorPhase=" + sensorPhase + "\n"
+                    + "sensorThreads=" + sensorThreads + "\n"
+                    + "sensorPhaseMin=" + sensorPhaseMin + "\n"
                     + "# per-chunk caps for NEW entities (0 = no cap); TNT, falling blocks and items wait, vehicles/armor stands drop as items, mobs are refused\n"
                     + "lagCaps=" + lagCaps + "\n"
                     + "capItems=" + capItems + "\n"

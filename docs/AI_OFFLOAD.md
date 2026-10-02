@@ -141,9 +141,10 @@ regions, which isn't wanted yet.
 1. **Keep Lithium on.** It is the biggest win and has no ordering change.
 2. **For hostile-heavy servers, try PathWeaver** in the lab first: the A/B below, then the TNT
    and stress suites with it loaded.
-3. **If we build something,** build the parallel sensor phase inside the level workers, with
-   an audited whitelist and a fingerprint test before enabling any sensor. Expected gain:
-   about 10–20% of the tick on brain-heavy loads.
+3. **The parallel sensor phase is built** (below), inside the level workers, with an audited
+   whitelist and behaviour checks. Expected gain was about 10–20% of the tick on
+   sensor-heavy loads. Lab: −18% for piglins/hoglins, −3% for villagers (their tick is mostly
+   behaviours and POI scans). Off by default.
 4. **Leave whole-brain/goal threading** until regions exist.
 
 ## PathWeaver in the lab
@@ -174,3 +175,51 @@ behaviour check that zombies still find and catch their targets.
   only loosely.
 * **Not yet run with PathWeaver:** the TNT suite, the bot scenarios, and the known problem
   mobs (bees, frogs, axolotls, villager POIs). Do that before using it on a live server.
+
+## The parallel sensor phase in MultithreadMC (built 2026-10-02, off by default)
+
+`/mtmc sensors on` (`sensorPhase=true`). Code: `dev.mtmc.ai.SensorPhase`, `mixin/SensorMixin`,
+`mixin/ClassInstanceMultiMapMixin`.
+
+**How it runs** (once per level tick, right before the entity tick loop, on the level's own
+thread, which is a MultithreadMC worker when parallel dimensions are on):
+1. Walk the entity tick list. For each mob whose brain will tick this tick (not removed, has
+   AI, alive, not frozen, in entity-ticking range, chunk not slowed by the lag throttle),
+   collect its **due** sensors (`timeToTick <= 1`) in the brain's own order, **up to the first
+   one that isn't whitelisted**. That one and everything after it run in the brain tick as
+   usual. So a sensor that reads an earlier sensor's memory (piglin, hoglin, adult, golem)
+   still sees it from this tick.
+2. Fewer than `sensorPhaseMin` (32) such mobs: do nothing (pool overhead).
+3. Batches of 16 mobs go to a pool (`sensorThreads`, 0 = CPUs − 1, threads "MTMC Sensor #n").
+   The level thread runs the last batch itself, then waits for all of them. Nothing else in
+   that level runs meanwhile.
+4. In the brain tick, a sensor that already ran this game tick skips its tick (it is marked
+   with the game time). Its countdown was already reset when it ran early.
+
+**Whitelist** (each read in the 26.2 source: reads entities/players/memories, writes only its
+own mob's memories):
+* nearest living entity, player, nearest item, hurt-by
+* piglin, piglin brute, hoglin specific
+* villager hostiles, villager babies, golem
+* adult (both), axolotl attackables, frog attackables, breeze attack entity
+* in water, tempting, warden entity, mob, dummy
+
+**Not whitelisted:** the POI sensors (nearest bed, secondary POI) and anything not on the list.
+They read the POI manager, which loads POI sections lazily, so they're not read-only.
+
+**What had to be made thread safe:**
+* **`Sensor`'s static `TargetingConditions`:** `range(...)` mutates them, so on sensor threads
+  they resolve to thread-local copies.
+* **Chunk reads from pool threads:** read-only lookups of already loaded chunks. A sensor that
+  needs a chunk that isn't loaded throws `Fallback`. That mob's remaining sensors then go back
+  to its brain tick. Lab: 0 fallbacks so far.
+* **Entity sections' by-class cache (`ClassInstanceMultiMap.find`):** the first lookup of a
+  class in a section writes a cache entry into a plain `HashMap`. Vanilla uses
+  `computeIfAbsent`; Lithium overwrites it with get-then-put. While a phase runs, `find` holds
+  that section's lock. Outside the phase it costs one volatile read.
+  * Found the hard way: 600 piglins crashed with a `ConcurrentModificationException` after a
+    few minutes. Short runs had passed.
+
+**Behaviour difference:** early sensors see the world as it is at the start of the entity
+phase, not after the mobs before them in the same tick moved. DivineMC accepts the same.
+The behaviour checks below found no difference.

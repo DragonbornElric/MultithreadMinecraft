@@ -40,6 +40,9 @@ The jar is `mod/build/libs/multithreadmc-<ver>+26.2.jar`. It goes in a Fabric 26
 | `deferCommandBlocks` | `true` | Run command blocks after the parallel phase (a command can reach any dimension). |
 | `logCrossLevelAccess` | `true` | Log a stack trace the first time each kind of cross-dimension chunk access happens. |
 | `statsIntervalSeconds` | `30` | How often the `[stats]` log line and `mtmc-stats.json` are written. |
+| `sensorPhase` | `false` | Parallel sensor phase: due mob brain sensors (whitelisted ones) run on a pool before entity ticking. See [docs/AI_OFFLOAD.md](docs/AI_OFFLOAD.md). |
+| `sensorThreads` | `0` | Sensor pool size. `0` = CPUs − 1. |
+| `sensorPhaseMin` | `32` | Fewer mobs with due sensors than this in a level tick: run them the vanilla way. |
 
 The `/mtmc` command (op level 3) changes these live, from the next tick, and saves them:
 
@@ -60,6 +63,9 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 /mtmc lag throttle light <n>        light updates per tick a chunk may queue (default 2000)
 /mtmc lag release                   all slowed and frozen chunks back to full speed
 /mtmc lag caps [on|off]             per-chunk caps for new entities (off by default), and what they did so far
+/mtmc sensors [on|off]              parallel sensor phase (off by default), and what it did so far
+/mtmc sensors threads <n>           sensor pool size (0 = CPUs - 1)
+/mtmc sensors min <n>               fewest mobs with due sensors per level tick to use the pool (default 32)
 ```
 
 ### Lag machines: accounting and throttle

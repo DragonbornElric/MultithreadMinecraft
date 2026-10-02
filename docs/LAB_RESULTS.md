@@ -357,6 +357,64 @@ with 132 ghosts loading fresh view-12 areas in two dimensions.
   * **On the next owner run,** any `[diag] foreign_chunk_access` line in the log names the
     culprit.
 
+## Parallel sensor phase (`lab/sensor_lab.py`, branch `-next`, 2026-10-02, `cloud-4`)
+
+**Speed** (`sensor_lab.py ab`): 600 mobs in the bench pen. `/mtmc sensors on` and `off`
+alternate every 40 s for 6 minutes on the same server and load; 30 `/tick query` samples per
+side. Pool = CPUs − 1 = 3 threads.
+
+| Load | Variant | MSPT off | MSPT on | Change |
+| --- | --- | --- | --- | --- |
+| piglins + hoglins (Nether) | mtmc | 47.7 | 38.9 | **−18.4%** |
+| piglins + hoglins (Nether) | mtmc + Lithium | 24.9 | 22.0 | **−11.7%** |
+| villagers (Overworld, no beds/workstations) | mtmc | 46.8 | 45.4 | −3.0% |
+
+* **Piglins/hoglins gain the most,** because sensors are 21–23% of their tick (profile above).
+  The −18% matches the sensor share minus pool overhead. On a 4-vCPU box only 3 helpers exist,
+  so more cores should get closer to the full sensor share.
+* **Villagers gain little:** sensors are 5–11% of their tick, and the bed/POI sensors aren't on
+  the whitelist.
+* **0 fallbacks** in all runs: no sensor needed a chunk that wasn't loaded.
+
+**Behaviour** (`sensor_lab.py behaviour`): fresh, identical setups, phase off/on/off/on with
+`min 1`, so the small setups really use the pool.
+
+| Check | off | on | off | on |
+| --- | --- | --- | --- | --- |
+| gold: ingots left of 60 after 3 / 10 / 30 s (10 piglins) | 44/36/10 | 44/36/9 | 45/35/10 | 45/36/10 |
+| panic: mean villager distance from a zombie, start → after 12 s | 4.0 → 13.5 | 7.0 → 12.6 | 6.2 → 12.0 | 8.2 → 13.3 |
+| village: homes / job sites claimed after 40 s (10 villagers, 10 beds, 5 workstations) | 10/5 | 10/5 | 10/5 | 10/5 |
+| village: know the bell / mean distance to bell at meeting time | 10 / 3.9 | 10 / 4.4 | 10 / 4.2 | 10 / 5.5 |
+| village: asleep at night | 10 | 10 | 10 | 10 |
+
+Same results on and off within the AI's own randomness (the panic start distance differs
+because villagers already move in the 2 s before the first sample). No exceptions logged.
+
+**Test setup notes:**
+* Villagers don't walk on glass, with the mod on or off, so the panic and village floors are
+  grass.
+* Villagers rest at night, so panic runs at noon; the zombie wears a helmet so it doesn't burn.
+
+**Bug found and fixed:** the first 6-minute piglin runs crashed three times with a
+`ConcurrentModificationException` in `ClassInstanceMultiMap.find`. That method's lazy per-class
+cache writes a `HashMap`. The short behaviour runs never hit it. Fixed by locking `find` per
+section while a phase runs (also covers Lithium's overwrite of it). The piglin runs above are
+after the fix.
+
+**Regressions with the phase on** (`MTMC_PROPS="sensorPhase=true sensorPhaseMin=1"`):
+* **TNT, 3 trials:** all ok.
+  * Crater drops == destroyed blocks in every dimension.
+  * Chains used up all 300 TNT.
+  * Cannon fingerprint `3f99461661c4`, the same as every earlier variant.
+* **Lag throttle (`lag_lab.py throttle`):** all 8 checks pass.
+* **Bot scenarios (`stress_bot.py`), all ok:**
+  * command blocks: 427/427/427
+  * portal stream: 199 + 1 back, 0 never went
+  * pearls: 6/6
+  * portal walk: 4/4
+  * hero and nether hero: 180 s each, server alive
+* **Server log:** 0 exceptions or errors.
+
 ## Open items
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).

@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.world.level.chunk.LevelChunk;
 
 @Mixin(ServerChunkCache.class)
 abstract class ServerChunkCacheMixin {
@@ -28,6 +29,11 @@ abstract class ServerChunkCacheMixin {
         at = @At("HEAD"), cancellable = true)
     private void mtmc$helpWhileWaiting(int x, int z, ChunkStatus status, boolean load, CallbackInfoReturnable<ChunkAccess> cir) {
         ServerChunkCache self = (ServerChunkCache) (Object) this;
+        if (dev.mtmc.ai.SensorPhase.onSensorThread(self)) {
+            // parallel sensor phase: read-only lookup of loaded chunks (SensorPhase)
+            cir.setReturnValue(dev.mtmc.ai.SensorPhase.readOnlyChunk(self, x, z, status, load));
+            return;
+        }
         if (!ParallelLevelTicker.onWorker() || Thread.currentThread() == ((ServerChunkCacheAccessor) self).mtmc$getMainThread()) return;
         CompletableFuture<ChunkResult<ChunkAccess>> future = self.getChunkFuture(x, z, status, load);
         ParallelLevelTicker.awaitForeign(future, self);
@@ -36,5 +42,15 @@ abstract class ServerChunkCacheMixin {
             throw new IllegalStateException("Chunk not there when requested (cross-dimension): " + x + ", " + z + " " + status);
         }
         cir.setReturnValue(chunk);
+    }
+
+    /** getChunkNow answers null off the owner thread; sensor threads get the loaded chunk (read-only). */
+    @Inject(method = "getChunkNow", at = @At("HEAD"), cancellable = true)
+    private void mtmc$sensorChunkNow(int x, int z, CallbackInfoReturnable<LevelChunk> cir) {
+        ServerChunkCache self = (ServerChunkCache) (Object) this;
+        if (dev.mtmc.ai.SensorPhase.onSensorThread(self)) {
+            ChunkAccess c = dev.mtmc.ai.SensorPhase.readOnlyChunk(self, x, z, ChunkStatus.FULL, false);
+            cir.setReturnValue(c instanceof LevelChunk lc ? lc : null);
+        }
     }
 }

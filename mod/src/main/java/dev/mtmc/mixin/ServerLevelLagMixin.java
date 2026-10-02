@@ -137,6 +137,12 @@ abstract class ServerLevelLagMixin implements LagAccess {
         }
     }
 
+    /** Parallel sensor phase, right before the entity tick loop (SensorPhase). */
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/EntityTickList;forEach(Ljava/util/function/Consumer;)V"))
+    private void mtmc$sensorPhase(BooleanSupplier haveTime, CallbackInfo ci) {
+        dev.mtmc.ai.SensorPhase.run((ServerLevel) (Object) this);
+    }
+
     @Inject(method = "tick", at = @At("TAIL"))
     private void mtmc$endLagTick(BooleanSupplier haveTime, CallbackInfo ci) {
         mtmc$lagTracker.endTick();

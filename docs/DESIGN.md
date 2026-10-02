@@ -120,6 +120,20 @@ as vanilla, and the client sees the same blocks as the server.
   at the phase boundary, or the regions merge (Folia).
 * **The cannon fingerprint stays the regression test** for any change to tick order.
 
+## Parallel sensor phase (`ai/SensorPhase`, since 2026-10-02, off by default)
+
+Inside one level, before the entity tick loop, the due brain sensors of all mobs run on a
+pool while the level's thread runs a share and then waits. Each mob's brain tick skips the
+sensors that already ran. Only whitelisted sensors run early, per mob in the brain's order
+up to the first non-whitelisted one.
+
+**Thread safety:**
+* Static `TargetingConditions` become thread-local on sensor threads.
+* Chunk reads are read-only lookups of loaded chunks. A miss falls back to the brain tick.
+* Entity sections' lazy by-class cache is locked while a phase runs.
+
+Full write-up and lab results: AI_OFFLOAD.md, LAB_RESULTS.md.
+
 ## Known limits and open items
 
 * **Gain only where there is work in more than one dimension.** One busy Overworld gets
@@ -151,3 +165,7 @@ as vanilla, and the client sees the same blocks as the server.
 | `mixin/CommandBlockMixin`, `BaseCommandBlockMixin` | Deferred commands |
 | `mixin/SavedDataStorageMixin` | Synchronized store |
 | `mixin/CommandsMixin` | Registers `/mtmc` (no Fabric API needed) |
+| `ai/SensorPhase`, `ai/SensorAccess` | Parallel sensor phase: job collection, pool, fallback, thread-local targeting conditions |
+| `mixin/SensorMixin` | Skip sensors already run this tick; thread-local `TargetingConditions` |
+| `mixin/ClassInstanceMultiMapMixin` | Lock entity-section class lookups while a sensor phase runs |
+| `mixin/BrainAccessor`, `ServerLevelTickListAccessor`, `ServerChunkCacheInvoker` | Accessors for the sensor phase |

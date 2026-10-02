@@ -21,6 +21,14 @@ public final class MtmcCommand {
             .then(Commands.literal("on").executes(c -> setParallel(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> setParallel(c.getSource(), false)))
             .then(dev.mtmc.lag.LagCommand.node())
+            .then(Commands.literal("sensors")
+                .executes(c -> sensors(c.getSource()))
+                .then(Commands.literal("on").executes(c -> setSensors(c.getSource(), true)))
+                .then(Commands.literal("off").executes(c -> setSensors(c.getSource(), false)))
+                .then(Commands.literal("threads").then(Commands.argument("count", IntegerArgumentType.integer(0, 256))
+                    .executes(c -> { Mtmc.config().sensorThreads = IntegerArgumentType.getInteger(c, "count"); Mtmc.config().save(); return sensors(c.getSource()); })))
+                .then(Commands.literal("min").then(Commands.argument("mobs", IntegerArgumentType.integer(1, 100000))
+                    .executes(c -> { Mtmc.config().sensorPhaseMin = IntegerArgumentType.getInteger(c, "mobs"); Mtmc.config().save(); return sensors(c.getSource()); }))))
             .then(Commands.literal("selftest")
                 .executes(c -> selfTest(c.getSource()))
                 .then(Commands.literal("result").executes(c -> selfTestResult(c.getSource()))))
@@ -55,6 +63,24 @@ public final class MtmcCommand {
     private static int selfTestResult(CommandSourceStack src) {
         String r = ParallelLevelTicker.selfTestResult();
         src.sendSuccess(() -> Component.literal(r), false);
+        return 1;
+    }
+
+    private static int sensors(CommandSourceStack src) {
+        var cfg = Mtmc.config();
+        String line = String.format(java.util.Locale.ROOT,
+            "Parallel sensor phase %s (threads %s, min %d mobs per level tick). So far: %d phases, %d mobs, %d sensors run early, %d fallbacks",
+            cfg.sensorPhase ? "ON" : "off", cfg.sensorThreads <= 0 ? "CPUs-1" : String.valueOf(cfg.sensorThreads), cfg.sensorPhaseMin,
+            dev.mtmc.ai.SensorPhase.PHASES.sum(), dev.mtmc.ai.SensorPhase.MOBS.sum(), dev.mtmc.ai.SensorPhase.SENSORS.sum(),
+            dev.mtmc.ai.SensorPhase.FALLBACKS.sum());
+        src.sendSuccess(() -> Component.literal(line), false);
+        return 1;
+    }
+
+    private static int setSensors(CommandSourceStack src, boolean on) {
+        Mtmc.config().sensorPhase = on;
+        Mtmc.config().save();
+        src.sendSuccess(() -> Component.literal("MultithreadMC parallel sensor phase " + (on ? "on" : "off") + " from the next tick"), true);
         return 1;
     }
 
