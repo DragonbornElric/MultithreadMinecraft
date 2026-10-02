@@ -438,6 +438,52 @@ after the fix.
   * hero and nether hero: 180 s each, server alive
 * **Server log:** 0 exceptions or errors.
 
+## Regions inside a dimension (`lab/region_lab.py`, branch `claude/project-thread-1u7hft`, 2026-10-02, `cloud-4`)
+
+Variant `mtmcr` = parallel dimensions plus regions, 3 region threads (CPUs − 1). Everything
+below is in the Overworld only, so parallel dimensions alone gain nothing here.
+
+**Speed** (`region_lab.py ab`): 3000 animals (cows, sheep, chickens, pigs) in 6 pens 256 blocks
+apart. `/mtmc regions` on and off alternate on the same server.
+
+| Stack | MSPT off | MSPT on | p95 off | p95 on | Speedup |
+| --- | --- | --- | --- | --- | --- |
+| vanilla + mtmc | 58.95 | 28.4 | 77.1 | 35.15 | **2.08×** |
+| Lithium + ServerCore (owner stack) | 11.8 | 8.9 | 14.65 | 10.95 | **1.33×** |
+
+* With Lithium the animals are already 5× cheaper, so less of the tick is entity work that
+  regions can split.
+* On average there were 5.5 regions per tick, with 2.96 threads busy at once (vanilla run).
+  No entity escaped its region.
+
+**TNT** (`region_lab.py tnt --compare`): a crater, a chain and a cannon at 6 sites 256 apart,
+2 trials with regions on and 2 off, on both stacks. Every check passed:
+* crater drops equal the destroyed blocks
+* every chain used up all its TNT
+* each site's cannon ended in the same state with regions on and off
+
+**Chaos** (`region_lab.py chaos --zoo-scale 2`): a zoo in each of 6 pens, sprinted.
+
+| Stack | Ticks | Sprint TPS | Problems | Escapes |
+| --- | --- | --- | --- | --- |
+| vanilla + mtmc | 3600 | 76 | 0 | 0 |
+| Lithium + ServerCore | 12192 | 257 | 0 | 0 |
+
+In the Lithium run:
+* 1022 exclusive sections: 397 entity adds, 320 block changes, 233 kill scores, 36
+  village-distance updates, 18 POI claims, 18 explosions
+* 8522 deferred tasks, mostly section moves
+* 1.9 s of parked time over the run
+
+**Bugs found and fixed:**
+* **Lithium `entity.inactive_navigations`:** the first Lithium run crashed after 462 ticks with
+  an NPE in Lithium's `updateActiveListeners` (via `sendBlockUpdated`). Mobs add themselves to a
+  level-wide set from inside their tick, and two region threads corrupted it.
+  `RegionLithiumDataMixin` makes the set synchronized.
+* **Village distance tracker:** the next run crashed in `LongLinkedOpenHashSet.rehash`, from an
+  iron golem's `MoveBackToVillageGoal`. In vanilla, `isVillage` runs the level-wide tracker's
+  pending updates before reading it. That call is now exclusive when there are pending updates.
+
 ## Open items
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).
@@ -453,7 +499,5 @@ after the fix.
 
 ## Next
 
-The step after v0.1 is regions inside a dimension: groups of chunks with a buffer wide enough
-that nothing in one group can touch another within a tick, each group ticked whole on one
-thread. That is what can use 12–32 threads, and the bench's single-dimension (`--dims
-overworld`) runs will measure it.
+Regions inside a dimension are built (above, docs/REGIONS.md), off by default. Next: test them
+with the owner's full server mod list and with real players, and measure them on 12–32 threads.
