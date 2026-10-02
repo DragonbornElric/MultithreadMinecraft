@@ -270,6 +270,64 @@ instead of the entity's next tick start), not a correctness problem.
 thread. That means regions of nearby chunks, never "entities on thread A, the player on
 thread B".
 
+## Owner stack at scale: bots + passive players (2026-10-02, emmabrain, owner's lab)
+
+Real EESMP stack: be166ba + full Lithium (experimental on) + ServerCore (dynamic sim distance only) + emma-smp 2c8a6d7,
+view 12 / sim 8, 48 G ZGC, 9 dimensions, **full vanilla mob spawning** (owner: no mob-cap or activation-range changes).
+Load: 25 Emma bridge bots (HeadlessMC on emmaserver, `@hero diamond gamer`, both overworlds) plus SoulFire 2.10.1
+passive players ("ghosts", creative, each dropped at a random fresh surface spot, one every 3 s, from the owner's PC).
+Scripts and raw notes: EmmaMinecraft261 `tools/smp_stress/` (`scale.py`, `cpu_sampler.py`, `STRESS_NOTES.md`).
+
+**Run A: ghosts on 2 dimensions** (rpg:overworld + anarchy:overworld)
+
+| Players (bots+ghosts) | MSPT | TPS | Entities | Overlap |
+|---|---|---|---|---|
+| 25+0 | 34 | 20.0 | 6.5k | 1.9 |
+| 25+27 | 74 | 17.9 | 10.3k | 1.5 |
+| 25+68 | 109 | 10.6 | 18.0k | 1.9 |
+| 25+109 | 160 | 7.7 | 24.1k | 1.9 |
+| 25+132 | 181 | 5.5 | 26.7k | 1.9 |
+
+**Run B: ghosts rotated over 6 dimensions** (rpg/anarchy × overworld/nether/end)
+
+| Players (bots+ghosts) | MSPT | TPS | Entities | Overlap |
+|---|---|---|---|---|
+| 25+33 | 52 | 17.0 | 10.5k | 2.6 |
+| 25+76 | 66 | 13.7 | 16.8k | 3.4 |
+| 25+122 | 93 | 10.9 | 22.9k | 3.8 |
+| 25+167 | 110 | 8.6 | 28.8k | 4.25 |
+| 25+206 | 121-220 | 5.7 | 33.0k | 4.4 |
+
+Per dimension at 101 players (run B): overworlds 67 / 65 ms, nethers 35 / 36 ms, ends 16 / 16 ms; level phase 68.5 ms.
+Run A at 114 players: overworlds 132 / 116 ms, everything else < 3 ms.
+
+* Spreading the same players over more dimensions is worth ~1.7× (run B at 147 players ≈ run A at 93). The level phase
+  always equals the slowest dimension: **one overworld on one thread is the cap**.
+* emmabrain is never the limit: whole-host CPU 20-50 % busy, load 4-8 of 32 threads, 55-60 GB free. Server JVM
+  5-15 cores, 51-54 GB RSS at ~230 players. 25 HeadlessMC bots: 10-16 cores, 50 GB (≈2 GB each). SoulFire:
+  ~1.5 cores and 12.6 GB for 206 ghosts.
+* Where a busy dimension's tick goes (20 jcmd dumps of the MTMC level threads, run A): ~50 % entity ticking
+  (`Mob.aiStep`, `GoalSelector`, `Zombie.tick`, `Mob.checkDespawn`), ~40 % `ServerChunkCache.tickChunks`
+  (`NaturalSpawner.createState`, `tickSpawningChunk`, random ticks). Server thread: player move packets and chunk sending,
+  never overlapping the workers. Worldgen on Worker-Main threads, off the tick. Each spread-out player adds its own spawn
+  area: ~100-150 entities and ~1 ms of tick.
+* **This is the case for regions inside a dimension (see Next).** With full mob spawning the per-player cost is mobs, and
+  players spread far apart are exactly the independent groups that region ticking would split.
+
+**Crash in run A (open): 60 s watchdog** — `lab/results/eesmp-scale-2026-10-02/crash-2026-10-02_09.18.30-unload-hang.txt`.
+Server thread in `ParallelLevelTicker.runCollected:142`; `MTMC Level Thread #2` RUNNABLE in
+`Long2ObjectLinkedOpenHashMap.remove:733` ← `ChunkMap.lambda$scheduleUnload$0:553` ← `ChunkMap.processUnloads:507` ←
+`ServerLevel.tick` ← `tickSerial:192`. Ticks before it: 0.6 → 0.9 → 1.4 → 13.7 s; ZGC cycles 1.4-14 s; heap 36.7 / 48 G
+with 132 ghosts loading fresh view-12 areas in two dimensions.
+* Vanilla runs the unload callback via `unloadQueue::add` and polls it on the level's own thread, and the server thread
+  never handled packets during the parallel phase in any dump, so neither is an obvious race.
+* **Not reproduced by a mass disconnect:** at the end of run B all 206 ghosts were dropped at once with mtmc on and the
+  tick went straight back to ~32 ms with no stall. So the plain "vanilla unload backlog" explanation is unlikely.
+* Remaining suspects: a concurrent write to `pendingUnloads` / `updatingChunkMap` (e.g. a ticket change or chunk load
+  reaching another level's `ChunkMap` off its owner thread — something to check with a thread-owner assert in
+  `ChunkMap.updateChunkScheduling` / `processUnloads`), or GC pressure near the heap limit. A fastutil open-hash `remove`
+  that doesn't return is the classic sign of the first.
+
 ## Open items
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).
