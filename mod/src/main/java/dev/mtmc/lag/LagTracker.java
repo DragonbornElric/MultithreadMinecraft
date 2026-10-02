@@ -102,12 +102,70 @@ public final class LagTracker {
         }
     }
 
+    // ── region threads (RegionTicker): each keeps its own depth and samples, merged after the phase ──
+    private static final class Local {
+        int depth;
+        int n;
+        long[] chunk = new long[256];
+        int[] cat = new int[256];
+        long[] nanos = new long[256];
+        boolean queued;
+
+        void add(long chunkPos, int category, long dt) {
+            if (n == chunk.length) {
+                chunk = java.util.Arrays.copyOf(chunk, n * 2);
+                cat = java.util.Arrays.copyOf(cat, n * 2);
+                nanos = java.util.Arrays.copyOf(nanos, n * 2);
+            }
+            chunk[n] = chunkPos;
+            cat[n] = category;
+            nanos[n] = dt;
+            n++;
+        }
+    }
+
+    private final ThreadLocal<Local> regionLocal = ThreadLocal.withInitial(Local::new);
+    private final java.util.concurrent.ConcurrentLinkedQueue<Local> regionLocals = new java.util.concurrent.ConcurrentLinkedQueue<>();
+
+    private Local regionLocal() {
+        if (dev.mtmc.region.RegionPhase.current() == null) return null;
+        Local l = regionLocal.get();
+        if (!l.queued) {
+            l.queued = true;
+            regionLocals.add(l);
+        }
+        return l;
+    }
+
+    /** On the level's thread after a region phase: fold the region threads' samples in. */
+    public void mergeRegionSamples() {
+        Local l;
+        while ((l = regionLocals.poll()) != null) {
+            for (int i = 0; i < l.n; i++) {
+                ChunkLag c = getOrCreate(l.chunk[i]);
+                if (l.nanos[i] >= 0) {
+                    c.winNanos[l.cat[i]] += l.nanos[i];
+                    windowNanos += l.nanos[i];
+                }
+                c.winCount[l.cat[i]]++;
+            }
+            l.n = 0;
+            l.depth = 0;
+            l.queued = false;
+        }
+    }
+
     public static boolean enabled() {
         return Mtmc.config().lagAccounting;
     }
 
     /** Start timing; returns 0 when not timing (disabled, or nested inside another timed tick). */
     public long begin() {
+        Local l = regionLocal();
+        if (l != null) {
+            if (l.depth++ > 0 || !enabled()) return 0L;
+            return System.nanoTime();
+        }
         if (depth++ > 0 || !enabled()) return 0L;
         return System.nanoTime();
     }
@@ -115,6 +173,11 @@ public final class LagTracker {
     /** Count without timing (light updates). */
     public void count(long chunkPos, LagCategory cat) {
         if (!enabled()) return;
+        Local l = regionLocal();
+        if (l != null) {
+            l.add(chunkPos, cat.ordinal(), -1);
+            return;
+        }
         ChunkLag c = chunks.get(chunkPos);
         if (c == null) {
             c = new ChunkLag(chunkPos);
@@ -133,6 +196,12 @@ public final class LagTracker {
     }
 
     public void end(long start, long chunkPos, LagCategory cat) {
+        Local l = regionLocal();
+        if (l != null) {
+            l.depth--;
+            if (start != 0L) l.add(chunkPos, cat.ordinal(), System.nanoTime() - start);
+            return;
+        }
         depth--;
         if (start == 0L) return;
         long dt = System.nanoTime() - start;

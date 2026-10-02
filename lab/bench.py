@@ -56,24 +56,29 @@ def gamerule(r: Rcon, *names_and_value: str) -> None:
             return
 
 
-def build_pen(r: Rcon, dim: str) -> None:
+def pen_centers(pens: int, spacing: int) -> list[int]:
+    """X offsets of the pens in a dimension: one at 0, or a row `spacing` blocks apart (regions)."""
+    return [i * spacing for i in range(pens)]
+
+
+def build_pen(r: Rcon, dim: str, cx: int = 0) -> None:
     ex = f"execute in minecraft:{dim} run "
-    r.cmd(ex + f"forceload add {-HALF} {-HALF} {HALF - 1} {HALF - 1}")
+    r.cmd(ex + f"forceload add {cx - HALF} {-HALF} {cx + HALF - 1} {HALF - 1}")
     # floor, walls, nothing on top (fill is limited to 32768 blocks per call: split the floor)
     for x0 in range(-HALF - 1, HALF + 1, 20):
-        r.cmd(ex + f"fill {x0} {PEN_Y} {-HALF - 1} {min(x0 + 19, HALF)} {PEN_Y} {HALF} minecraft:glass")
+        r.cmd(ex + f"fill {cx + x0} {PEN_Y} {-HALF - 1} {cx + min(x0 + 19, HALF)} {PEN_Y} {HALF} minecraft:glass")
     for (x1, z1, x2, z2) in [(-HALF - 1, -HALF - 1, HALF, -HALF - 1), (-HALF - 1, HALF, HALF, HALF),
                              (-HALF - 1, -HALF - 1, -HALF - 1, HALF), (HALF, -HALF - 1, HALF, HALF)]:
-        r.cmd(ex + f"fill {x1} {PEN_Y + 1} {z1} {x2} {PEN_Y + 3} {z2} minecraft:glass")
+        r.cmd(ex + f"fill {cx + x1} {PEN_Y + 1} {z1} {cx + x2} {PEN_Y + 3} {z2} minecraft:glass")
     # grass so animals have something to wander to
-    r.cmd(ex + f"fill {-HALF} {PEN_Y} {-HALF} {HALF - 1} {PEN_Y} {HALF - 1} minecraft:grass_block replace minecraft:glass")
+    r.cmd(ex + f"fill {cx - HALF} {PEN_Y} {-HALF} {cx + HALF - 1} {PEN_Y} {HALF - 1} minecraft:grass_block replace minecraft:glass")
 
 
-def summon(r: Rcon, dim: str, count: int, mix: list[str], rng: random.Random) -> None:
+def summon(r: Rcon, dim: str, count: int, mix: list[str], rng: random.Random, cx: int = 0) -> None:
     ex = f"execute in minecraft:{dim} run "
     for i in range(count):
         mob = mix[i % len(mix)]
-        x = rng.uniform(-HALF + 1, HALF - 2)
+        x = cx + rng.uniform(-HALF + 1, HALF - 2)
         z = rng.uniform(-HALF + 1, HALF - 2)
         r.cmd(ex + f"summon minecraft:{mob} {x:.2f} {PEN_Y + 1} {z:.2f} {{PersistenceRequired:1b}}")
 
@@ -131,12 +136,15 @@ def run(variant: str, args) -> dict:
     gamerule(r, "spawn_mobs", "doMobSpawning", "false")
     r.cmd("time set noon")
     rng = random.Random(args.seed)
+    centers = pen_centers(args.pens, args.pen_spacing)
     for dim in args.dims:
-        build_pen(r, dim)
+        for cx in centers:
+            build_pen(r, dim, cx)
     for dim in args.dims:
         n = args.mobs if dim == args.dims[0] or not args.skew else int(args.mobs * args.skew)
-        summon(r, dim, n, args.mix, rng)
-    counts = {d: r.cmd(f"execute in minecraft:{d} if entity @e[x=0,y={PEN_Y},z=0,distance=..{HALF * 2}]").strip() for d in args.dims}
+        for k, cx in enumerate(centers):  # --mobs is per dimension, shared out over its pens
+            summon(r, dim, n // len(centers) + (1 if k < n % len(centers) else 0), args.mix, rng, cx)
+    counts = {d: r.cmd(f"execute in minecraft:{d} if entity @e[type=!player]").strip() for d in args.dims}
     time.sleep(args.settle)
     samples = []
     for _ in range(args.samples):
@@ -149,7 +157,7 @@ def run(variant: str, args) -> dict:
     avg = [s["avg"] for s in samples if s.get("avg") is not None]
     p95 = [s["P95"] for s in samples if s.get("P95") is not None]
     res = {
-        "variant": variant, "mobs_per_dim": args.mobs, "skew": args.skew, "dims": args.dims, "mix": args.mix,
+        "variant": variant, "mobs_per_dim": args.mobs, "pens": args.pens, "pen_spacing": args.pen_spacing, "skew": args.skew, "dims": args.dims, "mix": args.mix,
         "entity_counts": counts,
         "mspt_avg": round(sum(avg) / len(avg), 2) if avg else None,
         "mspt_p95": round(sum(p95) / len(p95), 2) if p95 else None,
@@ -169,6 +177,8 @@ def main() -> None:
     ap.add_argument("--skew", type=float, default=0.0,
                     help="other dimensions get mobs*skew (0 = same as the first dimension)")
     ap.add_argument("--mix", nargs="+", default=["cow", "sheep", "chicken", "pig"])
+    ap.add_argument("--pens", type=int, default=1, help="pens per dimension, in a row (region ticking needs > 1)")
+    ap.add_argument("--pen-spacing", type=int, default=256, help="blocks between pen centres")
     ap.add_argument("--settle", type=float, default=15)
     ap.add_argument("--samples", type=int, default=4)
     ap.add_argument("--sprint", type=int, default=1200, help="ticks for /tick sprint (0 = skip)")
@@ -181,7 +191,7 @@ def main() -> None:
         for v in args.variants:
             res = run(v, args)
             line = json.dumps(res)
-            print(json.dumps({k: res[k] for k in ("variant", "mobs_per_dim", "skew", "mspt_avg", "mspt_p95", "sprint", "exception_in_log")}))
+            print(json.dumps({k: res[k] for k in ("variant", "mobs_per_dim", "pens", "skew", "mspt_avg", "mspt_p95", "sprint", "exception_in_log")}))
             with results.open("a") as f:
                 f.write(line + "\n")
 

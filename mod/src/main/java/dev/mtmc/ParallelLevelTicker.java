@@ -71,6 +71,11 @@ public final class ParallelLevelTicker {
         return active && OWNED.get() != null;
     }
 
+    /** The levels the calling worker owns during the parallel phase, or null off a worker. */
+    public static List<ServerLevel> ownedLevels() {
+        return active ? OWNED.get() : null;
+    }
+
     /** True on a level worker when {@code level} belongs to another worker. */
     public static boolean isForeign(Level level) {
         if (!active) return false;

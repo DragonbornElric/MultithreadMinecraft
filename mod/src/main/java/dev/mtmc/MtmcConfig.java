@@ -43,6 +43,14 @@ public final class MtmcConfig {
     public volatile int sensorThreads;
     /** Fewer mobs with due sensors than this in a level tick: run them the vanilla way (pool overhead). */
     public volatile int sensorPhaseMin;
+    /** Region ticking inside each level (RegionTicker). Off by default. /mtmc regions on|off. */
+    public volatile boolean regions;
+    /** Region pool threads (the level's own thread works too); 0 = CPUs - 1. */
+    public volatile int regionThreads;
+    /** Cell size in chunks: occupied cells that touch form one region, so regions are at least this far apart. */
+    public volatile int regionCellChunks;
+    /** Fewer ticking entities than this in a level: the vanilla loop (pool overhead). */
+    public volatile int regionMinEntities;
     /** Run command blocks after the parallel phase (a command may touch any dimension). */
     public final boolean deferCommandBlocks;
     /** Log the first stack trace of each kind of cross-dimension access seen during the parallel phase. */
@@ -67,6 +75,10 @@ public final class MtmcConfig {
         sensorPhase = bool(p, "sensorPhase", false);
         sensorThreads = Integer.parseInt(p.getProperty("sensorThreads", "0").trim());
         sensorPhaseMin = Integer.parseInt(p.getProperty("sensorPhaseMin", "32").trim());
+        regions = bool(p, "regions", false);
+        regionThreads = Integer.parseInt(p.getProperty("regionThreads", "0").trim());
+        regionCellChunks = Math.max(1, Integer.parseInt(p.getProperty("regionCellChunks", "4").trim()));
+        regionMinEntities = Integer.parseInt(p.getProperty("regionMinEntities", "64").trim());
         capItems = Integer.parseInt(p.getProperty("capItems", "400").trim());
         capTnt = Integer.parseInt(p.getProperty("capTnt", "300").trim());
         capFallingBlocks = Integer.parseInt(p.getProperty("capFallingBlocks", "200").trim());
@@ -120,6 +132,11 @@ public final class MtmcConfig {
                     + "sensorPhase=" + sensorPhase + "\n"
                     + "sensorThreads=" + sensorThreads + "\n"
                     + "sensorPhaseMin=" + sensorPhaseMin + "\n"
+                    + "# region ticking inside a level (entities); cell = chunks per cell, regions are >= one cell apart\n"
+                    + "regions=" + regions + "\n"
+                    + "regionThreads=" + regionThreads + "\n"
+                    + "regionCellChunks=" + regionCellChunks + "\n"
+                    + "regionMinEntities=" + regionMinEntities + "\n"
                     + "# per-chunk caps for NEW entities (0 = no cap); TNT, falling blocks and items wait, vehicles/armor stands drop as items, mobs are refused\n"
                     + "lagCaps=" + lagCaps + "\n"
                     + "capItems=" + capItems + "\n"

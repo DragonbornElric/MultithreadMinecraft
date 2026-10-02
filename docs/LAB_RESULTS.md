@@ -438,6 +438,136 @@ after the fix.
   * hero and nether hero: 180 s each, server alive
 * **Server log:** 0 exceptions or errors.
 
+## Regions inside a dimension (`lab/region_lab.py`, branch `claude/project-thread-1u7hft`, 2026-10-02, `cloud-4`)
+
+Variant `mtmcr` = parallel dimensions plus regions, 3 region threads (CPUs − 1). Everything
+below is in the Overworld only, so parallel dimensions alone gain nothing here.
+
+**Speed** (`region_lab.py ab`): 3000 animals (cows, sheep, chickens, pigs) in 6 pens 256 blocks
+apart. `/mtmc regions` on and off alternate on the same server.
+
+| Stack | MSPT off | MSPT on | p95 off | p95 on | Speedup |
+| --- | --- | --- | --- | --- | --- |
+| vanilla + mtmc | 58.95 | 28.4 | 77.1 | 35.15 | **2.08×** |
+| Lithium + ServerCore (owner stack) | 11.8 | 8.9 | 14.65 | 10.95 | **1.33×** |
+
+* With Lithium the animals are already 5× cheaper, so less of the tick is entity work that
+  regions can split.
+* On average there were 5.5 regions per tick, with 2.96 threads busy at once (vanilla run).
+  No entity escaped its region.
+
+**TNT** (`region_lab.py tnt --compare`): a crater, a chain and a cannon at 6 sites 256 apart,
+2 trials with regions on and 2 off, on both stacks. Every check passed:
+* crater drops equal the destroyed blocks
+* every chain used up all its TNT
+* each site's cannon ended in the same state with regions on and off
+
+**Chaos** (`region_lab.py chaos --zoo-scale 2`): a zoo in each of 6 pens, sprinted.
+
+| Stack | Ticks | Sprint TPS | Problems | Escapes |
+| --- | --- | --- | --- | --- |
+| vanilla + mtmc | 3600 | 76 | 0 | 0 |
+| Lithium + ServerCore | 12192 | 257 | 0 | 0 |
+
+In the Lithium run:
+* 1022 exclusive sections: 397 entity adds, 320 block changes, 233 kill scores, 36
+  village-distance updates, 18 POI claims, 18 explosions
+* 8522 deferred tasks, mostly section moves
+* 1.9 s of parked time over the run
+
+**Benchmark on the owner's server mod list** (`bench.py`, 2026-10-02, `cloud-4`, `XMX=6G`). The
+list: Lithium, Chunky, No Chat Reports, BlueMap, FabricExporter, FerriteCore, Krypton, spark,
+View Distance Fix, Simple Voice Chat, Enhanced Groups, Emma-EndInv 1.4.5, emma-mob-targeting
+and emma-smp. Each variant ran twice; the table shows the mean MSPT and the sprint TPS range.
+
+| Variant | Overworld only: 3000 mobs in 6 pens | 1000 mobs in each dimension, 3 pens each |
+| --- | --- | --- |
+| mod off (`vanilla`) | 37.6 ms, 28 TPS | 37.2 ms, 28–30 TPS |
+| parallel dimensions (`mtmc`) | 39.2 ms, 25 TPS | 16.9 ms, 66–71 TPS |
+| parallel dimensions + regions (`mtmcr`) | 20.3 ms, 55–59 TPS | 15.2 ms, 75–77 TPS |
+
+* With one busy dimension, parallel dimensions alone cost about 4%, and regions give 1.85×.
+* With all three busy, regions add about 10% on top of parallel dimensions on 4 cores.
+* Every run logged emma-smp's `bad fact name world/escalation.decayAt` about once a minute,
+  with the mod off too. Its fact names must be lowercase. That is an emma-smp bug.
+
+**Mob fights** (`region_lab.py fights`): 7 mob-vs-mob fights on Hard, each in 6 closed
+arenas at once, so each arena is its own region. Every fight was run with regions on and with
+them off, 2 rounds each, alternating, which gives 12 fights per side. Mob counts and total
+health were read at 5, 15 and 30 s.
+
+A metric counts as different when the two sides' means are more than 3 standard errors apart
+(and more than 1 mob or 10 health).
+
+| Fight | Result |
+| --- | --- |
+| 4 pillagers vs 8 villagers + 1 iron golem | same |
+| 3 vindicators vs 6 villagers + 2 golems | same |
+| 2 evokers (vexes) vs 6 villagers + 2 golems | same |
+| ravager + 2 pillagers vs 2 golems + 4 villagers | same |
+| 6 zombies vs 10 villagers | same |
+| 2 iron golems vs 6 zombies + 3 skeletons | 1 of 30 metrics flagged (skeleton health at 5 s: 47 on, 31 off) |
+| 6 wolves vs 4 skeletons | same |
+
+The golem fight was re-run with 4 rounds (24 fights per side). Nothing was flagged, and the
+5 s skeleton health came out the other way round (35 on, 42 off), so the first flag was noise.
+These fights have no player in them; player-vs-mob fights are run with the Emma bot below.
+
+**Player vs mobs** (EmmaMinecraft261 `tools/combat_lab/lab.py`, the Emma bot on a Fabric
+26.2 server with this mod, emma-mob-targeting and Emma-EndInv). A helper kept a herd of cows
+in a pen 512 blocks from the arena, so every fight ran with 2 regions. `/mtmc regions` was
+switched on and off between rounds, alternating. Each of the 13 scenarios had 3 rounds per
+side:
+* pillager
+* single and paired vindicators
+* vindicators with a pillager
+* evoker
+* ravager
+* witch
+* zombie and three zombies
+* skeleton
+* creeper
+* spider
+* raid wave
+
+| Result | Regions on | Regions off |
+| --- | --- | --- |
+| Scenarios won in every round | 11 | 12 |
+| raid_wave | 3 timeouts | 2 timeouts, 1 bot death |
+| pillager_single | 2 wins, 1 timeout | 3 wins |
+
+The pillager timeout was the bot stuck below the floor (310 path problems). The pillager hit
+it for 15.5 health in that run. 5 more pillager runs per side were all wins, and the pillager
+hit the bot in about the same share of runs on both sides (3 of 5 on, 3 of 5 off). First hits
+came at similar times (1.8–7.2 s on, 1.8–2.5 s off; the 7.2 s run had the bot pathing).
+
+The server logged no errors from this mod. Region counters: 29122 phases, 0 escapes, and 10
+deaths that went through the death lock.
+
+**Movement** (`region_lab.py moves`, on the owner's mod list, above). 6 arenas at once, 2
+rounds per side, alternating, which gives 12 arenas per side. Every mob's position was read
+every 2 s for 40 s. All metrics were the same on and off: a metric counts as different when
+the means are more than 3 standard errors apart and more than 15%.
+
+| Card | Metric | On | Off |
+| --- | --- | --- | --- |
+| 3 pillagers + 8 villagers (day) | pillager blocks walked / share standing still | 21.9 / 0.59 | 24.5 / 0.54 |
+| | villager blocks walked / share standing still | 47.4 / 0.29 | 47.5 / 0.28 |
+| | villager distance to nearest pillager, start / middle / end | 13.8 / 14.5 / 14.1 | 13.9 / 14.8 / 14.9 |
+| 8 villagers, 8 beds, 8 job sites | blocks walked / share standing still | 29.3 / 0.42 | 27.8 / 0.43 |
+| | villagers with a home / a job site after 40 s | 8 / 8 | 8 / 8 |
+| 4 zombies + 8 villagers (night) | zombie / villager blocks walked | 83.8 / 81.1 | 84.1 / 80.8 |
+| | villager distance to nearest zombie, start / middle / end | 12.8 / 9.6 / 10.3 | 12.6 / 10.6 / 10.4 |
+
+**Bugs found and fixed:**
+* **Lithium `entity.inactive_navigations`:** the first Lithium run crashed after 462 ticks with
+  an NPE in Lithium's `updateActiveListeners` (via `sendBlockUpdated`). Mobs add themselves to a
+  level-wide set from inside their tick, and two region threads corrupted it.
+  `RegionLithiumDataMixin` makes the set synchronized.
+* **Village distance tracker:** the next run crashed in `LongLinkedOpenHashSet.rehash`, from an
+  iron golem's `MoveBackToVillageGoal`. In vanilla, `isVillage` runs the level-wide tracker's
+  pending updates before reading it. That call is now exclusive when there are pending updates.
+
 ## Open items
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).
@@ -453,7 +583,5 @@ after the fix.
 
 ## Next
 
-The step after v0.1 is regions inside a dimension: groups of chunks with a buffer wide enough
-that nothing in one group can touch another within a tick, each group ticked whole on one
-thread. That is what can use 12–32 threads, and the bench's single-dimension (`--dims
-overworld`) runs will measure it.
+Regions inside a dimension are built (above, docs/REGIONS.md), off by default. Next: test them
+with the owner's full server mod list and with real players, and measure them on 12–32 threads.

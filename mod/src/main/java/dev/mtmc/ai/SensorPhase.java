@@ -70,7 +70,7 @@ public final class SensorPhase {
     public static final LongAdder SENSORS = new LongAdder();
     public static final LongAdder FALLBACKS = new LongAdder();
     public static final LongAdder PHASES = new LongAdder();
-    /** Sensor phases running now, in any level (ClassInstanceMultiMapMixin locks lookups while > 0). */
+    /** Sensor and region phases running now, in any level (ClassInstanceMultiMapMixin locks lookups while > 0). */
     public static final AtomicInteger ACTIVE = new AtomicInteger();
 
     /** Thrown on a sensor thread that needs an unloaded chunk: that mob's sensors go back to its brain tick. */
@@ -92,7 +92,7 @@ public final class SensorPhase {
 
     /** Sensor's shared static targeting conditions, as a per-thread copy on sensor threads. */
     public static TargetingConditions local(TargetingConditions shared) {
-        if (SENSOR_LEVEL.get() == null) return shared;
+        if (SENSOR_LEVEL.get() == null && dev.mtmc.region.RegionPhase.current() == null) return shared;
         return LOCAL_TC.get().computeIfAbsent(shared, TargetingConditions::copy);
     }
 
