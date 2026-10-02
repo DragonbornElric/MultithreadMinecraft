@@ -10,8 +10,9 @@ the cross-dimension paths the mod defers, while every dimension is busy:
   generation) in the Overworld while the pens tick in all three dimensions.
 * ``nether_hero``: the same in the Nether.
 * ``portal_walk``: the bot walks into a lit Nether portal and back (player portal path).
-* ``portal_stream``: chickens are summoned into a portal; every one must arrive in the Nether
-  (entity portal path, many per tick).
+* ``portal_stream``: chickens are summoned into a portal; every one must go through (entity
+  portal path, many per tick). A few walk back through within the window, on vanilla too:
+  those are counted apart (``back_in_overworld``); only one that never went fails the test.
 * ``pearl``: ender pearls whose owner (the bot) is in the other dimension: the bot must be
   pulled across each time (deferred ender pearl landing).
 * ``command_blocks``: repeating command blocks in the Nether and the End that count into a
@@ -190,7 +191,12 @@ class Stress:
         sel = "@e[type=minecraft:chicken,tag=mtmc_stream,x=0,y=0,z=0,distance=..100000]"
         arrived = self.count("the_nether", sel)
         left = self.count("overworld", sel)
-        return {"ok": arrived == sent, "sent": sent, "arrived_in_nether": arrived, "still_in_overworld": left}
+        # A chicken that reached the Nether and wandered back through within the test window is
+        # back in the Overworld with a portal cooldown; only one with cooldown 0 never went
+        # (found 2026-10-02: every leftover, vanilla and mtmc alike, had been to the Nether).
+        never_went = self.count("overworld", sel[:-1] + ",nbt={PortalCooldown:0}]")
+        return {"ok": never_went == 0 and arrived + left == sent, "sent": sent, "arrived_in_nether": arrived,
+                "back_in_overworld": left - never_went, "never_went": never_went}
 
     def uuid(self) -> str:
         m = re.search(r"\[I; ?(-?\d+), ?(-?\d+), ?(-?\d+), ?(-?\d+)\]", self.r.cmd(f"data get entity {BOT} UUID"))

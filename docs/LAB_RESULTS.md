@@ -210,6 +210,52 @@ shares of tick-thread CPU:
 PathWeaver (async A*, Fabric 26.2) on chase: vanilla 27.0 → 21.5 MSPT, Lithium 21.3 → 15.7.
 Zombies still catch villagers. It boots and works with MultithreadMC (selftest 120/120).
 
+## Lag accounting and throttle (branch `-next`, 2026-10-02, `cloud-4`)
+
+Full design and tables: [LAG_MACHINES.md](LAG_MACHINES.md).
+
+* **Accuracy (`lag_lab.py detect`):** builds were added one at a time, comparing the MSPT each
+  added with what `/mtmc lag` charged to its chunk. Every build that added at least 1 ms was
+  within ±50%; the minecart stack was within 2% (31.1 vs 30.5). The machines rank on top.
+* **Overhead (`lag_lab.py overhead`):** 3000 mobs, accounting on vs off: 32.0 vs 30.9 MSPT
+  (3.6%, within noise).
+* **Throttle (`lag_lab.py throttle`):** hot chunk next to an identical cool one.
+  * MSPT 48.5 → 3.05; the hot chunk was slowed to 1 tick in 16.
+  * Hot clock 3.3 → 0.4 pulses/s; cool clock unchanged.
+  * 64/64 stone in both hopper lines; 300/300 minecarts.
+  * Full speed again after `release`.
+* **Regressions on this build:**
+  * TNT suite, throttle off: all pass, cannon fingerprint unchanged (`3f99461661c4`).
+  * Bot scenarios: command blocks 495/495, pearls, portal trips: pass.
+* **TNT with the throttle forced on** (budget, busy and hard gates all near 0): 113 throttle
+  changes.
+  * Craters: drops == destroyed every trial.
+  * Chains: at the usual 12 s check, 256–278 primed TNT were still waiting in slowed chunks.
+    60 s later every chain had finished: 0 TNT blocks, 0 primed TNT, in all three dimensions.
+    Slowed, not broken.
+  * The cannon fingerprint is expected to change under a throttle (entities skip ticks), so it
+    was not part of this run.
+
+### Portal stream "199/200" explained (2026-10-02)
+
+The `portal_stream` scenario sometimes counted 1–5 of 200 chickens left in the Overworld. Runs
+of 6 per variant: vanilla 199, 200, 200, 199, 200, 200; mtmc 196, 197, 198, 198, 195, 200.
+
+Investigation:
+* Every leftover chicken had a portal cooldown: 300, or less if it had stepped out of the
+  portal. 0 had cooldown 0, on vanilla and mtmc alike.
+* A chicken's portal cooldown is set when it is teleported and carried over to the new
+  dimension. So the leftovers had **gone to the Nether and wandered back** through the
+  Nether-side portal within the 25 s test window.
+* A diagnostic counter for "decided to teleport but didn't" (`diag:portal_no_teleport` in the
+  stats) never fired.
+
+Nothing is lost and no entity fails to go through. The test now counts those chickens apart
+(`back_in_overworld`) and fails only on `never_went`. The mod had somewhat more round trips in
+the first set of runs (2–5 vs 0–2 per 200); in a later paired set both variants had 2. Treat
+it as a possible small timing difference in when the portal is processed (end of the tick
+instead of the entity's next tick start), not a correctness problem.
+
 ## Combat across threads (owner question, 2026-10-02)
 
 **Can a player fighting a mob be hurt by them being on different threads?** Not in v0.1:

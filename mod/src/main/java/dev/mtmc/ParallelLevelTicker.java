@@ -286,6 +286,14 @@ public final class ParallelLevelTicker {
         }
     }
 
+    private static final java.util.concurrent.atomic.AtomicInteger DIAG_LOGGED = new java.util.concurrent.atomic.AtomicInteger();
+
+    /** Count something that shouldn't happen; log the details the first 20 times. */
+    public static void diagnostic(String kind, java.util.function.Supplier<String> details) {
+        MtmcStats.crossLevel("diag:" + kind);
+        if (DIAG_LOGGED.incrementAndGet() <= 20) Mtmc.LOGGER.warn("[diag] {}: {}", kind, details.get());
+    }
+
     /** Count (and log once per kind) an access from one level's worker into another level. */
     public static void crossLevel(String kind) {
         MtmcStats.crossLevel(kind);

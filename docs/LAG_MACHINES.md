@@ -1,7 +1,12 @@
 # Throttling lag machines (anarchy servers)
 
 Research, 2026-10-02. **[V]** means read in official docs or source code. **[C]** means
-community or plugin-page claims. Nothing here is built yet; this is the design input.
+community or plugin-page claims.
+
+**Status (branch `ccr-c36973eb-axes2h-next`):**
+* **Built:** steps 1 (accounting, `/mtmc lag`) and 2 (throttle by slowing) of the design below.
+  Lab results are at the end of this file.
+* **Not built:** steps 3 (hard caps) and 4 (freeze escalation).
 
 ## What lag machines load
 
@@ -154,3 +159,65 @@ deadlines are kept when regions merge or split.
 * Carpet `/profile` details
 * 2b2t, Constantiam and 9b9t internal configs
 * LagAssist and AntiRedstoneLag internals
+
+## Built: accounting and throttle (2026-10-02)
+
+**Hooks** (whole-method wraps on ServerLevel and the block-entity ticker, so they are robust to
+mods that rewrite bodies):
+
+| Hook | Accounting | Throttle, on a slowed chunk's off ticks |
+| --- | --- | --- |
+| `tickNonPassenger` | timed, charged to the entity's chunk | skipped (never players, nor vehicles carrying one) |
+| block-entity ticker `tick` | timed | `shouldTickBlocksAt` says no, so it skips |
+| `tickBlock` / `tickFluid` | timed, charged to the tick's position | the `LevelTicks` chunk check (`isPositionTickingWithEntitiesLoaded`) says no, so the chunk's ticks stay queued, in order |
+| `doBlockEvent` | timed | `shouldTickBlocksAt` says no, so vanilla reschedules the event |
+| `tickChunk` (random ticks, snow, lightning) | timed | skipped |
+
+Nested work is counted once, in the outer tick. Numbers are 1 s windows folded into a ~5 s
+average and a decaying peak.
+
+**Escalation:**
+* Over budget for 2 windows in a row: one level slower (1 in 2^k ticks, each chunk with its
+  own phase).
+* "Over budget" means over `lagChunkBudgetMs` while the server is busy, or over
+  `lagHardBudgetMs` regardless.
+* Easing off: 5 windows in which the chunk would be under half the budget one level faster.
+
+**Lab** (`lab/lag_lab.py`, `cloud-4`):
+
+*detect:* builds added one at a time; MSPT added vs what `/mtmc lag` charged:
+
+| Build | MSPT added | Charged |
+| --- | --- | --- |
+| 300-minecart stack | +31.13 | 30.51 |
+| 128 observer-piston clocks | +2.33 | 1.85 |
+| 256 observer-lamp clocks | +1.20 | 0.92 |
+| 40-cow farm | +0.63 | 0.76 |
+| hopper chain, repeater clock | ~0 | 0.07, 0.17 |
+
+The ranking puts the three machines on top.
+
+*overhead:* accounting on vs off, 3000 mobs over 3 dimensions, alternating every 40 s:
+32.0 vs 30.9 MSPT (3.6%). That is within the ±3 ms sample noise, so treat it as at most ~4%.
+
+*throttle:* a hot chunk (300 minecarts, an observer clock counting pulses into a scoreboard, a
+chest→10 hoppers→chest line with 64 stone) next to an identical cool chunk without minecarts:
+
+| | Before | Throttle on | After release |
+| --- | --- | --- | --- |
+| MSPT | 48.5 | 3.05 | |
+| Hot chunk | | slowed 1/2 → 1/4 → 1/8 → 1/16, then held (1.9 ms ≤ budget) | |
+| Hot clock (pulses/s) | 3.3 | 0.4 | 3.4 |
+| Cool clock (pulses/s) | 3.3 | 3.35 | 3.3 |
+| Stone in hopper lines (hot/cool) | | 64/64, 64/64 | |
+| Minecarts | | 300/300 | |
+
+**Known gaps:**
+* **Light updates** are computed on the light engine's own thread, so a light-spam machine
+  costs CPU that doesn't appear in tick time. It needs its own counter (pending light work per
+  chunk).
+* **Network-side machines** (map art, book bans, packet spam) aren't tick time either. Use
+  packet and NBT limits.
+* **Neighbour updates from a normal chunk into a slowed one** still apply immediately, as
+  vanilla does for chunks outside simulation distance.
+* **Entities that cross chunks** are charged to the chunk they start the tick in.

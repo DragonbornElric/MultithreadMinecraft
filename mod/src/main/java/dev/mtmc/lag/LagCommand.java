@@ -27,7 +27,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * /mtmc lag [top [n]] | here | on | off | reset | release | throttle [on|off|budget <ms>]
+ * /mtmc lag [top [n]] | here | on | off | reset | release | throttle [on|off|budget|busy|hard <ms>]
  *
  * <p>Runs on the server thread between ticks, so reading the per-level trackers is safe.
  */
@@ -51,7 +51,11 @@ public final class LagCommand {
                 .then(Commands.literal("on").executes(c -> setThrottle(c.getSource(), true)))
                 .then(Commands.literal("off").executes(c -> setThrottle(c.getSource(), false)))
                 .then(Commands.literal("budget").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0.1, 1000))
-                    .executes(c -> setBudget(c.getSource(), DoubleArgumentType.getDouble(c, "ms"))))));
+                    .executes(c -> setBudget(c.getSource(), "budget", DoubleArgumentType.getDouble(c, "ms")))))
+                .then(Commands.literal("busy").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0, 1000))
+                    .executes(c -> setBudget(c.getSource(), "busy", DoubleArgumentType.getDouble(c, "ms")))))
+                .then(Commands.literal("hard").then(Commands.argument("ms", DoubleArgumentType.doubleArg(0.1, 1000))
+                    .executes(c -> setBudget(c.getSource(), "hard", DoubleArgumentType.getDouble(c, "ms"))))));
     }
 
     /** A chunk's lag with the level it is in. */
@@ -139,11 +143,16 @@ public final class LagCommand {
         return 1;
     }
 
-    private static int setBudget(CommandSourceStack src, double ms) {
-        Mtmc.config().lagChunkBudgetMs = ms;
-        Mtmc.config().save();
-        src.sendSuccess(() -> Component.literal(String.format(Locale.ROOT, "MultithreadMC chunk budget %.2f ms/t", ms)), true);
-        return 1;
+    /** budget = lagChunkBudgetMs, busy = lagServerBusyMs, hard = lagHardBudgetMs. */
+    private static int setBudget(CommandSourceStack src, String which, double ms) {
+        var cfg = Mtmc.config();
+        switch (which) {
+            case "budget" -> cfg.lagChunkBudgetMs = ms;
+            case "busy" -> cfg.lagServerBusyMs = ms;
+            default -> cfg.lagHardBudgetMs = ms;
+        }
+        cfg.save();
+        return throttleStatus(src);
     }
 
     static MutableComponent line(int rank, Entry e) {

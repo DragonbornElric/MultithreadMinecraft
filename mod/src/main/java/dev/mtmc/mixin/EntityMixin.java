@@ -26,7 +26,15 @@ abstract class EntityMixin {
         if (self.portalProcess != null && ParallelLevelTicker.onWorker()) {
             ci.cancel();
             ParallelLevelTicker.defer("portal", () -> {
-                if (!self.isRemoved()) ((EntityInvoker) self).mtmc$handlePortal();
+                if (self.isRemoved()) return;
+                boolean wasOnCooldown = self.isOnPortalCooldown();
+                var before = self.level();
+                ((EntityInvoker) self).mtmc$handlePortal();
+                // decided to teleport (cooldown just set) but still here: count it, it shouldn't happen
+                if (!wasOnCooldown && self.isOnPortalCooldown() && !self.isRemoved() && self.level() == before) {
+                    ParallelLevelTicker.diagnostic("portal_no_teleport", () -> self + " portalProcess=" + self.portalProcess
+                        + " passenger=" + self.isPassenger() + " alive=" + self.isAlive() + " pos=" + self.position());
+                }
             });
         }
     }

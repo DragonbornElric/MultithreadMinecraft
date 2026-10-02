@@ -49,7 +49,43 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 /mtmc threads <n>     0 = one per dimension
 /mtmc selftest        for 20 ticks, every worker loads chunks in the other dimensions
                       (the cross-dimension path); /mtmc selftest result to read it
+/mtmc lag [top N]     worst chunks by tick time (5 s average), by category; hover = contents, click = teleport
+/mtmc lag here        the chunk you stand in
+/mtmc lag on|off|reset              lag accounting (on by default)
+/mtmc lag throttle [on|off]         slow chunks over budget (off by default)
+/mtmc lag throttle budget <ms>      per-chunk budget (default 2 ms/t)
+/mtmc lag throttle busy <ms>        throttle only while server MSPT >= this (default 40)...
+/mtmc lag throttle hard <ms>        ...or always when a chunk alone is over this (default 10)
+/mtmc lag release                   all slowed chunks back to full speed
 ```
+
+### Lag machines: accounting and throttle
+
+* **Accounting:** every chunk's tick time is measured by category:
+  * entities
+  * block entities
+  * scheduled block ticks
+  * fluid ticks
+  * block events
+  * random ticks
+
+  Work started by a tick is counted with it, so a redstone chain is charged to the clock that
+  drives it. Overhead in the lab: within noise, at most about 4% with 3000 mobs.
+* **Throttle (opt-in):** a chunk that stays over budget is **slowed, not cancelled**. It ticks
+  on 1 in 2, 4, … 32 game ticks. On the other ticks it is "not ticking", the state vanilla gives
+  chunks just outside simulation distance:
+  * scheduled ticks wait in order
+  * block events are rescheduled
+  * block entities, entities (never players) and random ticks skip
+
+  Clocks run slower; nothing is half-moved, lost or duplicated (lab: 64/64 items through a
+  throttled hopper line, 300/300 minecarts).
+* **When it engages:** only while the server is busy (smoothed MSPT ≥ `lagServerBusyMs`, default
+  40), or always when one chunk alone is over `lagHardBudgetMs` (default 10 ms). It eases off on
+  its own. Ops get a chat notice with a teleport link.
+* **Settings:** `lagAccounting`, `lagThrottle`, `lagChunkBudgetMs`, `lagServerBusyMs`,
+  `lagHardBudgetMs`, `lagMaxThrottle` in `config/multithreadmc.properties`. Design and
+  research: [docs/LAG_MACHINES.md](docs/LAG_MACHINES.md).
 
 ## Compatibility
 
