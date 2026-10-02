@@ -497,6 +497,37 @@ The golem fight was re-run with 4 rounds (24 fights per side). Nothing was flagg
 5 s skeleton health came out the other way round (35 on, 42 off), so the first flag was noise.
 These fights have no player in them; player-vs-mob fights are run with the Emma bot below.
 
+**Player vs mobs** (EmmaMinecraft261 `tools/combat_lab/lab.py`, the Emma bot on a Fabric
+26.2 server with this mod, emma-mob-targeting and Emma-EndInv). A helper kept a herd of cows
+in a pen 512 blocks from the arena, so every fight ran with 2 regions. `/mtmc regions` was
+switched on and off between rounds, alternating. Each of the 13 scenarios had 3 rounds per
+side:
+* pillager
+* single and paired vindicators
+* vindicators with a pillager
+* evoker
+* ravager
+* witch
+* zombie and three zombies
+* skeleton
+* creeper
+* spider
+* raid wave
+
+| Result | Regions on | Regions off |
+| --- | --- | --- |
+| Scenarios won in every round | 11 | 12 |
+| raid_wave | 3 timeouts | 2 timeouts, 1 bot death |
+| pillager_single | 2 wins, 1 timeout | 3 wins |
+
+The pillager timeout was the bot stuck below the floor (310 path problems). The pillager hit
+it for 15.5 health in that run. 5 more pillager runs per side were all wins, and the pillager
+hit the bot in about the same share of runs on both sides (3 of 5 on, 3 of 5 off). First hits
+came at similar times (1.8–7.2 s on, 1.8–2.5 s off; the 7.2 s run had the bot pathing).
+
+The server logged no errors from this mod. Region counters: 29122 phases, 0 escapes, and 10
+deaths that went through the death lock.
+
 **Bugs found and fixed:**
 * **Lithium `entity.inactive_navigations`:** the first Lithium run crashed after 462 ticks with
   an NPE in Lithium's `updateActiveListeners` (via `sendBlockUpdated`). Mobs add themselves to a
