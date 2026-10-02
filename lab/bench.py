@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import platform
 import random
 import re
 import shutil
@@ -109,6 +110,19 @@ def mtmc_stats() -> dict | None:
         return None
 
 
+def host_info() -> dict:
+    """CPU of the machine the run was on, so runs from different PCs can be told apart."""
+    cpu = platform.processor() or platform.machine()
+    try:
+        for line in open("/proc/cpuinfo"):
+            if line.startswith("model name"):
+                cpu = line.split(":", 1)[1].strip()
+                break
+    except OSError:
+        pass
+    return {"cpu": cpu, "logical_cpus": os.cpu_count(), "os": platform.platform(), "label": os.environ.get("LAB_HOST", "")}
+
+
 def run(variant: str, args) -> dict:
     start(variant)
     r = rcon()
@@ -141,6 +155,7 @@ def run(variant: str, args) -> dict:
         "mspt_p95": round(sum(p95) / len(p95), 2) if p95 else None,
         "samples": samples, "sprint": sp, "mtmc": stats, "exception_in_log": crashed,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "host": host_info(),
     }
     subprocess.run([str(HERE / "stop_server.sh"), str(LAB_DIR)], check=False)
     return res

@@ -63,6 +63,8 @@ The gain depends on how the load is spread: all the work in one dimension means 
 Inside one dimension, everything still ticks on one thread; that is the next step (see
 RESEARCH.md).
 
+Full log, including the vanilla baseline for every scenario: [docs/LAB_RESULTS.md](docs/LAB_RESULTS.md).
+
 Bot stress run (EmmaBot, the Emma bridge bot on 26.2), with the pens loaded in all three
 dimensions; no exceptions, deadlocks or crashes:
 * `command_blocks`: 600/600 runs per block across dimensions
