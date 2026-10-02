@@ -53,7 +53,25 @@ thread hand-off and the deferred queue.
 
 ### 2026-10-02: Overworld-heavy, 1500 mobs in the Overworld, 150 in each other dimension (`cloud-4`)
 
-_Running; filled in when done._
+Three pairs of runs. Mob counts were checked: 1500 / 150 / 150.
+
+| Variant | Sprint MSPT (3 runs) | Mean | Sprint TPS | 20 TPS samples (avg per sample, ms) |
+| --- | --- | --- | --- | --- |
+| vanilla | 36.4, 39.9, 40.4 | 38.9 | 27, 25, 24 | 37–39; 89, 44, 52, 58, 44, 43; 105, 71, 51, 50, 45, 43 |
+| mtmc (3 threads) | 36.9, 40.1, 43.9 | 40.3 | 27, 24, 22 | 34, 61, 87, 35; 41, 40, 50, 45, 41, 60; 94, 44, 47, 51, 64, 53 |
+
+**Reading.**
+* **No measurable gain.** The Overworld's tick (about 36–38 ms) is almost the whole phase.
+  The Nether and End take about 3 ms each, which the mod overlaps (`overlap` 1.14–1.16). In
+  theory that saves about 6 ms a tick, but it doesn't show above run-to-run noise. The mean
+  sprint figure is 1.4 ms (≈3.5%) worse with the mod; the runs overlap, so this doesn't settle
+  whether there is a small cost.
+* **The 20 TPS spikes are not the mod.** Both variants spike in the first samples after the
+  summon (vanilla up to 105 ms) while 1500 mobs settle into the pen. The mod's stats put the
+  extra time inside the Overworld's own tick, not in the phase overhead. For this load, the
+  sprint figure is the one to trust.
+* **The expected case for v0.1.** One busy dimension can't go faster with dimension-level
+  threads. This is the limit the region step is meant to remove.
 
 ## Bot stress and correctness (`lab/stress_bot.py`)
 
