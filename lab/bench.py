@@ -40,8 +40,8 @@ def rcon() -> Rcon:
 
 
 def start(variant: str) -> None:
+    subprocess.run([str(HERE / "stop_server.sh"), str(LAB_DIR)], check=False)  # before deleting its world
     shutil.rmtree(SERVER / "world", ignore_errors=True)
-    subprocess.run([str(HERE / "stop_server.sh"), str(LAB_DIR)], check=False)
     out = subprocess.run([str(HERE / "run_server.sh"), variant, str(LAB_DIR)], capture_output=True, text=True)
     if out.returncode != 0:
         raise SystemExit(f"server failed to start ({variant}):\n{out.stderr}")
