@@ -357,6 +357,29 @@ with 132 ghosts loading fresh view-12 areas in two dimensions.
   * **On the next owner run,** any `[diag] foreign_chunk_access` line in the log names the
     culprit.
 
+**Follow-up runs (same day).**
+* **Mass disconnect, mtmc on, emmabrain:** 206 ghosts dropped at once at the end of run B → back to ~32 ms within seconds,
+  no stall. The watchdog is not a plain unload backlog.
+* **Run C: server on emmaserver (Ryzen 9 5950X, 40 G heap), 897d24c with the owner guard.** `/mtmc selftest`: 1440 ok,
+  0 failed, 1440 tickets handed to their owner (9 dimensions). 28 Emma bots on emmabrain: 14 on the overworlds, 8 in the
+  Nethers and 6 on the End islands (`@hero netherite gamer`, full kit), plus up to 213 creative ghosts over 6 dimensions.
+
+  | Players | MSPT | TPS | Entities | Overlap |
+  |---|---|---|---|---|
+  | 28+0 | 26.5 | 19.3 | 5.5k | 3.2 |
+  | 28+60 | 54 | 15.9 | 14.8k | 3.4 |
+  | 28+103 | 71 | 13.1 | 20.5k | 3.9 |
+  | 28+165 | 104 | 8.3 | 27.9k | 4.3 |
+  | 28+213 | 123 | 6.4 | 33.8k | 4.5 |
+
+  Per dimension at 241 players: overworlds 111 / 98 ms, nethers 101 / 111 ms, ends 51 / 51 ms; phase 117 ms. With bots in the
+  Nethers the load is spread evenly and every busy dimension sits near the cap. emmaserver ≈ emmabrain as a server (within ~10 %).
+  Server JVM 5-6 cores, 43 GB, host 16-18 % busy: the machine is idle, the per-dimension thread is the limit.
+* **Guard result:** 5 `[diag] foreign_chunk_access` lines, all from `crossLevelSelfTest` (expected); **zero in live play**
+  at 241 players across 6 busy dimensions. Mass disconnect of 213 ghosts: one 224 ms sample, then 27-32 ms, no watchdog.
+  The run-A hang has not recurred (with the guard, on a different host and heap). Remaining suspect: GC pressure near the heap
+  limit (run A had 36.7 / 48 G used and 14 s ZGC cycles).
+
 ## Parallel sensor phase (`lab/sensor_lab.py`, branch `-next`, 2026-10-02, `cloud-4`)
 
 **Speed** (`sensor_lab.py ab`): 600 mobs in the bench pen. `/mtmc sensors on` and `off`
