@@ -4,3 +4,4 @@ mod/run/
 .gradle/
 __pycache__/
 *.pyc
+dist/
