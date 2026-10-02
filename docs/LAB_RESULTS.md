@@ -12,6 +12,12 @@ your machine.
 | `cloud-4` | Intel Xeon @ 2.10GHz (cloud VM) | 4 | Where all results below were taken. Server, bot client (software GL) and scripts share the 4 vCPUs. |
 | `owner-pc` | (owner's local PC) | 12 | Owner's local benchmark machine. |
 | `owner-server` | (owner's server) | 32 threads / 16 cores | Owner's target host. |
+| `5950x` | AMD Ryzen 9 5950X | 32 (16C) | Owner: test server and bot host |
+| `9950x3d` | AMD Ryzen 9 9950X3D | 32 (16C) | Owner: test server and bot host |
+| `ai-max-395` | AMD Ryzen AI Max+ 395 | 32 (16C) | Owner: test server and bot host |
+
+The owner plans swarm tests of up to 20 bots, joining one per minute, recorded with
+`lab/monitor.py` (`--ab` for on/off on the same load).
 
 **What v0.1 can use.** v0.1 runs one worker per dimension. A vanilla world therefore uses
 at most 3 threads for the level phase, whatever the machine has. On 12 or 32 threads, v0.1
@@ -73,6 +79,37 @@ Three pairs of runs. Mob counts were checked: 1500 / 150 / 150.
 * **The expected case for v0.1.** One busy dimension can't go faster with dimension-level
   threads. This is the limit the region step is meant to remove.
 
+### 2026-10-02: owner stack, balanced load, 1000 mobs in each dimension (`cloud-4`)
+
+The stack is `lab/configs/owner-stack`:
+* Lithium 0.25.3 with `mixin.experimental=true`
+* ServerCore 1.5.19 with `dynamic.enabled: true`
+* Fabric API 0.161.0
+* view 12, simulation 8, ZGC
+* 6 GB heap (the owner uses 20 GB)
+
+| Variant | MSPT avg | MSPT p95 | Sprint TPS |
+| --- | --- | --- | --- |
+| vanilla+lithium+servercore | 11.7 | 16.0 | 81 |
+| mtmc+lithium+servercore | 5.8 | 8.4 | 172 |
+
+**Reading.**
+* Lithium (with ServerCore) cuts this load from 51.5 to 11.7 ms. MultithreadMC halves what is
+  left. The two stack: Lithium makes each dimension's tick cheaper, and MultithreadMC runs
+  the dimensions at the same time.
+* ServerCore's dynamic mode never had to step in: its MSPT target is 35.
+* Single runs; repeat them before treating the exact ratio as settled.
+
+## Compatibility checks (2026-10-02, `cloud-4`)
+
+| Stack | Boot | `/mtmc selftest` (cross-dimension chunk loads from workers) | Bot scenarios |
+| --- | --- | --- | --- |
+| mtmc | ok | 120/120, no deadlock | see below |
+| mtmc + Lithium (experimental) + ServerCore (dynamic) | ok, after the getChunk hook moved to the method head. Before, it crashed on boot: Lithium's `world.chunk_access` overwrites `getChunk`. | 120/120 | command_blocks 610/610 ticks, portal_stream 200/200, pearl 6/6, portal_walk 4/4 |
+| mtmc + Moonrise | refused by the loader (`breaks`), on purpose | — | — |
+
+The owner hit the Moonrise conflict first, on their own server.
+
 ## Bot stress and correctness (`lab/stress_bot.py`)
 
 The bot is EmmaBot: the Emma bridge bot, EmmaMinecraft261 branch `mc-26.2`, unmodified, under
@@ -132,6 +169,8 @@ thread B".
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).
 * Run each correctness scenario 5× per variant for counts, not single runs.
+* Swarm runs on the owner's three 16-core PCs with `monitor.py --ab`, bots spread over the
+  dimensions.
 * Run the benchmark on the owner's 12-thread PC and 32-thread server (`LAB_HOST=owner-pc
   python lab/bench.py --variants vanilla mtmc mtmc@2 --mobs 1000`). The scripts are bash and
   Python: on Windows, use WSL.

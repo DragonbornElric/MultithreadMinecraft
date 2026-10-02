@@ -21,6 +21,7 @@ load, and a stress/correctness run driven by the Emma bridge bot.
 | `rcon.py` | `python lab/rcon.py "mtmc status" "tick query"` |
 | `bench.py` | The benchmark (below) |
 | `stress_bot.py` | Bot stress and correctness scenarios (below) |
+| `monitor.py` | Records any live server over RCON (players per dimension, MSPT, the mod's stats, log problems) and can A/B the mod on the same live load (below). Plain Python, so it also runs on Windows. |
 | `bot/start_bot.sh`, `bot/stop_bot.sh` | The Emma bridge bot (EmmaMinecraft261, branch `mc-26.2`, used as-is) under Xvfb, joining as `EmmaBot`. |
 
 ## Benchmark
@@ -74,3 +75,30 @@ Every scenario runs with mob pens loaded in all three dimensions:
 Each line records MSPT, the mod's deferred/cross-level counters, and any
 `Exception`/`Can't keep up` lines the server logged during that scenario. Results go to
 `$LAB_DIR/stress.jsonl`.
+
+## Live recording and A/B (`monitor.py`), for bot swarms and real players
+
+Use this when the load isn't reproducible, e.g. bots joining one a minute. It runs against
+any server with `enable-rcon=true` (set `--password` to its `rcon.password`):
+
+```bash
+python lab/monitor.py --label 9950x3d --password <rcon pw> --log logs/latest.log --ab 180 --minutes 60
+```
+
+* Every `--interval` seconds (default 10) it records:
+  * players in total and per dimension
+  * `/tick query` average and P50/P95/P99
+  * the mod's last stats window
+  * new Exception, "Can't keep up" or ERROR lines from `--log`
+* `--ab 180` flips `/mtmc on|off` every 180 s. Bots don't repeat themselves, so comparing
+  on and off on the same load at the same time is the fair comparison. `/tick query` covers
+  the last 100 ticks, so the first 20 s after each flip are marked `settling` and left out
+  of the summary.
+* At the end (or on Ctrl+C) it writes `<out>.summary.json`: MSPT per mode and per 5-player
+  bucket, and the count of log problem lines. Each record carries the CPU and `--label`, so
+  runs from different PCs stay apart.
+
+Without the mod (vanilla or other stacks), leave out `--ab`; mode shows as `no-mod`.
+
+**Getting a gain from the mod:** v0.1 only overlaps dimensions. 20 bots in one dimension
+gain nothing. Spread them out (some in the Nether, some in the End) to measure what it does.
