@@ -43,6 +43,10 @@ The jar is `mod/build/libs/multithreadmc-<ver>+26.2.jar`. It goes in a Fabric 26
 | `sensorPhase` | `false` | Parallel sensor phase: due mob brain sensors (whitelisted ones) run on a pool before entity ticking. See [docs/AI_OFFLOAD.md](docs/AI_OFFLOAD.md). |
 | `sensorThreads` | `0` | Sensor pool size. `0` = CPUs − 1. |
 | `sensorPhaseMin` | `32` | Fewer mobs with due sensors than this in a level tick: run them the vanilla way. |
+| `regions` | `false` | Regions inside a dimension: a level's entities are split into regions of nearby entities that tick in parallel. See [docs/REGIONS.md](docs/REGIONS.md). |
+| `regionThreads` | `0` | Region pool size. `0` = CPUs − 1. The level's own thread takes regions too. |
+| `regionCellChunks` | `4` | Cell size in chunks. Occupied cells that touch form one region, so regions are at least one cell apart. |
+| `regionMinEntities` | `64` | Fewer entities than this in a level: tick them the vanilla way. |
 
 The `/mtmc` command (op level 3) changes these live, from the next tick, and saves them:
 
@@ -66,6 +70,10 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 /mtmc sensors [on|off]              parallel sensor phase (off by default), and what it did so far
 /mtmc sensors threads <n>           sensor pool size (0 = CPUs - 1)
 /mtmc sensors min <n>               fewest mobs with due sensors per level tick to use the pool (default 32)
+/mtmc regions [on|off|reset]        regions inside a dimension (off by default), and what they did so far
+/mtmc regions threads <n>           region pool size (0 = CPUs - 1)
+/mtmc regions cell <n>              cell size in chunks (default 4)
+/mtmc regions min <n>               fewest entities in a level to use regions (default 64)
 ```
 
 ### Lag machines: accounting and throttle
@@ -142,8 +150,7 @@ work time over four `/tick query` samples at 20 TPS. Sprint TPS is from `/tick s
 | mtmc loaded, parallel off | 53.9 | 19 |
 
 The gain depends on how the load is spread: all the work in one dimension means no gain.
-Inside one dimension, everything still ticks on one thread; that is the next step (see
-RESEARCH.md).
+Inside one dimension, everything ticks on one thread unless regions are on (below).
 
 Full log, including the vanilla baseline for every scenario: [docs/LAB_RESULTS.md](docs/LAB_RESULTS.md).
 

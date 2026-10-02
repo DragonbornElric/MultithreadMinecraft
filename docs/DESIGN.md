@@ -109,16 +109,11 @@ Nothing else touches that level during the phase, and the server thread doesn't 
 destroyed blocks, chains use up every TNT, a deterministic cannon gives the same fingerprint
 as vanilla, and the client sees the same blocks as the server.
 
-**Rules for in-level regions (not built yet):**
-* **Buffer by explosion reach.** A ray travels at most about 1.7 × power blocks, and entities
-  are affected out to 2 × power. TNT is 4, beds and anchors 5, crystals and charged creepers
-  6, so about 16 blocks covers normal play.
-* **Oversized or boundary-crossing explosions run alone.** A summoned fireball can be power
-  127. An explosion whose reach crosses its region's edge is deferred to after the phase, as
-  cross-dimension work is now.
-* **Primed TNT is a moving entity.** Chains fling it; when it leaves its region it moves over
-  at the phase boundary, or the regions merge (Folia).
-* **The cannon fingerprint stays the regression test** for any change to tick order.
+**With regions on** (REGIONS.md), an explosion from a region thread takes the whole level
+(exclusive): every other region thread waits between two entities until it is done, so an
+explosion of any size sees the same level as in vanilla. Primed TNT is an ordinary entity;
+when chains fling it into another cell, regions are recomputed on the next tick. The lab's
+`region_lab.py tnt` checks every site's cannon ends the same with regions on and off.
 
 ## Parallel sensor phase (`ai/SensorPhase`, since 2026-10-02, off by default)
 
@@ -134,10 +129,16 @@ up to the first non-whitelisted one.
 
 Full write-up and lab results: AI_OFFLOAD.md, LAB_RESULTS.md.
 
+## Regions inside a dimension (`region/`, since 2026-10-02, off by default)
+
+The entity loop of one level is split into regions of nearby entities (cells of 4×4 chunks
+that touch), which tick in parallel. Shared writes take the level exclusively or are deferred to
+after the phase. Full write-up: REGIONS.md.
+
 ## Known limits and open items
 
-* **Gain only where there is work in more than one dimension.** One busy Overworld gets
-  nothing. Entity or region parallelism inside a level is the next step (see RESEARCH.md).
+* **Gain only where there is work in more than one dimension**, unless regions are on
+  (REGIONS.md): then a busy Overworld with its entities spread over separate areas gains too.
 * **Scoreboards and advancements are not synchronized.** A kill in one dimension and a
   criterion in another at the same instant could race on `ServerScoreboard`'s maps. These are
   rare (players tick on the server thread), but not proven impossible. A lab scenario should

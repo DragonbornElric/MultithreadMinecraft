@@ -53,6 +53,12 @@ public final class OwnerGuard {
      */
     public static boolean ownerOrRedispatch(ServerChunkCache cache, String site, Runnable again) {
         if (isOwner(cache) || REDISPATCHED.get()) return true;
+        dev.mtmc.region.RegionPhase phase = dev.mtmc.region.RegionPhase.current();
+        if (phase != null && phase.level() == cache.getLevel()) {
+            // a region thread of this level (an ender pearl's ticket, say): take the level and apply it now
+            phase.exclusive("ticket", again);
+            return false;
+        }
         foreign(cache, site);
         ((ChunkMapAccessor) cache.chunkMap).mtmc$mainThreadExecutor().execute(() -> {
             REDISPATCHED.set(true);

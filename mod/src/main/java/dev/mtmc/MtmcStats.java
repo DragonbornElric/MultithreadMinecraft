@@ -81,6 +81,7 @@ public final class MtmcStats {
         out.put("levels", lv);
         out.put("deferred", snapshot(DEFERRED));
         out.put("cross_level", snapshot(CROSS));
+        if (Mtmc.config().regions || dev.mtmc.region.RegionStats.PHASES.sum() > 0) out.put("regions", dev.mtmc.region.RegionStats.snapshot());
         String json = toJson(out);
         last = json;
         Mtmc.LOGGER.info("[stats] {}", json);
@@ -103,7 +104,7 @@ public final class MtmcStats {
     }
 
     @SuppressWarnings("unchecked")
-    static String toJson(Object o) {
+    public static String toJson(Object o) {
         if (o instanceof Map<?, ?> m) {
             StringBuilder sb = new StringBuilder("{");
             boolean first = true;

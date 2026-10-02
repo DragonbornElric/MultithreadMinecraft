@@ -29,6 +29,17 @@ public final class MtmcCommand {
                     .executes(c -> { Mtmc.config().sensorThreads = IntegerArgumentType.getInteger(c, "count"); Mtmc.config().save(); return sensors(c.getSource()); })))
                 .then(Commands.literal("min").then(Commands.argument("mobs", IntegerArgumentType.integer(1, 100000))
                     .executes(c -> { Mtmc.config().sensorPhaseMin = IntegerArgumentType.getInteger(c, "mobs"); Mtmc.config().save(); return sensors(c.getSource()); }))))
+            .then(Commands.literal("regions")
+                .executes(c -> regions(c.getSource()))
+                .then(Commands.literal("on").executes(c -> setRegions(c.getSource(), true)))
+                .then(Commands.literal("off").executes(c -> setRegions(c.getSource(), false)))
+                .then(Commands.literal("reset").executes(c -> { dev.mtmc.region.RegionStats.reset(); return regions(c.getSource()); }))
+                .then(Commands.literal("threads").then(Commands.argument("count", IntegerArgumentType.integer(0, 256))
+                    .executes(c -> { Mtmc.config().regionThreads = IntegerArgumentType.getInteger(c, "count"); Mtmc.config().save(); return regions(c.getSource()); })))
+                .then(Commands.literal("cell").then(Commands.argument("chunks", IntegerArgumentType.integer(1, 64))
+                    .executes(c -> { Mtmc.config().regionCellChunks = IntegerArgumentType.getInteger(c, "chunks"); Mtmc.config().save(); return regions(c.getSource()); })))
+                .then(Commands.literal("min").then(Commands.argument("entities", IntegerArgumentType.integer(0, 1000000))
+                    .executes(c -> { Mtmc.config().regionMinEntities = IntegerArgumentType.getInteger(c, "entities"); Mtmc.config().save(); return regions(c.getSource()); }))))
             .then(Commands.literal("selftest")
                 .executes(c -> selfTest(c.getSource()))
                 .then(Commands.literal("result").executes(c -> selfTestResult(c.getSource()))))
@@ -74,6 +85,22 @@ public final class MtmcCommand {
             dev.mtmc.ai.SensorPhase.PHASES.sum(), dev.mtmc.ai.SensorPhase.MOBS.sum(), dev.mtmc.ai.SensorPhase.SENSORS.sum(),
             dev.mtmc.ai.SensorPhase.FALLBACKS.sum());
         src.sendSuccess(() -> Component.literal(line), false);
+        return 1;
+    }
+
+    private static int regions(CommandSourceStack src) {
+        var cfg = Mtmc.config();
+        String line = String.format(java.util.Locale.ROOT, "Region ticking %s (threads %s, cell %d chunks, min %d entities). So far: %s",
+            cfg.regions ? "ON" : "off", cfg.regionThreads <= 0 ? "CPUs-1" : String.valueOf(cfg.regionThreads), cfg.regionCellChunks,
+            cfg.regionMinEntities, MtmcStats.toJson(dev.mtmc.region.RegionStats.snapshot()));
+        src.sendSuccess(() -> Component.literal(line), false);
+        return 1;
+    }
+
+    private static int setRegions(CommandSourceStack src, boolean on) {
+        Mtmc.config().regions = on;
+        Mtmc.config().save();
+        src.sendSuccess(() -> Component.literal("MultithreadMC region ticking " + (on ? "on" : "off") + " from the next tick"), true);
         return 1;
     }
 

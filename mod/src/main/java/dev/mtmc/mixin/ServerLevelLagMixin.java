@@ -60,6 +60,10 @@ abstract class ServerLevelLagMixin implements LagAccess {
     /** Per-chunk caps for new entities (EntityCaps). */
     @WrapMethod(method = "addFreshEntity")
     private boolean mtmc$capFreshEntity(Entity entity, Operation<Boolean> original) {
+        if (dev.mtmc.region.RegionPhase.needsExclusive()) {
+            // the caps read and write this level's lag tracker: one thread at a time
+            return dev.mtmc.region.RegionPhase.current().exclusive("add_entity", () -> mtmc$capFreshEntity(entity, original));
+        }
         Boolean decided = EntityCaps.onAdd((ServerLevel) (Object) this, entity);
         return decided != null ? decided : original.call(entity);
     }

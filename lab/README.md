@@ -14,9 +14,10 @@ load, and a stress/correctness run driven by the Emma bridge bot.
 | File | What it does |
 | --- | --- |
 | `setup_server.sh [lab_dir]` | Creates `$LAB_DIR/server` (default `/tmp/mtmc-lab`) with the following settings, applied to every variant: Fabric 26.2 / loader 0.19.5, offline mode, a normal world, RCON on 25575 (password `mtmclab`), command blocks on, `pause-when-empty-seconds=0`. |
-| `run_server.sh <variant>` | Starts the server with `vanilla` (Fabric only), `mtmc` / `mtmc@N` (the mod, N worker threads, default one per dimension), `mtmc-off` (mod loaded, parallel off) or `async` (the Async mod from `$LAB_DIR/jars/`). Waits for `Done`. Append `+slug` for other mods (`mtmc+lithium+servercore`; Fabric API is added automatically). Env: `CONFIGS` (a config dir copied in, e.g. `lab/configs/owner-stack`), `VIEW`, `SIM`, `XMX`, `JVM_FLAGS`. |
+| `run_server.sh <variant>` | Starts the server with `vanilla` (Fabric only), `mtmc` / `mtmc@N` (the mod, N worker threads, default one per dimension), `mtmc-off` (mod loaded, parallel off), `mtmcr` / `mtmcr@N` (parallel dimensions plus regions, N region threads) or `async` (the Async mod from `$LAB_DIR/jars/`). Waits for `Done`. Append `+slug` for other mods (`mtmc+lithium+servercore`; Fabric API is added automatically). Env: `CONFIGS` (a config dir copied in, e.g. `lab/configs/owner-stack`), `VIEW`, `SIM`, `XMX`, `JVM_FLAGS`. |
 | `fetch_mods.sh [slug ...]` | Downloads the newest Fabric 26.2 build of each Modrinth project into `$LAB_DIR/jars/all/` (default: fabric-api, lithium, servercore, moonrise-opt). |
 | `configs/owner-stack/` | The owner's test stack: ServerCore dynamic on, Lithium experimental on (see its README). |
+| `region_lab.py ab\|tnt\|chaos` | Regions inside a dimension ([docs/REGIONS.md](../docs/REGIONS.md)): `ab` compares MSPT with `/mtmc regions` on and off over pens in a row (`--pens`, `--pen-spacing`), `tnt` checks craters, chains and a cannon per site on and off, `chaos` sprints a zoo per pen and fails on any log problem, diag counter or region escape. `--variant` starts the server (default `mtmcr`), `--running` uses one already up. Appends to `$LAB_DIR/region_lab.jsonl`. |
 | `stop_server.sh` | RCON `stop`, then kills the server if needed. |
 | `rcon.py` | `python lab/rcon.py "mtmc status" "tick query"` |
 | `bench.py` | The benchmark (below) |

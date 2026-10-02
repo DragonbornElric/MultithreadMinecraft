@@ -29,6 +29,12 @@ abstract class ServerChunkCacheMixin {
         at = @At("HEAD"), cancellable = true)
     private void mtmc$helpWhileWaiting(int x, int z, ChunkStatus status, boolean load, CallbackInfoReturnable<ChunkAccess> cir) {
         ServerChunkCache self = (ServerChunkCache) (Object) this;
+        dev.mtmc.region.RegionPhase phase = dev.mtmc.region.RegionPhase.current();
+        if (phase != null && Thread.currentThread() != ((ServerChunkCacheAccessor) self).mtmc$getMainThread()) {
+            // region thread: loaded chunks are read without the owner's cache; a load takes the level (RegionChunks)
+            cir.setReturnValue(dev.mtmc.region.RegionChunks.getChunk(phase, self, x, z, status, load));
+            return;
+        }
         if (dev.mtmc.ai.SensorPhase.onSensorThread(self)) {
             // parallel sensor phase: read-only lookup of loaded chunks (SensorPhase)
             cir.setReturnValue(dev.mtmc.ai.SensorPhase.readOnlyChunk(self, x, z, status, load));
@@ -48,6 +54,12 @@ abstract class ServerChunkCacheMixin {
     @Inject(method = "getChunkNow", at = @At("HEAD"), cancellable = true)
     private void mtmc$sensorChunkNow(int x, int z, CallbackInfoReturnable<LevelChunk> cir) {
         ServerChunkCache self = (ServerChunkCache) (Object) this;
+        dev.mtmc.region.RegionPhase phase = dev.mtmc.region.RegionPhase.current();
+        if (phase != null && Thread.currentThread() != ((ServerChunkCacheAccessor) self).mtmc$getMainThread()) {
+            ChunkAccess c = dev.mtmc.region.RegionChunks.loaded(self, x, z, ChunkStatus.FULL);
+            cir.setReturnValue(c instanceof LevelChunk lc ? lc : null);
+            return;
+        }
         if (dev.mtmc.ai.SensorPhase.onSensorThread(self)) {
             ChunkAccess c = dev.mtmc.ai.SensorPhase.readOnlyChunk(self, x, z, ChunkStatus.FULL, false);
             cir.setReturnValue(c instanceof LevelChunk lc ? lc : null);

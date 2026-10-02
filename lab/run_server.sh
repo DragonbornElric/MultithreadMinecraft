@@ -4,6 +4,8 @@
 # variant: vanilla   no mods (Fabric loader only)
 #          mtmc      MultithreadMC, parallelDimensions=true; mtmc@N = N worker threads (default 0 = one per dimension)
 #          mtmc-off  MultithreadMC loaded but parallelDimensions=false (overhead check)
+#          mtmcr     MultithreadMC with region ticking inside each level as well; mtmcr@N = N region threads
+#                    (dimension threads one per dimension); regions-only = mtmcr with MTMC_PROPS=parallelDimensions=false
 #          async     the Async mod (AxalotLDev, parallel entity ticking) from $LAB_DIR/jars, for comparison
 #          +name     any variant can add other mods: vanilla+lithium+servercore, mtmc@3+lithium.
 #                    Each +name copies $LAB_DIR/jars/all/<name>*.jar (lab/fetch_mods.sh downloads them);
@@ -28,10 +30,15 @@ cd "$LAB_DIR/server"
 rm -rf mods && mkdir -p mods config
 case "$VARIANT" in
   vanilla) ;;
-  mtmc|mtmc-off)
+  mtmc|mtmc-off|mtmcr)
     cp "$MTMC_JAR" mods/
     PAR=true; [ "$VARIANT" = mtmc-off ] && PAR=false
-    printf 'parallelDimensions=%s\nthreads=%s\ndeferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' "$PAR" "$THREADS" > config/multithreadmc.properties
+    if [ "$VARIANT" = mtmcr ]; then
+      printf 'parallelDimensions=true\nthreads=0\nregions=true\nregionThreads=%s\n' "$THREADS" > config/multithreadmc.properties
+    else
+      printf 'parallelDimensions=%s\nthreads=%s\n' "$PAR" "$THREADS" > config/multithreadmc.properties
+    fi
+    printf 'deferCommandBlocks=true\nlogCrossLevelAccess=true\nstatsIntervalSeconds=10\n' >> config/multithreadmc.properties
     # MTMC_PROPS: extra lines for the mod's config, e.g. "lagCaps=true capItems=50"
     for kv in ${MTMC_PROPS:-}; do echo "$kv" >> config/multithreadmc.properties; done ;;
   async)
