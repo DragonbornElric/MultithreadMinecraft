@@ -348,9 +348,142 @@ def count_in_pen(r: Rcon, cx: int) -> dict:
     return out
 
 
+
+# ── fights ───────────────────────────────────────────────────────────
+# Mob-vs-mob fights that need no player. Each card is fought in every pen at once (each pen its own
+# region, one fight per region thread with regions on) and then again with regions off, for
+# --trials rounds each, alternating. Counts and health are read at FIGHT_SAMPLES seconds.
+CARDS = {
+    "pillagers": [("pillager", 4), ("villager", 8), ("iron_golem", 1)],
+    "vindicators": [("vindicator", 3), ("villager", 6), ("iron_golem", 2)],
+    "evokers": [("evoker", 2), ("villager", 6), ("iron_golem", 2)],
+    "ravager": [("ravager", 1), ("pillager", 2), ("iron_golem", 2), ("villager", 4)],
+    "zombies": [("zombie", 6), ("villager", 10)],
+    "golems": [("iron_golem", 2), ("zombie", 6), ("skeleton", 3)],
+    "wolves": [("wolf", 6), ("skeleton", 4)],
+}
+FIGHT_SAMPLES = (5, 15, 30)
+ARENA = 14  # half-width of the fight floor in each pen
+
+
+def build_arena(r: Rcon, cx: int) -> None:
+    """A closed stone box (no sun, no escape) in the middle of the pen."""
+    ex = "execute in minecraft:overworld run "
+    y = bench.PEN_Y
+    r_cmd(r, ex + f"fill {cx - ARENA - 1} {y} {-ARENA - 1} {cx + ARENA + 1} {y + 7} {ARENA + 1} minecraft:stone")
+    r_cmd(r, ex + f"fill {cx - ARENA} {y + 1} {-ARENA} {cx + ARENA} {y + 6} {ARENA} minecraft:air")
+    r_cmd(r, ex + f"fill {cx - ARENA} {y} {-ARENA} {cx + ARENA} {y} {ARENA} minecraft:grass_block")
+    r_cmd(r, ex + f"fill {cx - ARENA} {y + 7} {-ARENA} {cx + ARENA} {y + 7} {ARENA} minecraft:sea_lantern")
+
+
+def clear_arena(r: Rcon, cx: int) -> None:
+    r_cmd(r, f"execute in minecraft:overworld positioned {cx} {bench.PEN_Y} 0 run kill @e[type=!player,distance=..40]")
+
+
+def fight_state(r: Rcon, cx: int, types: list[str]) -> dict:
+    out = {}
+    for t in types + ["arrow", "vex", "zombie_villager", "item"]:
+        if t in out:
+            continue
+        txt = r.cmd(f"execute in minecraft:overworld positioned {cx} {bench.PEN_Y} 0 if entity @e[type=minecraft:{t},distance=..30]")
+        m = re.search(r"Count: (\d+)", txt)
+        out[t] = int(m.group(1)) if m else 0
+    # total health of each side's living mobs
+    for t in types:
+        out[t + "_hp"] = health_sum(r, cx, t)
+    return out
+
+
+def health_sum(r: Rcon, cx: int, t: str) -> float:
+    # scoreboard: store each mob's health * 10 and sum it
+    r.cmd("scoreboard objectives add mtmc_hp dummy")
+    r.cmd(f"execute in minecraft:overworld positioned {cx} {bench.PEN_Y} 0 as @e[type=minecraft:{t},distance=..30] "
+          f"store result score @s mtmc_hp run data get entity @s Health 10")
+    r.cmd("scoreboard players set #sum mtmc_hp 0")
+    r.cmd(f"execute in minecraft:overworld positioned {cx} {bench.PEN_Y} 0 as @e[type=minecraft:{t},distance=..30] "
+          f"run scoreboard players operation #sum mtmc_hp += @s mtmc_hp")
+    txt = r.cmd("scoreboard players get #sum mtmc_hp")
+    m = re.search(r"has (-?\d+)", txt)
+    return int(m.group(1)) / 10 if m else 0.0
+
+
+def fights(args) -> dict:
+    r = start(args)
+    bench.gamerule(r, "difficulty", "difficulty", "hard")
+    r.cmd("difficulty hard")
+    r.cmd("mtmc regions min 0")
+    rng = random.Random(args.seed)
+    centers = bench.pen_centers(args.pens, args.pen_spacing)
+    for cx in centers:
+        bench.build_pen(r, OW, cx)
+        build_arena(r, cx)
+    since = log_offset()
+    cards = args.cards or list(CARDS)
+    results = {}
+    for card in cards:
+        roster = CARDS[card]
+        types = list(dict.fromkeys(t for t, _ in roster))
+        runs = {"on": [], "off": []}
+        for trial in range(args.trials):
+            for mode in (("on", "off") if trial % 2 == 0 else ("off", "on")):
+                r.cmd(f"mtmc regions {mode}")
+                r.cmd("tick freeze")
+                for cx in centers:
+                    clear_arena(r, cx)
+                    # attackers on the west side, defenders on the east, same spots in every pen
+                    for k, (mob, n) in enumerate(roster):
+                        for j in range(n):
+                            side = -1 if k == 0 else 1
+                            x = cx + side * rng.uniform(4, ARENA - 2)
+                            z = rng.uniform(-ARENA + 2, ARENA - 2)
+                            r_cmd(r, f"execute in minecraft:overworld run summon minecraft:{mob} {x:.2f} {bench.PEN_Y + 1} {z:.2f} "
+                                     f"{{PersistenceRequired:1b}}")
+                r.cmd("tick unfreeze")
+                t0 = time.time()
+                samples = {}
+                for at in FIGHT_SAMPLES:
+                    time.sleep(max(0.0, t0 + at - time.time()))
+                    r.cmd("tick freeze")
+                    samples[at] = {str(cx): fight_state(r, cx, types) for cx in centers}
+                    r.cmd("tick unfreeze")
+                runs[mode].extend({at: samples[at][str(cx)] for at in FIGHT_SAMPLES} for cx in centers)
+        results[card] = summarize_card(runs, types)
+        print(card, json.dumps(results[card]["verdict"]))
+    for cx in centers:
+        clear_arena(r, cx)
+    r.cmd("mtmc regions on")
+    stats = regions_stats(r)
+    problems = log_problems(since)
+    res = {"scenario": "fights", "pens": args.pens, "rounds_per_mode": args.trials, "cards": results, "regions": stats, "problems": problems}
+    res["ok"] = not problems and all(c["verdict"]["same"] for c in results.values())
+    return res
+
+
+def summarize_card(runs: dict, types: list[str]) -> dict:
+    """Mean and spread of every count and health total at every sample time, on vs off. A metric
+    differs when the means are further apart than 3 standard errors of the difference (and more
+    than 1 mob or 10 health)."""
+    out = {"n": {m: len(v) for m, v in runs.items()}, "metrics": {}}
+    diffs = []
+    keys = list(runs["on"][0][FIGHT_SAMPLES[-1]].keys())
+    for at in FIGHT_SAMPLES:
+        for k in keys:
+            on = [s[at][k] for s in runs["on"]]
+            off = [s[at][k] for s in runs["off"]]
+            mo, mf = statistics.mean(on), statistics.mean(off)
+            se = ((statistics.pvariance(on) / len(on)) + (statistics.pvariance(off) / len(off))) ** 0.5
+            tol = max(3 * se, 10.0 if k.endswith("_hp") else 1.0)
+            entry = {"on": round(mo, 2), "off": round(mf, 2), "tol": round(tol, 2)}
+            if abs(mo - mf) > tol:
+                entry["differs"] = True
+                diffs.append(f"{k}@{at}s")
+            out["metrics"][f"{k}@{at}s"] = entry
+    out["verdict"] = {"same": not diffs, "differs": diffs}
+    return out
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("scenario", choices=["ab", "tnt", "chaos"])
+    ap.add_argument("scenario", choices=["ab", "tnt", "chaos", "fights"])
     ap.add_argument("--variant", default="mtmcr")
     ap.add_argument("--running", action="store_true", help="use the server that is up")
     ap.add_argument("--pens", type=int, default=6)
@@ -367,19 +500,20 @@ def main() -> None:
     ap.add_argument("--minutes", type=float, default=3)
     ap.add_argument("--zoo-scale", type=int, default=1)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--cards", nargs="+", choices=list(CARDS), help="fights: which fights (default all)")
     args = ap.parse_args()
-    res = {"ab": ab, "tnt": tnt, "chaos": chaos}[args.scenario](args)
+    res = {"ab": ab, "tnt": tnt, "chaos": chaos, "fights": fights}[args.scenario](args)
     res["time"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     res["variant"] = "(running)" if args.running else args.variant
     res["host"] = bench.host_info()
     summary = {k: v for k, v in res.items() if k not in ("samples", "trials")}
     print(json.dumps(summary, indent=1)[:6000])
-    if "trials" in res:
+    with (LAB_DIR / "region_lab.jsonl").open("a") as f:
+        f.write(json.dumps(res) + "\n")
+    if isinstance(res.get("trials"), list):
         for t in res["trials"]:
             print(json.dumps({"regions": t["regions"], "crater_ok": t["crater"]["ok"], "chain_ok": t["chain"]["ok"],
                               "cannon_ok": t["cannon"]["ok"], "cannon_sigs": list(t["cannon"]["signatures"].values())}))
-    with (LAB_DIR / "region_lab.jsonl").open("a") as f:
-        f.write(json.dumps(res) + "\n")
     if not args.running:
         import subprocess
         subprocess.run([str(HERE / "stop_server.sh"), str(LAB_DIR)], check=False)

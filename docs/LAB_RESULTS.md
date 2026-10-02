@@ -475,6 +475,28 @@ In the Lithium run:
 * 8522 deferred tasks, mostly section moves
 * 1.9 s of parked time over the run
 
+**Mob fights** (`region_lab.py fights`): 7 mob-vs-mob fights on Hard, each in 6 closed
+arenas at once, so each arena is its own region. Every fight was run with regions on and with
+them off, 2 rounds each, alternating, which gives 12 fights per side. Mob counts and total
+health were read at 5, 15 and 30 s.
+
+A metric counts as different when the two sides' means are more than 3 standard errors apart
+(and more than 1 mob or 10 health).
+
+| Fight | Result |
+| --- | --- |
+| 4 pillagers vs 8 villagers + 1 iron golem | same |
+| 3 vindicators vs 6 villagers + 2 golems | same |
+| 2 evokers (vexes) vs 6 villagers + 2 golems | same |
+| ravager + 2 pillagers vs 2 golems + 4 villagers | same |
+| 6 zombies vs 10 villagers | same |
+| 2 iron golems vs 6 zombies + 3 skeletons | 1 of 30 metrics flagged (skeleton health at 5 s: 47 on, 31 off) |
+| 6 wolves vs 4 skeletons | same |
+
+The golem fight was re-run with 4 rounds (24 fights per side). Nothing was flagged, and the
+5 s skeleton health came out the other way round (35 on, 42 off), so the first flag was noise.
+These fights have no player in them; player-vs-mob fights are run with the Emma bot below.
+
 **Bugs found and fixed:**
 * **Lithium `entity.inactive_navigations`:** the first Lithium run crashed after 462 ticks with
   an NPE in Lithium's `updateActiveListeners` (via `sendBlockUpdated`). Mobs add themselves to a
