@@ -17,6 +17,8 @@ MCMT, it only does the part that keeps vanilla behaviour inside each dimension:
   safe to parallelise, and what this project does next
 * [docs/DESIGN.md](docs/DESIGN.md): how the mod works and its known limits
 * [lab/README.md](lab/README.md): the benchmark and the bot stress run
+* [docs/AI_OFFLOAD.md](docs/AI_OFFLOAD.md): mob pathfinding, brains and sensors off the main thread: how 26.2 does it, profiles, options
+* [docs/LAG_MACHINES.md](docs/LAG_MACHINES.md): throttling lag machines: research and a proposed design
 
 ## Use
 
@@ -56,6 +58,7 @@ The `/mtmc` command (op level 3) changes these live, from the next tick, and sav
 | Moonrise | **Incompatible.** The loader refuses to start with both (`breaks`). Moonrise replaces the chunk system and only allows chunk scheduling from its own tick thread (`TickThread.ensureTickThread`), which the dimension workers are not. |
 | Lithium 0.25.3 (default and `mixin.experimental=true`) | Works. Lithium replaces `ServerChunkCache.getChunk` (`world.chunk_access`); since 2026-10-02, MultithreadMC hooks the method head instead of a call inside it. Tested in the lab: boot, `/mtmc selftest`, benchmark, bot scenarios. |
 | ServerCore 1.5.19 (`dynamic` on) | Works. Tested together with Lithium as above. |
+| PathWeaver 0.9.0 (async pathfinding) | Boots and works together with MultithreadMC (selftest, chase profile). TNT and bot suites not yet run with it. |
 | C2ME, Async, others | Not tested. C2ME also replaces large parts of the chunk system. |
 
 To test a stack in the lab: `lab/fetch_mods.sh <modrinth slugs>`, then use a variant like

@@ -195,6 +195,21 @@ Client sync, bot in spectator 20 blocks from the Overworld crater, 3 trials each
   Cleanup now removes items after mobs, and the crater counts only dirt items.
 * The first sync runs read the wrong field of the bridge reply (`data.blocks`).
 
+## Mob AI profiles (`lab/profile_ai.py`, 2026-10-02, `cloud-4`)
+
+Full tables and analysis: [AI_OFFLOAD.md](AI_OFFLOAD.md). In short, with 600 mobs, JFR, and
+shares of tick-thread CPU:
+
+| Scenario | Vanilla MSPT | Lithium MSPT | Biggest costs |
+| --- | --- | --- | --- |
+| animals | 20.2 | 8.9 | Movement and collisions (dense pen); pathfinding 1.5–3.4% |
+| villagers | 43.3 | 17.7 | Brains 68–74%; POI scans 14% (Lithium: 2%); sensors 5–11% |
+| chase (zombies + villagers) | 26.9 | 17.9 | Goals and pathfinding: 12% vanilla, **31% Lithium** |
+| piglins/hoglins | 35.2 | 20.1 | Brains 53–57%; **sensors 21–23%** |
+
+PathWeaver (async A*, Fabric 26.2) on chase: vanilla 27.0 → 21.5 MSPT, Lithium 21.3 → 15.7.
+Zombies still catch villagers. It boots and works with MultithreadMC (selftest 120/120).
+
 ## Combat across threads (owner question, 2026-10-02)
 
 **Can a player fighting a mob be hurt by them being on different threads?** Not in v0.1:

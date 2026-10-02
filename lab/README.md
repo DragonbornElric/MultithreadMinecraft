@@ -22,6 +22,7 @@ load, and a stress/correctness run driven by the Emma bridge bot.
 | `bench.py` | The benchmark (below) |
 | `stress_bot.py` | Bot stress and correctness scenarios (below) |
 | `tnt_test.py` | TNT correctness in all three dimensions at once: crater drops == destroyed blocks, chain reactions finish, deterministic cannon fingerprint, client sync with `--bot`. See docs/LAB_RESULTS.md. |
+| `profile_ai.py` | Java Flight Recorder profile of a mob scenario (animals, villagers, chase, piglins), with CPU attributed to AI step, goals, brains, sensors, pathfinding, POI, movement, collisions, tracker. Also a mob census as a behaviour check. |
 | `monitor.py` | Records any live server over RCON (players per dimension, MSPT, the mod's stats, log problems) and can A/B the mod on the same live load (below). Plain Python, so it also runs on Windows. |
 | `bot/start_bot.sh`, `bot/stop_bot.sh` | The Emma bridge bot (EmmaMinecraft261, branch `mc-26.2`, used as-is) under Xvfb, joining as `EmmaBot`. |
 
