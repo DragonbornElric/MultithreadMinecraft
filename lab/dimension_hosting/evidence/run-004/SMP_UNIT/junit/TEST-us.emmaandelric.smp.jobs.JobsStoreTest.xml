@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.jobs.JobsStoreTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:44.537Z" hostname="9f47e8df99f5" time="0.031">
+  <properties/>
+  <testcase name="removedSettingsAreDeletedNotResurrected()" classname="us.emmaandelric.smp.jobs.JobsStoreTest" time="0.031"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

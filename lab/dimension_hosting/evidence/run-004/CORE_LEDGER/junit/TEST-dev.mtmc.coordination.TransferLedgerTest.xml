@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mtmc.coordination.TransferLedgerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:17.249Z" hostname="9f47e8df99f5" time="2.314">
+  <properties/>
+  <testcase name="competingRequestsHaveExactlyOneWinner()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.016"/>
+  <testcase name="committedReceiptAndSnapshotSurviveRestartAndReplay()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.013"/>
+  <testcase name="processDeathAfterEveryDurablePhasePreservesOwnerAndSnapshot()" classname="dev.mtmc.coordination.TransferLedgerTest" time="2.258"/>
+  <testcase name="reconnectAndOtherPeersCannotThawOrReadPendingSnapshot()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.007"/>
+  <testcase name="invalidRequestsRollbackWithoutAdvancingOwnership()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.008"/>
+  <testcase name="ledgerIdentityCannotBeReboundAcrossRestart()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.007"/>
+  <testcase name="conflictingOperationIdCannotChangeCommandOrPeer()" classname="dev.mtmc.coordination.TransferLedgerTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "case": "DIAGNOSTIC_CURSOR",
+  "status": "PASS",
+  "exit_code": 0,
+  "expected": "Actual player NBT and cursor count7 captured, then 7 items returned to inventory on close",
+  "observed": {
+    "snapshot": "Player diagnostic snapshot OK; uuid=1fb0c38e-97d7-36b5-92b2-f69947552aac; menu=0; nbt={DataVersion:4903,cursor:{count:7,id:\"minecraft:diamond\"},dimension:\"minecraft:overworld\",menu_id:0,menu_slots:[{index:0,item:{}},{index:1,item:{}},{index:2,item:{}},{index:3,item:{}},{index:4,item:{}},{index:5,item:{}},{index:6,item:{}},{index:7,item:{}},{index:8,item:{}},{index:9,item:{}},{index:10,item:{}},{index:11,item:{}},{index:12,item:{}},{index:13,item:{}},{index:14,item:{}},{index:15,item:{}},{index:16,item:{}},{index:17,item:{}},{index:18,item:{}},{index:19,item:{}},{index:20,item:{}},{index:21,item:{}},{index:22,item:{}},{index:23,item:{}},{index:24,item:{}},{index:25,item:{}},{index:26,item:{}},{index:27,item:{}},{index:28,item:{}},{index:29,item:{}},{index:30,item:{}},{index:31,item:{}},{index:32,item:{}},{index:33,item:{}},{index:34,item:{}},{index:35,item:{}},{index:36,item:{}},{index:37,item:{}},{index:38,item:{}},{index:39,item:{}},{index:40,item:{}},{index:41,item:{}},{index:42,item:{}},{index:43,item:{}},{index:44,item:{}},{index:45,item:{}}],mtmc_schema:1,player:{AbsorptionAmount:0.0f,Air:300s,Brain:{memories:{}},DataVersion:4903,DeathTime:0s,Dimension:\"minecraft:overworld\",EnderItems:[],FallFlying:0b,Fire:-20s,Health:20.0f,HurtTime:0s,Inventory:[],Invulnerable:0b,Motion:[0.0d,-0.0784000015258789d,0.0d],OnGround:1b,PortalCooldown:0,Pos:[2.5d,87.0d,-2.5d],Rotation:[0.0f,0.0f],Score:0,SelectedItemSlot:0,SleepTimer:0s,UUID:[I;531678094,-1747503435,-1833765223,1196763820],XpLevel:0,XpP:0.0f,XpSeed:0,XpTotal:0,abilities:{flySpeed:0.05f,flying:0b,instabuild:0b,invulnerable:0b,mayBuild:1b,mayfly:0b,walkSpeed:0.1f},active_effects:[{amplifier:-1b,duration:-1,id:\"minecraft:resistance\",show_icon:0b,show_particles:0b}],attributes:[{base:0.10000000149011612d,id:\"minecraft:movement_speed\"},{base:6.0E7d,id:\"minecraft:waypoint_transmit_range\"},{base:3.0d,id:\"minecraft:entity_interaction_range\"},{base:4.5d,id:\"minecraft:block_interaction_range\"}],current_impulse_context_reset_grace_time:0,\"fabric:attachments\":{\"endless_inventory:endinv_uuid\":[I;275032514,1233011007,-1337505187,1513748407],\"endless_inventory:synced_config\":{}},fall_distance:0.0d,foodExhaustionLevel:0.0f,foodLevel:20,foodSaturationLevel:5.0f,foodTickTimer:0,playerGameType:0,recipeBook:{recipes:[\"minecraft:diamond_axe\",\"minecraft:diamond_sword\",\"minecraft:diamond_spear\",\"minecraft:diamond_boots\",\"minecraft:diamond_block\",\"minecraft:diamond_shovel\",\"minecraft:diamond_chestplate\",\"minecraft:diamond_helmet\",\"minecraft:diamond_pickaxe\",\"minecraft:diamond_leggings\",\"minecraft:diamond_hoe\",\"minecraft:crafting_table\",\"minecraft:jukebox\"],toBeDisplayed:[\"minecraft:diamond_axe\",\"minecraft:diamond_sword\",\"minecraft:diamond_spear\",\"minecraft:diamond_boots\",\"minecraft:diamond_block\",\"minecraft:diamond_shovel\",\"minecraft:diamond_chestplate\",\"minecraft:diamond_helmet\",\"minecraft:diamond_pickaxe\",\"minecraft:diamond_leggings\",\"minecraft:diamond_hoe\",\"minecraft:crafting_table\",\"minecraft:jukebox\"]},seenCredits:0b,spawn_extra_particles_on_fall:0b,warden_spawn_tracker:{cooldown_ticks:0,ticks_since_last_warning:41,warning_level:0}},player_uuid:\"1fb0c38e-97d7-36b5-92b2-f69947552aac\"}",
+    "returned_state": {
+      "ok": true,
+      "connected": true,
+      "name": "DimensionLab",
+      "x": 2.5,
+      "y": 87.0,
+      "z": -2.5,
+      "dim": "minecraft:overworld",
+      "health": 20.0,
+      "max_health": 20.0,
+      "food": 20,
+      "dead": false,
+      "gamemode": "survival",
+      "selected": 0,
+      "inventory": [
+        {
+          "id": "minecraft:diamond",
+          "count": 7,
+          "name": "Diamond",
+          "lore": [],
+          "slot": 0
+        }
+      ]
+    }
+  },
+  "reason": "Real cursor/player/menu diagnostic verified; no distributed handoff exercised",
+  "versions": {
+    "minecraft": "26.2",
+    "loader": "0.19.5",
+    "fabric_api": "0.161.0+26.2",
+    "java": "25.0.4.1",
+    "endinv": "1.4.5",
+    "grpc": "1.76.0",
+    "protobuf": "4.33.0",
+    "assets": [
+      {
+        "id": "launcher",
+        "path": "/workspace/mtmc-prototype/assets/fabric-server-launch.jar",
+        "version": "26.2/0.19.5/1.1.2",
+        "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127",
+        "url": "https://meta.fabricmc.net/v2/versions/loader/26.2/0.19.5/1.1.2/server/jar"
+      },
+      {
+        "id": "fabric-api",
+        "path": "/workspace/mtmc-prototype/assets/fabric-api-0.161.0+26.2.jar",
+        "version": "0.161.0+26.2",
+        "version_id": "ewUK83HI",
+        "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a",
+        "sha512": "2502fa5ade78e9a120b3747bc1a9a2167d6671743bea45bf115d3174c94121aeda87c549446d1a604a9c11fb828de17a551e3514ce42f3e93069dd14bdaee55b",
+        "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/ewUK83HI/fabric-api-0.161.0%2B26.2.jar"
+      },
+      {
+        "id": "lithium",
+        "path": "/workspace/mtmc-prototype/assets/lithium-fabric-0.25.3+mc26.2.jar",
+        "version": "mc26.2-0.25.3-fabric",
+        "version_id": "f7vZ0VWU",
+        "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563",
+        "sha512": "148b638f3c6229fbaf487120a2344a0af5e411a5aa6533d5db9d75da0a8c0d8304f63eb4cca13f4d03b2c9b4c23d559dd74c1d832422ef8a3087bd005e62a8bd",
+        "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/f7vZ0VWU/lithium-fabric-0.25.3%2Bmc26.2.jar"
+      },
+      {
+        "id": "servercore",
+        "path": "/workspace/mtmc-prototype/assets/servercore-fabric-1.5.19+26.2.jar",
+        "version": "1.5.19+26.2",
+        "version_id": "edrtnY9v",
+        "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666",
+        "sha512": "aa4cfc93f8e02172910302444330e37713dfcf2047d28e55eb7323a3cd5d51493374a0959aa3e626ec2bf43fc707a755508b83454bb34b6d57d65c069929074b",
+        "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/edrtnY9v/servercore-fabric-1.5.19%2B26.2.jar"
+      }
+    ]
+  },
+  "commit_ids": {
+    "mtmc": "2f0c8fe8d0a24aa14a09fa2b88b101af20797cd4",
+    "emma-smp": "05f87ff7e8b6e5b266eb53fe70e2e2fcf49892a2",
+    "endinv": "a21ccc073515d153ca41f25c18b9b2fb46aec6d0",
+    "baseline-mtmc": "7a4d74762750c1d43410eb86083794582e5498c8",
+    "baseline-smp": "afa8cc96e01d1cd78a321120bab7ae6a93654618",
+    "baseline-endinv": "6a6ac376dacf086762c4afc7a20149c1b24099fd"
+  },
+  "limits": {
+    "cpu.max": "400000 100000",
+    "cpu.stat": "usage_usec 2242917615\nuser_usec 2121598924\nsystem_usec 121318690\nnice_usec 16000\nnr_periods 21166\nnr_throttled 1914\nthrottled_usec 109044574\nnr_bursts 0\nburst_usec 0",
+    "memory.max": "17179869184",
+    "memory.current": "8360448000",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpuset.cpus.effective": "0-4",
+    "host_scope": "single attached host; server and local probes share quota",
+    "remote_hosts": "not observed"
+  },
+  "configuration": {
+    "archive_reference": "../run-002/analysis.json",
+    "note": "Diagnostic used unchanged matrix-config-002; original cloud evidence paths retained."
+  },
+  "seed": "mtmc-dimensions-approved-2026-10-03",
+  "workload": "Unchanged post-run diagnostic: smoke UUID-format assertion prevented player/menu capture; exercise actual cursor capture using real client",
+  "measurements": {},
+  "evidence": [
+    "/workspace/mtmc-prototype/runs/diagnostic-002-cursor/client/actions.jsonl",
+    "/workspace/mtmc-prototype/runs/diagnostic-002-cursor/client/client.log",
+    "/workspace/mtmc-prototype/runs/diagnostic-002-cursor/server/commands.jsonl",
+    "/workspace/mtmc-prototype/runs/diagnostic-002-cursor/server/server.log"
+  ],
+  "scope": "targeted unchanged diagnostic, not approved transfer/capacity coverage",
+  "started_unix": 1791061046.4672005,
+  "duration_seconds": 92.50329995155334,
+  "freeze_unchanged": true
+}

@@ -1,0 +1,164 @@
+{
+  "phase": "Initial frozen prototype run; next implementation/fix approval pending",
+  "status": "Distributed gameplay prototype incomplete; no release recommendation",
+  "counts": {
+    "BLOCKED": 20,
+    "PASS": 3,
+    "FAIL": 2
+  },
+  "approved_matrix": {
+    "cases": 21,
+    "PASS": 0,
+    "FAIL": 1,
+    "BLOCKED": 20
+  },
+  "supplemental": {
+    "cases": 4,
+    "PASS": 3,
+    "FAIL": 1,
+    "junit_tests_passed": 117,
+    "junit_skipped": 0
+  },
+  "freeze_unchanged": true,
+  "commits": {
+    "mtmc": "29ae0aede557cfa974fba7752694ec232effc6a1",
+    "emma-smp": "28367b6289bed8c3447985ef4ecdcf8f3049400f",
+    "endinv": "d7450a2736cb15ebd3224d1096724e0e04b374d9",
+    "baseline-mtmc": "7a4d74762750c1d43410eb86083794582e5498c8",
+    "baseline-smp": "afa8cc96e01d1cd78a321120bab7ae6a93654618",
+    "baseline-endinv": "6a6ac376dacf086762c4afc7a20149c1b24099fd"
+  },
+  "groups": [
+    {
+      "category": "harness defect",
+      "cases": [
+        "STACK_SMOKE",
+        "BASE0",
+        "BASE1"
+      ],
+      "finding": "The harness sent endinv new public through RCON. EndInvCommand.createNew unconditionally requires source.getPlayerOrException(); all three real servers returned A player must execute this command. This prevented populated EndInv fixtures.",
+      "confidence": "high: matching recorded command responses and actual code",
+      "evidence": [
+        "/workspace/mtmc-prototype/runs/run-001/STACK_SMOKE/server/commands.jsonl",
+        "/workspace/mtmc-prototype/endinv/java/emma-endinv/common/src/main/java/com/emma/endinv/commands/EndInvCommand.java"
+      ],
+      "recommended_fix": "Drive fixture creation as a real authenticated lab player with real EndInv installed; retain existing EndInv command semantics. Exercise populated snapshot and selection/permissions, then rerun smoke and full matrix."
+    },
+    {
+      "category": "implementation acceptance failure",
+      "cases": [
+        "BOOT"
+      ],
+      "finding": "Both candidate workers refused distributed mode at explicit startup guards. Whole-dimension bootstrap isolation, player admission/quiescence/apply recovery and async real-mod transaction adapters remain unimplemented.",
+      "confidence": "high: source guards and both process logs",
+      "evidence": [
+        "/workspace/mtmc-prototype/runs/run-001/BOOT/a/server.log",
+        "/workspace/mtmc-prototype/runs/run-001/BOOT/b/server.log"
+      ],
+      "recommended_fix": "Implement guarded static dimension initialization plus authenticated admission and an owner-queue player apply journal. Bind live node boots/session epochs and validate current ownership before applying replayed acknowledgments. Add actual gameplay scenario drivers; do not remove gates merely to obtain a passing boot."
+    },
+    {
+      "category": "shared-state integration blocker",
+      "cases": [
+        "ROUTE",
+        "TRAVEL",
+        "ESS",
+        "PLAYER",
+        "ENTITY",
+        "ENDSEL",
+        "ENDCON",
+        "ENDSTATION",
+        "SMP",
+        "CROSS",
+        "FAULT",
+        "WIRE",
+        "RECOVERY",
+        "LOADLOCAL",
+        "UNLOAD"
+      ],
+      "finding": "These cases have explicit BLOCKED records; no gameplay behaviors were simulated or counted as passing. Real EndInv/Inventory/World/Economy escrow and asynchronous mutation routing are absent.",
+      "confidence": "high for coverage status; no behavioral or consistency confidence for unexecuted paths",
+      "recommended_fix": "Implement actual command backends, cross-store reservations/commit/reconciliation, source tombstones and single shared scheduler; replace blocked drivers with real-client operation assertions."
+    },
+    {
+      "category": "environment and user-directed blockers",
+      "cases": [
+        "ENV",
+        "BASE0",
+        "BASE1",
+        "LOADPC",
+        "LIFECYCLE"
+      ],
+      "finding": "No active client generator, headless display setup or pinned permissions stack. 4 CPU cores/16GiB cannot reproduce owner20GB heap. Multi-PC tests remain BLOCKED by explicit user decision.",
+      "confidence": "high for attached host limits and recorded prerequisites",
+      "recommended_fix": "Provision disposable local clients for coordination correctness and a complete pinned stack. Keep remote tests blocked for this run; require separate hosts before any multi-PC capacity claim."
+    },
+    {
+      "category": "runtime networking observation",
+      "cases": [
+        "STACK_SMOKE",
+        "BASE0",
+        "BASE1"
+      ],
+      "finding": "All three offline lab servers logged a failed Yggdrasil public-key fetch with connection refused. A post-run HTTPS probe through the inherited proxy returned200. The exact runtime auth-path failure is unresolved; no authentication readiness claim is warranted.",
+      "confidence": "high on observed failure/probe; root cause unresolved",
+      "evidence": [
+        "/workspace/mtmc-prototype/runs/run-001/STACK_SMOKE/server/server.log"
+      ],
+      "recommended_fix": "Diagnose the auth library/runtime proxy path with unchanged implementation and documented diagnostic purpose before online identity/admission tests."
+    },
+    {
+      "category": "measurement/harness coverage gaps",
+      "cases": [
+        "BASE0",
+        "BASE1",
+        "LOADLOCAL",
+        "LOADPC",
+        "LIFECYCLE"
+      ],
+      "finding": "The six synthetic tick-query samples per baseline are short, zero-client mob smoke measurements. They do not establish sustained TPS, generator utilization or capacity. Per-node CPU/RAM/network and raw main-thread instrumentation are incomplete.",
+      "confidence": "high: frozen workload and raw samples",
+      "recommended_fix": "Add full resource samplers and raw timing metrics, real activity replay, 10min warmup/30min steady/ramp-down and separate mass-disconnect scenarios. Preserve the approved thresholds."
+    }
+  ],
+  "positive_evidence": {
+    "ledger": {
+      "tests": 8,
+      "scope": "Opaque control-plane bytes; durable transitions/CAS/idempotency, race, abrupt JVM halt at7 phases, outbox persistence/backpressure. Not Minecraft state conservation."
+    },
+    "transport": {
+      "tests": 6,
+      "scope": "Real loopback mTLS/gRPC; authenticated roles, wrong peer/cluster rejection, version/deadline rejection, plaintext/no-certificate rejection and persisted peer replay. Not multi-PC performance."
+    },
+    "emma_smp_unit": {
+      "tests": 103,
+      "scope": "Existing server unit suite; no skipped/failed tests. Not cross-server operation coverage."
+    },
+    "real_stack": "Three real Fabric26.2 servers booted with source-built EndInv1.4.5, MTMC/emma-smp, pinned Fabric API/Lithium/ServerCore. Each selftest reported120 successful cross-level loads,0 failed and120 handed-off tickets. All three saved worlds and stopped.",
+    "endinv_snapshot": "Actual EndInv codec roundtrip succeeded on empty data only; populated state and player selections were not exercised.",
+    "log_diagnostics": "Five logged foreign-ticket diagnostics per server originated from ParallelLevelTicker.selfTest deliberately invoking cross-level access; they were handled/countable. They must be distinguished from the separate auth error, not suppressed indiscriminately."
+  },
+  "capacity": {
+    "claim": null,
+    "supports_300": false,
+    "reason": "No real active-player workload or multi-PC performance run; no inference from joins or synthetic samples. A hot whole dimension retains its single owner budget."
+  },
+  "diagnostics": {
+    "test_reruns": [],
+    "post_run_probe": {
+      "purpose": "Determine whether the public-key endpoint is generally unreachable through the configured HTTP proxy",
+      "url": "https://api.minecraftservices.com/publickeys",
+      "HTTP_status": 200,
+      "conclusion": "Endpoint reachable through proxy; runtime failure still requires diagnosis"
+    },
+    "implementation_changed_after_freeze": false
+  },
+  "isolation": {
+    "branches": "dev/dimension-hosting in all three modified repos",
+    "original_checkouts_clean": true,
+    "baseline_detached_and_unchanged": true,
+    "combat_test_touched": false,
+    "push_merge_deploy": false
+  },
+  "next_approval": "Approve fixing the client-fixture harness and continuing the missing gameplay integration phase, followed by targeted checks and the complete frozen regression matrix. No main/master/default-branch push authorized."
+}

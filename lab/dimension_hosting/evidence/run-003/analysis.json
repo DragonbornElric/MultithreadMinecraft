@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "full_run_complete": true,
+  "runner_exit_code": 1,
+  "summary": {
+    "counts": {
+      "BLOCKED": 20,
+      "PASS": 4,
+      "FAIL": 1
+    },
+    "total": 25,
+    "frozen_digest": "46ca87b720aaf75879ba35f17eedc00f4eb3d36fc5cdd9088a032b6b77b47fc9",
+    "final_digest": "46ca87b720aaf75879ba35f17eedc00f4eb3d36fc5cdd9088a032b6b77b47fc9",
+    "freeze_unchanged": true,
+    "all_approved_cases_accounted_for": true,
+    "capacity_claim": "NONE; no active-player multi-PC capacity was measured",
+    "records": [
+      "/workspace/mtmc-prototype/runs/run-003/ENV/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/CORE_LEDGER/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/CORE_TRANSPORT/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/SMP_UNIT/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/STACK_SMOKE/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/BASE0/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/BASE1/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/BOOT/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ROUTE/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/TRAVEL/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ESS/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/PLAYER/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ENTITY/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ENDSEL/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ENDCON/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/ENDSTATION/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/SMP/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/CROSS/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/FAULT/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/WIRE/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/RECOVERY/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/LOADLOCAL/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/LOADPC/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/LIFECYCLE/result.json",
+      "/workspace/mtmc-prototype/runs/run-003/UNLOAD/result.json"
+    ]
+  },
+  "approved_matrix_counts": {
+    "BLOCKED": 20,
+    "FAIL": 1
+  },
+  "approved_fixes": {
+    "persisted_selection_uuid": "Decode actual signed-int UUID representation and compare the fixture player selection with the created inventory UUID",
+    "client_simulation_distance": "Set5; zero invalid-option errors in all three actual clients",
+    "implementation_commit": "2ebdb26823fab284ddbacff662b8371560e236cc"
+  },
+  "junit": {
+    "CORE_LEDGER": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "CORE_TRANSPORT": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "SMP_UNIT": {
+      "tests": 103,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "real_stack_observations": {
+    "STACK_SMOKE": {
+      "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+      "fixture": {
+        "client": {
+          "ok": true,
+          "connected": true,
+          "name": "DimensionLab",
+          "x": -0.5,
+          "y": 80.0,
+          "z": 5.5,
+          "dim": "minecraft:overworld",
+          "health": 20.0,
+          "max_health": 20.0,
+          "food": 20,
+          "dead": false,
+          "gamemode": "survival",
+          "selected": 0,
+          "inventory": []
+        },
+        "created": "Created a new public endInv with uuid: c49babf5-86a5-4dd4-8f77-e2d4e832cdb1",
+        "selected_uuid": "c49babf5-86a5-4dd4-8f77-e2d4e832cdb1",
+        "selected_index": 1,
+        "deposited_item": "minecraft:diamond",
+        "deposited_count": 64,
+        "player_snapshot": "Player diagnostic snapshot OK; uuid=1fb0c38e-97d7-36b5-92b2-f69947552aac; menu=0; nbt={DataVersion:4903,cursor:{},dimension:\"minecraft:overworld\",menu_id:0,menu_slots:[{index:0,item:{}},{index:1,item:{}},{index:2,item:{}},{index:3,item:{}},{index:4,item:{}},{index:5,item:{}},{index:6,item:{}},{index:7,item:{}},{index:8,item:{}},{index:9,item:{}},{index:10,item:{}},{index:11,item:{}},{index:12,item:{}},{index:13,item:{}},{index:14,item:{}},{index:15,item:{}},{index:16,item:{}},{index:17,item:{}},{index:18,item:{}},{index:19,item:{}},{index:20,item:{}},{index:21,item:{}},{index:22,item:{}},{index:23,item:{}},{index:24,item:{}},{index:25,item:{}},{index:26,item:{}},{index:27,item:{}},{index:28,item:{}},{index:29,item:{}},{index:30,item:{}},{index:31,item:{}},{index:32,item:{}},{index:33,item:{}},{index:34,item:{}},{index:35,item:{}},{index:36,item:{}},{index:37,item:{}},{index:38,item:{}},{index:39,item:{}},{index:40,item:{}},{index:41,item:{}},{index:42,item:{}},{index:43,item:{}},{index:44,item:{}},{index:45,item:{}}],mtmc_schema:1,player:{AbsorptionAmount:0.0f,Air:300s,Brain:{memories:{}},DataVersion:4903,DeathTime:0s,Dimension:\"minecraft:overworld\",EnderItems:[],FallFlying:0b,Fire:-20s,Health:20.0f,HurtTime:0s,Inventory:[],Invulnerable:0b,Motion:[0.0d,-0.0784000015258789d,0.0d],OnGround:1b,PortalCooldown:0,Pos:[-0.5d,80.0d,5.5d],Rotation:[0.0f,0.0f],Score:0,SelectedItemSlot:0,SleepTimer:0s,UUID:[I;531678094,-1747503435,-1833765223,1196763820],XpLevel:0,XpP:0.0f,XpSeed:0,XpTotal:0,abilities:{flySpeed:0.05f,flying:0b,instabuild:0b,invulnerable:0b,mayBuild:1b,mayfly:0b,walkSpeed:0.1f},active_effects:[{amplifier:-1b,duration:-1,id:\"minecraft:resistance\",show_icon:0b,show_particles:0b}],attributes:[{base:6.0E7d,id:\"minecraft:waypoint_transmit_range\"},{base:3.0d,id:\"minecraft:entity_interaction_range\"},{base:4.5d,id:\"minecraft:block_interaction_range\"},{base:0.10000000149011612d,id:\"minecraft:movement_speed\"}],current_impulse_context_reset_grace_time:0,\"fabric:attachments\":{\"endless_inventory:endinv_uuid\":[I;-996430859,-2035986988,-1887968556,-399323727],\"endless_inventory:synced_config\":{}},fall_distance:0.0d,foodExhaustionLevel:0.0f,foodLevel:20,foodSaturationLevel:5.0f,foodTickTimer:0,playerGameType:0,recipeBook:{recipes:[\"minecraft:diamond_axe\",\"minecraft:diamond_helmet\",\"minecraft:diamond_sword\",\"minecraft:jukebox\",\"minecraft:diamond_pickaxe\",\"minecraft:diamond_boots\",\"minecraft:diamond_shovel\",\"minecraft:diamond_spear\",\"minecraft:diamond_chestplate\",\"minecraft:diamond_hoe\",\"minecraft:crafting_table\",\"minecraft:diamond_block\",\"minecraft:diamond_leggings\"],toBeDisplayed:[\"minecraft:diamond_axe\",\"minecraft:diamond_helmet\",\"minecraft:diamond_sword\",\"minecraft:jukebox\",\"minecraft:diamond_pickaxe\",\"minecraft:diamond_boots\",\"minecraft:diamond_shovel\",\"minecraft:diamond_spear\",\"minecraft:diamond_chestplate\",\"minecraft:diamond_hoe\",\"minecraft:crafting_table\",\"minecraft:diamond_block\",\"minecraft:diamond_leggings\"]},seenCredits:0b,spawn_extra_particles_on_fall:0b,warden_spawn_tracker:{cooldown_ticks:0,ticks_since_last_warning:79,warning_level:0}},player_uuid:\"1fb0c38e-97d7-36b5-92b2-f69947552aac\"}",
+        "codec": "EndInv real codec snapshot round-trip OK; schema=1; nbt_chars=698; inventories=2; stored_items=64; nbt={DataVersion:4903,data:{endless_inventories:[{Accessibility:\"PUBLIC\",Affinities:{starred_items:[]},Infinity:0b,Items:[],Owner:[I;531678094,-1747503435,-1833765223,1196763820],maxItemStackSize:2147483647,uuid:[I;-1176167749,-1479458569,-1915023801,-513751094],white_list:[]},{Accessibility:\"PUBLIC\",Affinities:{starred_items:[]},Infinity:0b,Items:[{count:64,id:\"minecraft:diamond\",modState:4709572L}],maxItemStackSize:2147483647,uuid:[I;-996430859,-2035986988,-1887968556,-399323727],white_list:[]}],known_player_names:{\"1fb0c38e-97d7-36b5-92b2-f69947552aac\":\"DimensionLab\"},player_selections:{\"1fb0c38e-97d7-36b5-92b2-f69947552aac\":[I;-996430859,-2035986988,-1887968556,-399323727]}},mtmc_schema:1}",
+        "codec_selection_uuid": "c49babf5-86a5-4dd4-8f77-e2d4e832cdb1"
+      },
+      "invalid_client_option_errors": 0,
+      "server_saved_all_dimensions": true,
+      "watchdog_seen": false,
+      "scope": "Real mod/client fixture plus short synthetic mobs; not sustained active-player capacity"
+    },
+    "BASE0": {
+      "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+      "fixture": {
+        "client": {
+          "ok": true,
+          "connected": true,
+          "name": "DimensionLab",
+          "x": 10.5,
+          "y": 80.0,
+          "z": 2.5,
+          "dim": "minecraft:overworld",
+          "health": 20.0,
+          "max_health": 20.0,
+          "food": 20,
+          "dead": false,
+          "gamemode": "survival",
+          "selected": 0,
+          "inventory": []
+        },
+        "created": "Created a new public endInv with uuid: 7ff7c492-55db-4c8b-8bb4-31d8bda00dee",
+        "selected_uuid": "7ff7c492-55db-4c8b-8bb4-31d8bda00dee",
+        "selected_index": 1,
+        "deposited_item": "minecraft:diamond",
+        "deposited_count": 64
+      },
+      "invalid_client_option_errors": 0,
+      "server_saved_all_dimensions": true,
+      "watchdog_seen": false,
+      "scope": "Real mod/client fixture plus short synthetic mobs; not sustained active-player capacity"
+    },
+    "BASE1": {
+      "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+      "fixture": {
+        "client": {
+          "ok": true,
+          "connected": true,
+          "name": "DimensionLab",
+          "x": -3.5,
+          "y": 81.0,
+          "z": 8.5,
+          "dim": "minecraft:overworld",
+          "health": 20.0,
+          "max_health": 20.0,
+          "food": 20,
+          "dead": false,
+          "gamemode": "survival",
+          "selected": 0,
+          "inventory": []
+        },
+        "created": "Created a new public endInv with uuid: b4ec4cac-9639-4c9e-99df-4639e91888ac",
+        "selected_uuid": "b4ec4cac-9639-4c9e-99df-4639e91888ac",
+        "selected_index": 1,
+        "deposited_item": "minecraft:diamond",
+        "deposited_count": 64
+      },
+      "invalid_client_option_errors": 0,
+      "server_saved_all_dimensions": true,
+      "watchdog_seen": false,
+      "scope": "Real mod/client fixture plus short synthetic mobs; not sustained active-player capacity"
+    }
+  },
+  "grouped_findings": [
+    {
+      "kind": "resolved harness defects",
+      "cases": [
+        "STACK_SMOKE"
+      ],
+      "finding": "Actual selected UUID matches decoded codec UUID; 64 diamonds are stored, real codec round-trip succeeds, actual player/menu NBT capture succeeds, and MTMC selftest reports120 successful cross-level loads with zero failures. The case is PASS in this fresh frozen run; prior-run failures remain preserved."
+    },
+    {
+      "kind": "unfinished distributed gameplay",
+      "cases": [
+        "BOOT"
+      ],
+      "finding": "Both worker starts refuse cluster gameplay at explicit guards. Whole-dimension workers, durable node boot sessions, async authority-checked admission, source quiescence, destination restoration and shared mod mutation adapters are still incomplete; this acceptance case remains FAIL."
+    },
+    {
+      "kind": "blocked dependencies and workloads",
+      "cases": [
+        "TRAVEL",
+        "BASE0",
+        "ENDSTATION",
+        "WIRE",
+        "LOADLOCAL",
+        "LOADPC",
+        "ESS",
+        "FAULT",
+        "ENV",
+        "RECOVERY",
+        "ENTITY",
+        "CROSS",
+        "ROUTE",
+        "ENDCON",
+        "UNLOAD",
+        "PLAYER",
+        "LIFECYCLE",
+        "ENDSEL",
+        "BASE1",
+        "SMP"
+      ],
+      "finding": "Multi-PC cases remain BLOCKED by user choice. Approved active-player sustained baseline/capacity workload, permission stack and gameplay transfer adapters remain unavailable. Baseline fixture measurements are supplemental evidence."
+    },
+    {
+      "kind": "known runtime limitations",
+      "finding": "Offline authlib service access and headless audio remain unverified/limited. No online authentication or production operation is covered by this run."
+    }
+  ],
+  "confidence": {
+    "approved_harness_fixes": "high; exercised by fresh real Fabric clients and actual EndInv codec",
+    "ledger_transport_and_smp_unit_regression": "118 passed,0 failures/errors/skips",
+    "distributed_gameplay": "not established",
+    "capacity_100_or_300": "not measured"
+  },
+  "recommended_next_phase": {
+    "scope": "Durable node boot sessions and asynchronous authority-checked admission groundwork",
+    "requirements": [
+      "Bind each node instance to a durable boot/session identity",
+      "Reject stale session/epoch messages and reconcile durable receipts against current authority before applying gameplay actions",
+      "Add a bounded asynchronous admission adapter that keeps Minecraft tick threads free of network waits",
+      "Retain cluster gameplay guards until source quiescence, destination restore and real shared-state mutation adapters exist",
+      "Freeze and rerun the complete matrix, including meaningful stale/restarted-session control-plane checks"
+    ],
+    "remote_tests": "Keep multi-PC tests BLOCKED",
+    "release": "No release recommendation; distributed gameplay acceptance remains unmet"
+  },
+  "next_phase_gate": "User request section6: Wait for my approval before beginning the next implementation/fix phase.",
+  "production_actions": "No push, merge, deploy, or default-branch modification; dedicated local development branches only"
+}

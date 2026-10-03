@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mtmc.coordination.DurableOutboxTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:16.686Z" hostname="9f47e8df99f5" time="0.189">
+  <properties/>
+  <testcase name="pendingCommandSurvivesRestartAndConflictingAckCannotOverwriteReceipt()" classname="dev.mtmc.coordination.DurableOutboxTest" time="0.155"/>
+  <testcase name="persistedBackpressureSurvivesClientRestart()" classname="dev.mtmc.coordination.DurableOutboxTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

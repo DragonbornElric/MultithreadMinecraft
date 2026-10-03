@@ -1,0 +1,2094 @@
+{
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/client/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 797799,
+    "sha256": "f7e64924a30b40fd8795110a77d98b1e86d096d684bbf36deb6dfbc41cf4652d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/common-economy-api-2.0.0-587a5cd772b9a635.jar": {
+    "bytes": 17121,
+    "sha256": "c07cb4966f7c5569036657f2213aaa6ab50d814dc63529a8fda195074558c719"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/common-protection-api-2.0.0-db0e71a2d7e4e731.jar": {
+    "bytes": 7307,
+    "sha256": "b5df058db0fb9dc8924ef7b5838cede655332d393cb51d9cafc53182df624d96"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/emma-smp-protocol-0.1.0+26.2-c9d3d5b606d19a47.jar": {
+    "bytes": 68389,
+    "sha256": "83f383a2aeafb37b3e7a3e9cb098e0add317ea2dc7c9f0e9440c12fc13fd0828"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-advancement-api-v1-1.0.0+58719a3b9e-8121aae71695a264.jar": {
+    "bytes": 27244,
+    "sha256": "221ddba7ff60ac669394e04edfaeae21d60844a2c093ec4929539e20403a6222"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-api-base-2.0.4+ece063239e-25b880d50d5aa2e2.jar": {
+    "bytes": 29032,
+    "sha256": "91679a213120ca9fe8681461f4e9ff65f296a80a844d50c7dfc2113787b8b41a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-api-lookup-api-v1-2.0.18+11e1c9a39e-3056e396c0d94af3.jar": {
+    "bytes": 47777,
+    "sha256": "319e6bad3a47ba64a3df19e460a029cc21ae23ab47f4703693edcc0aa0a9906a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-biome-api-v1-18.0.6+c7bd5b8e9e-9885bfedbd54269e.jar": {
+    "bytes": 76336,
+    "sha256": "be7eb427937567cebbebb08921c9bd9108632ef30c3596f0a8cc05401c028311"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-block-api-v1-3.1.0+53515aab9e-5f75675410a9b032.jar": {
+    "bytes": 23757,
+    "sha256": "74db9db9e1315231598c1e6bbaba1f4f8fcb85a329253c4771b6b19a68b28a0c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-block-getter-api-v2-2.0.7+ec56b6019e-966c8d9cdabc4f8e.jar": {
+    "bytes": 19738,
+    "sha256": "1dfe5f51dc614910bdf419dab2ac73c46d10fb7f29cfb21b49263333bb149749"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-command-api-v2-3.1.0+00cb03469e-d720b639ff932d22.jar": {
+    "bytes": 35413,
+    "sha256": "008f9f7a3a4af755ce8272ba623a20d94ef5ccca870fcfd37f25be899a65f64a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-content-registries-v0-11.+37b1aa249e-721bfa86eda2c2c1.jar": {
+    "bytes": 98582,
+    "sha256": "1e7ad0db5cf0ca5ffa505185ccd94fdbc29573ed85cf157a3514eb4f60d7d986"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-convention-tags-v2-4.7.1+1f023a9e9e-c788265350eb0500.jar": {
+    "bytes": 255431,
+    "sha256": "ddfce65cad99011b13a993714f8f07aeb8a964a73ddbd09139c5857152d2313d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-crash-report-info-v1-1.0.+086d547a9e-9685a2b83148644a.jar": {
+    "bytes": 15251,
+    "sha256": "d8c17e57d942b44b0fb8fbb56bb963b280c9b89fdc5bbfaa12975912bfea2080"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-creative-tab-api-v1-5.0.1+6468574f9e-e248256412bb8ac0.jar": {
+    "bytes": 51771,
+    "sha256": "b126dbac5cfc4b07568609089c23eaeb1e9dc968e9c04a336e2995a12df3d7ba"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-data-attachment-api-v1-2.+515ac5339e-f0a3c1c8f5c46115.jar": {
+    "bytes": 110453,
+    "sha256": "d4669cb34e150e023018fca95ebdc0cbb3a829895df63f6f652d1ae8c62e2840"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-data-generation-api-v1-25+c0da0b829e-ccb1c785a966edc3.jar": {
+    "bytes": 147836,
+    "sha256": "857c428b1481af2d29b05a7c0e1840a14fb3fc37e6317e669c43f45f36a9e6ff"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-debug-api-v1-1.0.2+c792624d9e-eb0b681f426ccae6.jar": {
+    "bytes": 26956,
+    "sha256": "6906961485754447aa5cf149fc42e4eae55f7b977c132d8e9bc98f3a7d22029a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-dimensions-v1-5.1.12+515ac5339e-61f71fa003dce951.jar": {
+    "bytes": 27097,
+    "sha256": "b09397e9bbdcb8bd5cc1384400ae4dc7076a858d42ce39def2d0d326be13d56c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-entity-events-v1-5.0.5+06488ac19e-9ac0c9834212b60c.jar": {
+    "bytes": 72443,
+    "sha256": "d9912622f0ae615ec4df8aada79309b0b52dbade87cf70a7be21536cfc1fc916"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-events-interaction-v0-5.2+515ac5339e-c034a17183ac09fd.jar": {
+    "bytes": 64945,
+    "sha256": "2adc42c9e1072dedd0eabcfd9e6a858cbab451cdfc9bf8ff195f3403add7bda2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-game-rule-api-v1-4.0.8+46a6d00c9e-88173a29c40598e0.jar": {
+    "bytes": 50875,
+    "sha256": "244106ce11032eba15485c6e84a866ab974707420baa956d16e87e41914c9896"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-item-api-v1-14.5.0+c68f6cbe9e-f3ee7a6183ae5f28.jar": {
+    "bytes": 74484,
+    "sha256": "074dc670b3d862345f3b7823d47ad0b0fa559c04760a353673d7f36c29a4957e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-lifecycle-events-v1-4.1.4+29b6eb019e-f90ec9235e4e0207.jar": {
+    "bytes": 97408,
+    "sha256": "cba8c892c9f203aaac8441da7cd800510097120610dc69557592f2b1dcab9d8a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-loot-api-v3-3.0.17+06488ac19e-13194bd6e826ad33.jar": {
+    "bytes": 32685,
+    "sha256": "8bd58904a3582e3ccbe41b533cc7a50b6734ead684a02e41f6546a93994b6ecd"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-menu-api-v1-2.0.17+086d547a9e-a5b6e3f1edf8c041.jar": {
+    "bytes": 23785,
+    "sha256": "6f1b81c71bdf4e5fc2fb2485f127d537fd1d6ec8fa2ad507e773310f1cfe7161"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-message-api-v1-7.0.8+bb2ed3f79e-715d2c64265d7294.jar": {
+    "bytes": 39862,
+    "sha256": "e28c594da6e871328c84e5d597d3e99cac3745acf23179924e97229ad574d26f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-networking-api-v1-6.3.4+2989c6a09e-dbea85319463f0cb.jar": {
+    "bytes": 226229,
+    "sha256": "10b88a11d0c534810bee2ce10b3e70482200f20ba92f1fa5457ce81b6649b923"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-object-builder-api-v1-24.+6fcd5f039e-383f5242a61f2746.jar": {
+    "bytes": 60474,
+    "sha256": "dd335d64ec99b68ee64c661287058e307593a9352e8590205fa2c951e7ebecb5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-particles-v1-5.0.19+d1756aa99e-8c5c43d24c413ce9.jar": {
+    "bytes": 51429,
+    "sha256": "2fb8820ea89d5821d12baa2c95633098f083a49614bf292001478d80100cc806"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-permission-api-v1-1.0.5+e442d8d09e-70539fa656926913.jar": {
+    "bytes": 39104,
+    "sha256": "d334ff3af4e641255d444558e847f68dfb923fcc5d5c5c9cfbd5d25310e3fefb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-permissions-api-v0-0.7.0-a3f5e4a9ae61994e.jar": {
+    "bytes": 15050,
+    "sha256": "444c8752bf3fc40a452074106fd02d3341b7d350ff006254f59ea1fd17f1272b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-recipe-api-v1-9.0.22+11e1c9a39e-46901fc6d1ecec5b.jar": {
+    "bytes": 92651,
+    "sha256": "9a3b476ffce2f9a9c05dcae50ed8aa5448d23de746483bfdff82f534de95f7df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-registry-sync-v0-7.1.1+c7bd5b8e9e-8c221961a9c5172c.jar": {
+    "bytes": 118121,
+    "sha256": "4c0d4b6e81b872ac63396d99ebb45bc83ce955c1234e55d53e744a26cde4df9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-rendering-fluids-v1-6.0.4+06488ac19e-280e4eabf267722b.jar": {
+    "bytes": 22057,
+    "sha256": "392935f1e49d5c52e94556046b42566bcc39637274b35c19b4be79371a69c593"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-resource-conditions-api-v+10e9a28b9e-f834ed286ec08414.jar": {
+    "bytes": 55438,
+    "sha256": "bedf189c0fc5a1314efab58ec1b168f236740ddfcfe54f766aa204a260f369b8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-resource-loader-v0-3.3.20+4fc5413f9e-20c73f9845cf9cc2.jar": {
+    "bytes": 17841,
+    "sha256": "9c62b5b85e903a07542ed4825890afb70fe533795e791dc6515a9484f8221654"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-resource-loader-v1-2.0.13+9edec1269e-28376715ed6c3abf.jar": {
+    "bytes": 133457,
+    "sha256": "a0825a89eb44f9bd1ac7e237757adb230dc31d4202ccf5c638aa22376befb738"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-serialization-api-v1-2.0.+11a26f319e-3a7d22f929fdbe1c.jar": {
+    "bytes": 19272,
+    "sha256": "bfe2d8d7c5b4120ddb0b0598857deb2fc875d47633c33ffca8fe394ca5063e0e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-tag-api-v1-2.1.4+515ac5339e-82d69a6463160864.jar": {
+    "bytes": 47238,
+    "sha256": "8e5eae826343acac61219de8b0077b2180c35dd34301f32b3bc107efc8965207"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-transfer-api-v1-8.0.13+11dbb7d79e-10f1197b575d3001.jar": {
+    "bytes": 192621,
+    "sha256": "546e5dc5f364c65a9f1f011d589514b9807059d107fb55fccc13dd377bf88c26"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/fabric-transitive-access-widener+67c847259e-28f76200e9a6f6b2.jar": {
+    "bytes": 12508,
+    "sha256": "8d1aa1e30aebf6acb255bd93f1fcac897331068b61ce1ca11f34a4102996210a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/mixinextras-0.5.5-cd81fe35163f5828.jar": {
+    "bytes": 727864,
+    "sha256": "5da883dc4bfb16e4ceca3f16d8c4ad937bdfb1ce337ed5ba15472d4d81dd6242"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/org_xerial_sqlite-jdbc-3.53.4.0-4e22e487e8eacb13.jar": {
+    "bytes": 12002613,
+    "sha256": "57525d07ce37e7922371553dfb784a311431b1c08ec293711048c27dbaf6093f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/org_yaml_snakeyaml-2.6-d4950520e3a61190.jar": {
+    "bytes": 340300,
+    "sha256": "8d9adae904e4eadde2399a4bc667f29f784328c122ff0f5a127f8e7acec63e9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/placeholder-api-3.1.0-beta.1+26.2-4b5ea82aac73952e.jar": {
+    "bytes": 254973,
+    "sha256": "c2ca2b5c397a0c198a32e7af68d2d0a011bc2c7baeae5cffd3996efd65c5069e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/sgui-2.1.0+26.2-1812cb6715a1ec88.jar": {
+    "bytes": 108163,
+    "sha256": "741984361a6d0eea648377ce573c40a7bb31a2369f3bf606d7070261aac6ca5a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfml-1.3.0-M2-be20db82564942fd.jar": {
+    "bytes": 22921,
+    "sha256": "22d35669f20f12b86993034b15ad84a2724cfa618d2192535274f1b9664be71b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfre-1.3.0-M2-ef80c55a5f97069b.jar": {
+    "bytes": 144778,
+    "sha256": "d4c90d854967a34bf7cef196ee03ee25059566895eef89c2523de1d4fda1bd3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/server/26.2-server.jar": {
+    "bytes": 60894273,
+    "sha256": "cdacdfb25898de5e4b4b0e5ddcc2722f77067e46605709c2d886c000ebb63ec5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/.fabric/server/fabric-loader-server-0.19.5-minecraft-26.2.jar": {
+    "bytes": 622,
+    "sha256": "efd553cd065826f27fc1707cbf91f26c2e3e75dec147ba2376510d4b73f81198"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/fabric-server-launch.jar": {
+    "bytes": 181838,
+    "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar": {
+    "bytes": 910232,
+    "sha256": "a58a84c4271e50df4c96ed916ccb7e48a869f8ed9cdcda1ad5d3d4c33b0214a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar": {
+    "bytes": 325945,
+    "sha256": "c50bc998cd1a6c689f8644b51c206217bf2da09d5b949e777490a60290cc3a0d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar": {
+    "bytes": 1022125,
+    "sha256": "b29ba9bce041e6ea822203d5b5a692660c87551241510ebc76eedffe684844c7"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar": {
+    "bytes": 313604,
+    "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar": {
+    "bytes": 10763,
+    "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar": {
+    "bytes": 3064793,
+    "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar": {
+    "bytes": 396486,
+    "sha256": "12e62f79d1a71d176a41c168c0587f8167f0add99b78f006f39595bd7242aebe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar": {
+    "bytes": 145285,
+    "sha256": "1f77e70240548b9cd233da0e12938bbbe5597ac9e94f6c6b07577faf1461a951"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar": {
+    "bytes": 80082,
+    "sha256": "c8ee4136e474ac7723ca2b432ec8d1a2bc88ef7d1ec57c314ba9e33cdc83dd75"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar": {
+    "bytes": 753612,
+    "sha256": "3547cb1da8993fb7ebd42494d0e78997d2cfbe90c421f5efd022863e6909941e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar": {
+    "bytes": 12876,
+    "sha256": "8bb68d0b65e8eceb92de2bd1d9e1443a8c9a9dd1b5818a5e54870b0f8253672a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar": {
+    "bytes": 19540,
+    "sha256": "3c7ac9742fa98c773275379eb1046c048b5d2ee989152a8c69e7ba696c3f8538"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar": {
+    "bytes": 563971,
+    "sha256": "df90bba0fe3cb586b7f164e78fe8f8f4da3f2dd5c27fa645f888100ccc25dd72"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar": {
+    "bytes": 371912,
+    "sha256": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar": {
+    "bytes": 152914,
+    "sha256": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar": {
+    "bytes": 183091,
+    "sha256": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar": {
+    "bytes": 674986,
+    "sha256": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar": {
+    "bytes": 818260,
+    "sha256": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar": {
+    "bytes": 586442,
+    "sha256": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar": {
+    "bytes": 32977,
+    "sha256": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar": {
+    "bytes": 549606,
+    "sha256": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar": {
+    "bytes": 159908,
+    "sha256": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar": {
+    "bytes": 116801,
+    "sha256": "2a15e2213a1fe49e73b4bb39bc746e7196dba8c1b182bc0d21a719a4d1be2c00"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar": {
+    "bytes": 43866,
+    "sha256": "5a401e9dfb4f937e37a2221f6b91da25a008eac1f08ddd4bb0d9ed20e0e32668"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar": {
+    "bytes": 42314,
+    "sha256": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar": {
+    "bytes": 27468,
+    "sha256": "c9696a41e549eb42432f1e2cc3f387c85435034b73a3bf8748ffff40d00f921a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar": {
+    "bytes": 26722,
+    "sha256": "6095c29661abe1f2fbc2c79c54a94de4fdaddd6e99c702927fd3c00e66872574"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar": {
+    "bytes": 46876,
+    "sha256": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar": {
+    "bytes": 23965563,
+    "sha256": "9094ae67d01d0ad246f886f11ad557fc2e79c72cbf3feed83e1512a8ae90a74a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar": {
+    "bytes": 1984980,
+    "sha256": "93044e4dd46de5d8136701292f05e868da096d2c9fddb4793e4fdbcc63efc695"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar": {
+    "bytes": 1539080,
+    "sha256": "1f0ae44db7295f8626f33b1dc0ad7f043d8954a8d6847247875fcc5dfcecc934"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar": {
+    "bytes": 2002589,
+    "sha256": "b3a9408e7c51e08ef0e3bfcc08f443f6ec0f6191ba8cd7c18d53d2b22e5bdbc0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar": {
+    "bytes": 1378617,
+    "sha256": "b7e3d46c87bad2eb409b0e704916bcd81206168e357312dfddd0e253679cd9e0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar": {
+    "bytes": 78146,
+    "sha256": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar": {
+    "bytes": 713862,
+    "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar": {
+    "bytes": 351126,
+    "sha256": "820de7bbaf430eaf2e3e5ccb92f23e2085797c5ac4d4f7fc6c8b660fbefa1dbc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar": {
+    "bytes": 2015101,
+    "sha256": "406bb3132c47a5d322e5c571feb0787ca84496469f346eb51f1ef2ee45499902"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar": {
+    "bytes": 30211,
+    "sha256": "cfc1bddbd39e684b698ae968291d8a3b3a55ee0ec2ef3d3ea5c2336a9e151598"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar": {
+    "bytes": 778846,
+    "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar": {
+    "bytes": 3819,
+    "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar": {
+    "bytes": 126151,
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar": {
+    "bytes": 35140,
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar": {
+    "bytes": 74840,
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar": {
+    "bytes": 51958,
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar": {
+    "bytes": 95628,
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar": {
+    "bytes": 69908,
+    "sha256": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/emma-smp-0.1.0+26.2.jar": {
+    "bytes": 13410513,
+    "sha256": "9f02a02dc3e38906c9900cc40bf2ef60d3e143d6087ea15af544312ef687a1d1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 797799,
+    "sha256": "f7e64924a30b40fd8795110a77d98b1e86d096d684bbf36deb6dfbc41cf4652d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/fabric-api-0.161.0+26.2.jar": {
+    "bytes": 2566123,
+    "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/lithium-fabric-0.25.3+mc26.2.jar": {
+    "bytes": 912850,
+    "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/multithreadmc-0.1.0+26.2.jar": {
+    "bytes": 152742,
+    "sha256": "65f4d130fdc81e16b825d01cbbed85d764c9390c4f786f49703b649caa43906e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/mods/servercore-fabric-1.5.19+26.2.jar": {
+    "bytes": 909932,
+    "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE0/server/versions/26.2/server-26.2.jar": {
+    "bytes": 24952681,
+    "sha256": "183c0499c5f855570ee487dd38e141a53f0121f83a0b07a3bac2d8b6698823e8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/client/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 797799,
+    "sha256": "f7e64924a30b40fd8795110a77d98b1e86d096d684bbf36deb6dfbc41cf4652d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/common-economy-api-2.0.0-587a5cd772b9a635.jar": {
+    "bytes": 17121,
+    "sha256": "c07cb4966f7c5569036657f2213aaa6ab50d814dc63529a8fda195074558c719"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/common-protection-api-2.0.0-db0e71a2d7e4e731.jar": {
+    "bytes": 7307,
+    "sha256": "b5df058db0fb9dc8924ef7b5838cede655332d393cb51d9cafc53182df624d96"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/emma-smp-protocol-0.1.0+26.2-c9d3d5b606d19a47.jar": {
+    "bytes": 68389,
+    "sha256": "83f383a2aeafb37b3e7a3e9cb098e0add317ea2dc7c9f0e9440c12fc13fd0828"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-advancement-api-v1-1.0.0+58719a3b9e-8121aae71695a264.jar": {
+    "bytes": 27244,
+    "sha256": "221ddba7ff60ac669394e04edfaeae21d60844a2c093ec4929539e20403a6222"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-api-base-2.0.4+ece063239e-25b880d50d5aa2e2.jar": {
+    "bytes": 29032,
+    "sha256": "91679a213120ca9fe8681461f4e9ff65f296a80a844d50c7dfc2113787b8b41a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-api-lookup-api-v1-2.0.18+11e1c9a39e-3056e396c0d94af3.jar": {
+    "bytes": 47777,
+    "sha256": "319e6bad3a47ba64a3df19e460a029cc21ae23ab47f4703693edcc0aa0a9906a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-biome-api-v1-18.0.6+c7bd5b8e9e-9885bfedbd54269e.jar": {
+    "bytes": 76336,
+    "sha256": "be7eb427937567cebbebb08921c9bd9108632ef30c3596f0a8cc05401c028311"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-block-api-v1-3.1.0+53515aab9e-5f75675410a9b032.jar": {
+    "bytes": 23757,
+    "sha256": "74db9db9e1315231598c1e6bbaba1f4f8fcb85a329253c4771b6b19a68b28a0c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-block-getter-api-v2-2.0.7+ec56b6019e-966c8d9cdabc4f8e.jar": {
+    "bytes": 19738,
+    "sha256": "1dfe5f51dc614910bdf419dab2ac73c46d10fb7f29cfb21b49263333bb149749"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-command-api-v2-3.1.0+00cb03469e-d720b639ff932d22.jar": {
+    "bytes": 35413,
+    "sha256": "008f9f7a3a4af755ce8272ba623a20d94ef5ccca870fcfd37f25be899a65f64a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-content-registries-v0-11.+37b1aa249e-721bfa86eda2c2c1.jar": {
+    "bytes": 98582,
+    "sha256": "1e7ad0db5cf0ca5ffa505185ccd94fdbc29573ed85cf157a3514eb4f60d7d986"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-convention-tags-v2-4.7.1+1f023a9e9e-c788265350eb0500.jar": {
+    "bytes": 255431,
+    "sha256": "ddfce65cad99011b13a993714f8f07aeb8a964a73ddbd09139c5857152d2313d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-crash-report-info-v1-1.0.+086d547a9e-9685a2b83148644a.jar": {
+    "bytes": 15251,
+    "sha256": "d8c17e57d942b44b0fb8fbb56bb963b280c9b89fdc5bbfaa12975912bfea2080"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-creative-tab-api-v1-5.0.1+6468574f9e-e248256412bb8ac0.jar": {
+    "bytes": 51771,
+    "sha256": "b126dbac5cfc4b07568609089c23eaeb1e9dc968e9c04a336e2995a12df3d7ba"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-data-attachment-api-v1-2.+515ac5339e-f0a3c1c8f5c46115.jar": {
+    "bytes": 110453,
+    "sha256": "d4669cb34e150e023018fca95ebdc0cbb3a829895df63f6f652d1ae8c62e2840"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-data-generation-api-v1-25+c0da0b829e-ccb1c785a966edc3.jar": {
+    "bytes": 147836,
+    "sha256": "857c428b1481af2d29b05a7c0e1840a14fb3fc37e6317e669c43f45f36a9e6ff"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-debug-api-v1-1.0.2+c792624d9e-eb0b681f426ccae6.jar": {
+    "bytes": 26956,
+    "sha256": "6906961485754447aa5cf149fc42e4eae55f7b977c132d8e9bc98f3a7d22029a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-dimensions-v1-5.1.12+515ac5339e-61f71fa003dce951.jar": {
+    "bytes": 27097,
+    "sha256": "b09397e9bbdcb8bd5cc1384400ae4dc7076a858d42ce39def2d0d326be13d56c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-entity-events-v1-5.0.5+06488ac19e-9ac0c9834212b60c.jar": {
+    "bytes": 72443,
+    "sha256": "d9912622f0ae615ec4df8aada79309b0b52dbade87cf70a7be21536cfc1fc916"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-events-interaction-v0-5.2+515ac5339e-c034a17183ac09fd.jar": {
+    "bytes": 64945,
+    "sha256": "2adc42c9e1072dedd0eabcfd9e6a858cbab451cdfc9bf8ff195f3403add7bda2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-game-rule-api-v1-4.0.8+46a6d00c9e-88173a29c40598e0.jar": {
+    "bytes": 50875,
+    "sha256": "244106ce11032eba15485c6e84a866ab974707420baa956d16e87e41914c9896"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-item-api-v1-14.5.0+c68f6cbe9e-f3ee7a6183ae5f28.jar": {
+    "bytes": 74484,
+    "sha256": "074dc670b3d862345f3b7823d47ad0b0fa559c04760a353673d7f36c29a4957e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-lifecycle-events-v1-4.1.4+29b6eb019e-f90ec9235e4e0207.jar": {
+    "bytes": 97408,
+    "sha256": "cba8c892c9f203aaac8441da7cd800510097120610dc69557592f2b1dcab9d8a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-loot-api-v3-3.0.17+06488ac19e-13194bd6e826ad33.jar": {
+    "bytes": 32685,
+    "sha256": "8bd58904a3582e3ccbe41b533cc7a50b6734ead684a02e41f6546a93994b6ecd"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-menu-api-v1-2.0.17+086d547a9e-a5b6e3f1edf8c041.jar": {
+    "bytes": 23785,
+    "sha256": "6f1b81c71bdf4e5fc2fb2485f127d537fd1d6ec8fa2ad507e773310f1cfe7161"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-message-api-v1-7.0.8+bb2ed3f79e-715d2c64265d7294.jar": {
+    "bytes": 39862,
+    "sha256": "e28c594da6e871328c84e5d597d3e99cac3745acf23179924e97229ad574d26f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-networking-api-v1-6.3.4+2989c6a09e-dbea85319463f0cb.jar": {
+    "bytes": 226229,
+    "sha256": "10b88a11d0c534810bee2ce10b3e70482200f20ba92f1fa5457ce81b6649b923"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-object-builder-api-v1-24.+6fcd5f039e-383f5242a61f2746.jar": {
+    "bytes": 60474,
+    "sha256": "dd335d64ec99b68ee64c661287058e307593a9352e8590205fa2c951e7ebecb5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-particles-v1-5.0.19+d1756aa99e-8c5c43d24c413ce9.jar": {
+    "bytes": 51429,
+    "sha256": "2fb8820ea89d5821d12baa2c95633098f083a49614bf292001478d80100cc806"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-permission-api-v1-1.0.5+e442d8d09e-70539fa656926913.jar": {
+    "bytes": 39104,
+    "sha256": "d334ff3af4e641255d444558e847f68dfb923fcc5d5c5c9cfbd5d25310e3fefb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-permissions-api-v0-0.7.0-a3f5e4a9ae61994e.jar": {
+    "bytes": 15050,
+    "sha256": "444c8752bf3fc40a452074106fd02d3341b7d350ff006254f59ea1fd17f1272b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-recipe-api-v1-9.0.22+11e1c9a39e-46901fc6d1ecec5b.jar": {
+    "bytes": 92651,
+    "sha256": "9a3b476ffce2f9a9c05dcae50ed8aa5448d23de746483bfdff82f534de95f7df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-registry-sync-v0-7.1.1+c7bd5b8e9e-8c221961a9c5172c.jar": {
+    "bytes": 118121,
+    "sha256": "4c0d4b6e81b872ac63396d99ebb45bc83ce955c1234e55d53e744a26cde4df9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-rendering-fluids-v1-6.0.4+06488ac19e-280e4eabf267722b.jar": {
+    "bytes": 22057,
+    "sha256": "392935f1e49d5c52e94556046b42566bcc39637274b35c19b4be79371a69c593"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-resource-conditions-api-v+10e9a28b9e-f834ed286ec08414.jar": {
+    "bytes": 55438,
+    "sha256": "bedf189c0fc5a1314efab58ec1b168f236740ddfcfe54f766aa204a260f369b8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-resource-loader-v0-3.3.20+4fc5413f9e-20c73f9845cf9cc2.jar": {
+    "bytes": 17841,
+    "sha256": "9c62b5b85e903a07542ed4825890afb70fe533795e791dc6515a9484f8221654"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-resource-loader-v1-2.0.13+9edec1269e-28376715ed6c3abf.jar": {
+    "bytes": 133457,
+    "sha256": "a0825a89eb44f9bd1ac7e237757adb230dc31d4202ccf5c638aa22376befb738"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-serialization-api-v1-2.0.+11a26f319e-3a7d22f929fdbe1c.jar": {
+    "bytes": 19272,
+    "sha256": "bfe2d8d7c5b4120ddb0b0598857deb2fc875d47633c33ffca8fe394ca5063e0e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-tag-api-v1-2.1.4+515ac5339e-82d69a6463160864.jar": {
+    "bytes": 47238,
+    "sha256": "8e5eae826343acac61219de8b0077b2180c35dd34301f32b3bc107efc8965207"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-transfer-api-v1-8.0.13+11dbb7d79e-10f1197b575d3001.jar": {
+    "bytes": 192621,
+    "sha256": "546e5dc5f364c65a9f1f011d589514b9807059d107fb55fccc13dd377bf88c26"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/fabric-transitive-access-widener+67c847259e-28f76200e9a6f6b2.jar": {
+    "bytes": 12508,
+    "sha256": "8d1aa1e30aebf6acb255bd93f1fcac897331068b61ce1ca11f34a4102996210a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/mixinextras-0.5.5-cd81fe35163f5828.jar": {
+    "bytes": 727864,
+    "sha256": "5da883dc4bfb16e4ceca3f16d8c4ad937bdfb1ce337ed5ba15472d4d81dd6242"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/org_xerial_sqlite-jdbc-3.53.4.0-4e22e487e8eacb13.jar": {
+    "bytes": 12002613,
+    "sha256": "57525d07ce37e7922371553dfb784a311431b1c08ec293711048c27dbaf6093f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/org_yaml_snakeyaml-2.6-d4950520e3a61190.jar": {
+    "bytes": 340300,
+    "sha256": "8d9adae904e4eadde2399a4bc667f29f784328c122ff0f5a127f8e7acec63e9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/placeholder-api-3.1.0-beta.1+26.2-4b5ea82aac73952e.jar": {
+    "bytes": 254973,
+    "sha256": "c2ca2b5c397a0c198a32e7af68d2d0a011bc2c7baeae5cffd3996efd65c5069e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/sgui-2.1.0+26.2-1812cb6715a1ec88.jar": {
+    "bytes": 108163,
+    "sha256": "741984361a6d0eea648377ce573c40a7bb31a2369f3bf606d7070261aac6ca5a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfml-1.3.0-M2-be20db82564942fd.jar": {
+    "bytes": 22921,
+    "sha256": "22d35669f20f12b86993034b15ad84a2724cfa618d2192535274f1b9664be71b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfre-1.3.0-M2-ef80c55a5f97069b.jar": {
+    "bytes": 144778,
+    "sha256": "d4c90d854967a34bf7cef196ee03ee25059566895eef89c2523de1d4fda1bd3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/server/26.2-server.jar": {
+    "bytes": 60894273,
+    "sha256": "cdacdfb25898de5e4b4b0e5ddcc2722f77067e46605709c2d886c000ebb63ec5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/.fabric/server/fabric-loader-server-0.19.5-minecraft-26.2.jar": {
+    "bytes": 622,
+    "sha256": "eb90a3948583180d0280fb70be6256404de7bcf31c4dcae177008450dc4584e8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/fabric-server-launch.jar": {
+    "bytes": 181838,
+    "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar": {
+    "bytes": 910232,
+    "sha256": "a58a84c4271e50df4c96ed916ccb7e48a869f8ed9cdcda1ad5d3d4c33b0214a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar": {
+    "bytes": 325945,
+    "sha256": "c50bc998cd1a6c689f8644b51c206217bf2da09d5b949e777490a60290cc3a0d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar": {
+    "bytes": 1022125,
+    "sha256": "b29ba9bce041e6ea822203d5b5a692660c87551241510ebc76eedffe684844c7"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar": {
+    "bytes": 313604,
+    "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar": {
+    "bytes": 10763,
+    "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar": {
+    "bytes": 3064793,
+    "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar": {
+    "bytes": 396486,
+    "sha256": "12e62f79d1a71d176a41c168c0587f8167f0add99b78f006f39595bd7242aebe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar": {
+    "bytes": 145285,
+    "sha256": "1f77e70240548b9cd233da0e12938bbbe5597ac9e94f6c6b07577faf1461a951"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar": {
+    "bytes": 80082,
+    "sha256": "c8ee4136e474ac7723ca2b432ec8d1a2bc88ef7d1ec57c314ba9e33cdc83dd75"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar": {
+    "bytes": 753612,
+    "sha256": "3547cb1da8993fb7ebd42494d0e78997d2cfbe90c421f5efd022863e6909941e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar": {
+    "bytes": 12876,
+    "sha256": "8bb68d0b65e8eceb92de2bd1d9e1443a8c9a9dd1b5818a5e54870b0f8253672a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar": {
+    "bytes": 19540,
+    "sha256": "3c7ac9742fa98c773275379eb1046c048b5d2ee989152a8c69e7ba696c3f8538"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar": {
+    "bytes": 563971,
+    "sha256": "df90bba0fe3cb586b7f164e78fe8f8f4da3f2dd5c27fa645f888100ccc25dd72"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar": {
+    "bytes": 371912,
+    "sha256": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar": {
+    "bytes": 152914,
+    "sha256": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar": {
+    "bytes": 183091,
+    "sha256": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar": {
+    "bytes": 674986,
+    "sha256": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar": {
+    "bytes": 818260,
+    "sha256": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar": {
+    "bytes": 586442,
+    "sha256": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar": {
+    "bytes": 32977,
+    "sha256": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar": {
+    "bytes": 549606,
+    "sha256": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar": {
+    "bytes": 159908,
+    "sha256": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar": {
+    "bytes": 116801,
+    "sha256": "2a15e2213a1fe49e73b4bb39bc746e7196dba8c1b182bc0d21a719a4d1be2c00"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar": {
+    "bytes": 43866,
+    "sha256": "5a401e9dfb4f937e37a2221f6b91da25a008eac1f08ddd4bb0d9ed20e0e32668"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar": {
+    "bytes": 42314,
+    "sha256": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar": {
+    "bytes": 27468,
+    "sha256": "c9696a41e549eb42432f1e2cc3f387c85435034b73a3bf8748ffff40d00f921a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar": {
+    "bytes": 26722,
+    "sha256": "6095c29661abe1f2fbc2c79c54a94de4fdaddd6e99c702927fd3c00e66872574"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar": {
+    "bytes": 46876,
+    "sha256": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar": {
+    "bytes": 23965563,
+    "sha256": "9094ae67d01d0ad246f886f11ad557fc2e79c72cbf3feed83e1512a8ae90a74a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar": {
+    "bytes": 1984980,
+    "sha256": "93044e4dd46de5d8136701292f05e868da096d2c9fddb4793e4fdbcc63efc695"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar": {
+    "bytes": 1539080,
+    "sha256": "1f0ae44db7295f8626f33b1dc0ad7f043d8954a8d6847247875fcc5dfcecc934"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar": {
+    "bytes": 2002589,
+    "sha256": "b3a9408e7c51e08ef0e3bfcc08f443f6ec0f6191ba8cd7c18d53d2b22e5bdbc0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar": {
+    "bytes": 1378617,
+    "sha256": "b7e3d46c87bad2eb409b0e704916bcd81206168e357312dfddd0e253679cd9e0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar": {
+    "bytes": 78146,
+    "sha256": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar": {
+    "bytes": 713862,
+    "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar": {
+    "bytes": 351126,
+    "sha256": "820de7bbaf430eaf2e3e5ccb92f23e2085797c5ac4d4f7fc6c8b660fbefa1dbc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar": {
+    "bytes": 2015101,
+    "sha256": "406bb3132c47a5d322e5c571feb0787ca84496469f346eb51f1ef2ee45499902"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar": {
+    "bytes": 30211,
+    "sha256": "cfc1bddbd39e684b698ae968291d8a3b3a55ee0ec2ef3d3ea5c2336a9e151598"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar": {
+    "bytes": 778846,
+    "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar": {
+    "bytes": 3819,
+    "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar": {
+    "bytes": 126151,
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar": {
+    "bytes": 35140,
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar": {
+    "bytes": 74840,
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar": {
+    "bytes": 51958,
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar": {
+    "bytes": 95628,
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar": {
+    "bytes": 69908,
+    "sha256": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/emma-smp-0.1.0+26.2.jar": {
+    "bytes": 13410513,
+    "sha256": "9f02a02dc3e38906c9900cc40bf2ef60d3e143d6087ea15af544312ef687a1d1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 797799,
+    "sha256": "f7e64924a30b40fd8795110a77d98b1e86d096d684bbf36deb6dfbc41cf4652d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/fabric-api-0.161.0+26.2.jar": {
+    "bytes": 2566123,
+    "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/lithium-fabric-0.25.3+mc26.2.jar": {
+    "bytes": 912850,
+    "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/multithreadmc-0.1.0+26.2.jar": {
+    "bytes": 152742,
+    "sha256": "65f4d130fdc81e16b825d01cbbed85d764c9390c4f786f49703b649caa43906e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/mods/servercore-fabric-1.5.19+26.2.jar": {
+    "bytes": 909932,
+    "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BASE1/server/versions/26.2/server-26.2.jar": {
+    "bytes": 24952681,
+    "sha256": "183c0499c5f855570ee487dd38e141a53f0121f83a0b07a3bac2d8b6698823e8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/common-economy-api-2.0.0-587a5cd772b9a635.jar": {
+    "bytes": 17121,
+    "sha256": "c07cb4966f7c5569036657f2213aaa6ab50d814dc63529a8fda195074558c719"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/common-protection-api-2.0.0-db0e71a2d7e4e731.jar": {
+    "bytes": 7307,
+    "sha256": "b5df058db0fb9dc8924ef7b5838cede655332d393cb51d9cafc53182df624d96"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/emma-smp-protocol-0.1.0+26.2-c9d3d5b606d19a47.jar": {
+    "bytes": 68389,
+    "sha256": "83f383a2aeafb37b3e7a3e9cb098e0add317ea2dc7c9f0e9440c12fc13fd0828"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-advancement-api-v1-1.0.0+58719a3b9e-8121aae71695a264.jar": {
+    "bytes": 27244,
+    "sha256": "221ddba7ff60ac669394e04edfaeae21d60844a2c093ec4929539e20403a6222"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-api-base-2.0.4+ece063239e-25b880d50d5aa2e2.jar": {
+    "bytes": 29032,
+    "sha256": "91679a213120ca9fe8681461f4e9ff65f296a80a844d50c7dfc2113787b8b41a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-api-lookup-api-v1-2.0.18+11e1c9a39e-3056e396c0d94af3.jar": {
+    "bytes": 47777,
+    "sha256": "319e6bad3a47ba64a3df19e460a029cc21ae23ab47f4703693edcc0aa0a9906a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-biome-api-v1-18.0.6+c7bd5b8e9e-9885bfedbd54269e.jar": {
+    "bytes": 76336,
+    "sha256": "be7eb427937567cebbebb08921c9bd9108632ef30c3596f0a8cc05401c028311"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-block-api-v1-3.1.0+53515aab9e-5f75675410a9b032.jar": {
+    "bytes": 23757,
+    "sha256": "74db9db9e1315231598c1e6bbaba1f4f8fcb85a329253c4771b6b19a68b28a0c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-block-getter-api-v2-2.0.7+ec56b6019e-966c8d9cdabc4f8e.jar": {
+    "bytes": 19738,
+    "sha256": "1dfe5f51dc614910bdf419dab2ac73c46d10fb7f29cfb21b49263333bb149749"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-command-api-v2-3.1.0+00cb03469e-d720b639ff932d22.jar": {
+    "bytes": 35413,
+    "sha256": "008f9f7a3a4af755ce8272ba623a20d94ef5ccca870fcfd37f25be899a65f64a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-content-registries-v0-11.+37b1aa249e-721bfa86eda2c2c1.jar": {
+    "bytes": 98582,
+    "sha256": "1e7ad0db5cf0ca5ffa505185ccd94fdbc29573ed85cf157a3514eb4f60d7d986"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-convention-tags-v2-4.7.1+1f023a9e9e-c788265350eb0500.jar": {
+    "bytes": 255431,
+    "sha256": "ddfce65cad99011b13a993714f8f07aeb8a964a73ddbd09139c5857152d2313d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-crash-report-info-v1-1.0.+086d547a9e-9685a2b83148644a.jar": {
+    "bytes": 15251,
+    "sha256": "d8c17e57d942b44b0fb8fbb56bb963b280c9b89fdc5bbfaa12975912bfea2080"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-creative-tab-api-v1-5.0.1+6468574f9e-e248256412bb8ac0.jar": {
+    "bytes": 51771,
+    "sha256": "b126dbac5cfc4b07568609089c23eaeb1e9dc968e9c04a336e2995a12df3d7ba"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-data-attachment-api-v1-2.+515ac5339e-f0a3c1c8f5c46115.jar": {
+    "bytes": 110453,
+    "sha256": "d4669cb34e150e023018fca95ebdc0cbb3a829895df63f6f652d1ae8c62e2840"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-data-generation-api-v1-25+c0da0b829e-ccb1c785a966edc3.jar": {
+    "bytes": 147836,
+    "sha256": "857c428b1481af2d29b05a7c0e1840a14fb3fc37e6317e669c43f45f36a9e6ff"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-debug-api-v1-1.0.2+c792624d9e-eb0b681f426ccae6.jar": {
+    "bytes": 26956,
+    "sha256": "6906961485754447aa5cf149fc42e4eae55f7b977c132d8e9bc98f3a7d22029a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-dimensions-v1-5.1.12+515ac5339e-61f71fa003dce951.jar": {
+    "bytes": 27097,
+    "sha256": "b09397e9bbdcb8bd5cc1384400ae4dc7076a858d42ce39def2d0d326be13d56c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-entity-events-v1-5.0.5+06488ac19e-9ac0c9834212b60c.jar": {
+    "bytes": 72443,
+    "sha256": "d9912622f0ae615ec4df8aada79309b0b52dbade87cf70a7be21536cfc1fc916"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-events-interaction-v0-5.2+515ac5339e-c034a17183ac09fd.jar": {
+    "bytes": 64945,
+    "sha256": "2adc42c9e1072dedd0eabcfd9e6a858cbab451cdfc9bf8ff195f3403add7bda2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-game-rule-api-v1-4.0.8+46a6d00c9e-88173a29c40598e0.jar": {
+    "bytes": 50875,
+    "sha256": "244106ce11032eba15485c6e84a866ab974707420baa956d16e87e41914c9896"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-item-api-v1-14.5.0+c68f6cbe9e-f3ee7a6183ae5f28.jar": {
+    "bytes": 74484,
+    "sha256": "074dc670b3d862345f3b7823d47ad0b0fa559c04760a353673d7f36c29a4957e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-lifecycle-events-v1-4.1.4+29b6eb019e-f90ec9235e4e0207.jar": {
+    "bytes": 97408,
+    "sha256": "cba8c892c9f203aaac8441da7cd800510097120610dc69557592f2b1dcab9d8a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-loot-api-v3-3.0.17+06488ac19e-13194bd6e826ad33.jar": {
+    "bytes": 32685,
+    "sha256": "8bd58904a3582e3ccbe41b533cc7a50b6734ead684a02e41f6546a93994b6ecd"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-menu-api-v1-2.0.17+086d547a9e-a5b6e3f1edf8c041.jar": {
+    "bytes": 23785,
+    "sha256": "6f1b81c71bdf4e5fc2fb2485f127d537fd1d6ec8fa2ad507e773310f1cfe7161"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-message-api-v1-7.0.8+bb2ed3f79e-715d2c64265d7294.jar": {
+    "bytes": 39862,
+    "sha256": "e28c594da6e871328c84e5d597d3e99cac3745acf23179924e97229ad574d26f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-networking-api-v1-6.3.4+2989c6a09e-dbea85319463f0cb.jar": {
+    "bytes": 226229,
+    "sha256": "10b88a11d0c534810bee2ce10b3e70482200f20ba92f1fa5457ce81b6649b923"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-object-builder-api-v1-24.+6fcd5f039e-383f5242a61f2746.jar": {
+    "bytes": 60474,
+    "sha256": "dd335d64ec99b68ee64c661287058e307593a9352e8590205fa2c951e7ebecb5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-particles-v1-5.0.19+d1756aa99e-8c5c43d24c413ce9.jar": {
+    "bytes": 51429,
+    "sha256": "2fb8820ea89d5821d12baa2c95633098f083a49614bf292001478d80100cc806"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-permission-api-v1-1.0.5+e442d8d09e-70539fa656926913.jar": {
+    "bytes": 39104,
+    "sha256": "d334ff3af4e641255d444558e847f68dfb923fcc5d5c5c9cfbd5d25310e3fefb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-permissions-api-v0-0.7.0-a3f5e4a9ae61994e.jar": {
+    "bytes": 15050,
+    "sha256": "444c8752bf3fc40a452074106fd02d3341b7d350ff006254f59ea1fd17f1272b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-recipe-api-v1-9.0.22+11e1c9a39e-46901fc6d1ecec5b.jar": {
+    "bytes": 92651,
+    "sha256": "9a3b476ffce2f9a9c05dcae50ed8aa5448d23de746483bfdff82f534de95f7df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-registry-sync-v0-7.1.1+c7bd5b8e9e-8c221961a9c5172c.jar": {
+    "bytes": 118121,
+    "sha256": "4c0d4b6e81b872ac63396d99ebb45bc83ce955c1234e55d53e744a26cde4df9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-rendering-fluids-v1-6.0.4+06488ac19e-280e4eabf267722b.jar": {
+    "bytes": 22057,
+    "sha256": "392935f1e49d5c52e94556046b42566bcc39637274b35c19b4be79371a69c593"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-resource-conditions-api-v+10e9a28b9e-f834ed286ec08414.jar": {
+    "bytes": 55438,
+    "sha256": "bedf189c0fc5a1314efab58ec1b168f236740ddfcfe54f766aa204a260f369b8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-resource-loader-v0-3.3.20+4fc5413f9e-20c73f9845cf9cc2.jar": {
+    "bytes": 17841,
+    "sha256": "9c62b5b85e903a07542ed4825890afb70fe533795e791dc6515a9484f8221654"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-resource-loader-v1-2.0.13+9edec1269e-28376715ed6c3abf.jar": {
+    "bytes": 133457,
+    "sha256": "a0825a89eb44f9bd1ac7e237757adb230dc31d4202ccf5c638aa22376befb738"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-serialization-api-v1-2.0.+11a26f319e-3a7d22f929fdbe1c.jar": {
+    "bytes": 19272,
+    "sha256": "bfe2d8d7c5b4120ddb0b0598857deb2fc875d47633c33ffca8fe394ca5063e0e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-tag-api-v1-2.1.4+515ac5339e-82d69a6463160864.jar": {
+    "bytes": 47238,
+    "sha256": "8e5eae826343acac61219de8b0077b2180c35dd34301f32b3bc107efc8965207"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-transfer-api-v1-8.0.13+11dbb7d79e-10f1197b575d3001.jar": {
+    "bytes": 192621,
+    "sha256": "546e5dc5f364c65a9f1f011d589514b9807059d107fb55fccc13dd377bf88c26"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/fabric-transitive-access-widener+67c847259e-28f76200e9a6f6b2.jar": {
+    "bytes": 12508,
+    "sha256": "8d1aa1e30aebf6acb255bd93f1fcac897331068b61ce1ca11f34a4102996210a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/mixinextras-0.5.5-cd81fe35163f5828.jar": {
+    "bytes": 727864,
+    "sha256": "5da883dc4bfb16e4ceca3f16d8c4ad937bdfb1ce337ed5ba15472d4d81dd6242"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/org_xerial_sqlite-jdbc-3.53.4.0-4e22e487e8eacb13.jar": {
+    "bytes": 12002613,
+    "sha256": "57525d07ce37e7922371553dfb784a311431b1c08ec293711048c27dbaf6093f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/org_yaml_snakeyaml-2.6-d4950520e3a61190.jar": {
+    "bytes": 340300,
+    "sha256": "8d9adae904e4eadde2399a4bc667f29f784328c122ff0f5a127f8e7acec63e9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/placeholder-api-3.1.0-beta.1+26.2-4b5ea82aac73952e.jar": {
+    "bytes": 254973,
+    "sha256": "c2ca2b5c397a0c198a32e7af68d2d0a011bc2c7baeae5cffd3996efd65c5069e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/sgui-2.1.0+26.2-1812cb6715a1ec88.jar": {
+    "bytes": 108163,
+    "sha256": "741984361a6d0eea648377ce573c40a7bb31a2369f3bf606d7070261aac6ca5a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/space_arim_dazzleconf_dazzleconfml-1.3.0-M2-be20db82564942fd.jar": {
+    "bytes": 22921,
+    "sha256": "22d35669f20f12b86993034b15ad84a2724cfa618d2192535274f1b9664be71b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/processedMods/space_arim_dazzleconf_dazzleconfre-1.3.0-M2-ef80c55a5f97069b.jar": {
+    "bytes": 144778,
+    "sha256": "d4c90d854967a34bf7cef196ee03ee25059566895eef89c2523de1d4fda1bd3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/server/26.2-server.jar": {
+    "bytes": 60894273,
+    "sha256": "cdacdfb25898de5e4b4b0e5ddcc2722f77067e46605709c2d886c000ebb63ec5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/.fabric/server/fabric-loader-server-0.19.5-minecraft-26.2.jar": {
+    "bytes": 622,
+    "sha256": "8018de79afb9480025f33a823a89e0c3b993aeb81c6c99ce7cfb9c7dd7f710df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/fabric-server-launch.jar": {
+    "bytes": 181838,
+    "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar": {
+    "bytes": 910232,
+    "sha256": "a58a84c4271e50df4c96ed916ccb7e48a869f8ed9cdcda1ad5d3d4c33b0214a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar": {
+    "bytes": 325945,
+    "sha256": "c50bc998cd1a6c689f8644b51c206217bf2da09d5b949e777490a60290cc3a0d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar": {
+    "bytes": 1022125,
+    "sha256": "b29ba9bce041e6ea822203d5b5a692660c87551241510ebc76eedffe684844c7"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar": {
+    "bytes": 313604,
+    "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar": {
+    "bytes": 10763,
+    "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar": {
+    "bytes": 3064793,
+    "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar": {
+    "bytes": 396486,
+    "sha256": "12e62f79d1a71d176a41c168c0587f8167f0add99b78f006f39595bd7242aebe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar": {
+    "bytes": 145285,
+    "sha256": "1f77e70240548b9cd233da0e12938bbbe5597ac9e94f6c6b07577faf1461a951"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar": {
+    "bytes": 80082,
+    "sha256": "c8ee4136e474ac7723ca2b432ec8d1a2bc88ef7d1ec57c314ba9e33cdc83dd75"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar": {
+    "bytes": 753612,
+    "sha256": "3547cb1da8993fb7ebd42494d0e78997d2cfbe90c421f5efd022863e6909941e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar": {
+    "bytes": 12876,
+    "sha256": "8bb68d0b65e8eceb92de2bd1d9e1443a8c9a9dd1b5818a5e54870b0f8253672a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar": {
+    "bytes": 19540,
+    "sha256": "3c7ac9742fa98c773275379eb1046c048b5d2ee989152a8c69e7ba696c3f8538"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar": {
+    "bytes": 563971,
+    "sha256": "df90bba0fe3cb586b7f164e78fe8f8f4da3f2dd5c27fa645f888100ccc25dd72"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar": {
+    "bytes": 371912,
+    "sha256": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar": {
+    "bytes": 152914,
+    "sha256": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar": {
+    "bytes": 183091,
+    "sha256": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar": {
+    "bytes": 674986,
+    "sha256": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar": {
+    "bytes": 818260,
+    "sha256": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar": {
+    "bytes": 586442,
+    "sha256": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar": {
+    "bytes": 32977,
+    "sha256": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar": {
+    "bytes": 549606,
+    "sha256": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar": {
+    "bytes": 159908,
+    "sha256": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar": {
+    "bytes": 116801,
+    "sha256": "2a15e2213a1fe49e73b4bb39bc746e7196dba8c1b182bc0d21a719a4d1be2c00"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar": {
+    "bytes": 43866,
+    "sha256": "5a401e9dfb4f937e37a2221f6b91da25a008eac1f08ddd4bb0d9ed20e0e32668"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar": {
+    "bytes": 42314,
+    "sha256": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar": {
+    "bytes": 27468,
+    "sha256": "c9696a41e549eb42432f1e2cc3f387c85435034b73a3bf8748ffff40d00f921a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar": {
+    "bytes": 26722,
+    "sha256": "6095c29661abe1f2fbc2c79c54a94de4fdaddd6e99c702927fd3c00e66872574"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar": {
+    "bytes": 46876,
+    "sha256": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar": {
+    "bytes": 23965563,
+    "sha256": "9094ae67d01d0ad246f886f11ad557fc2e79c72cbf3feed83e1512a8ae90a74a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar": {
+    "bytes": 1984980,
+    "sha256": "93044e4dd46de5d8136701292f05e868da096d2c9fddb4793e4fdbcc63efc695"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar": {
+    "bytes": 1539080,
+    "sha256": "1f0ae44db7295f8626f33b1dc0ad7f043d8954a8d6847247875fcc5dfcecc934"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar": {
+    "bytes": 2002589,
+    "sha256": "b3a9408e7c51e08ef0e3bfcc08f443f6ec0f6191ba8cd7c18d53d2b22e5bdbc0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar": {
+    "bytes": 1378617,
+    "sha256": "b7e3d46c87bad2eb409b0e704916bcd81206168e357312dfddd0e253679cd9e0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar": {
+    "bytes": 78146,
+    "sha256": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar": {
+    "bytes": 713862,
+    "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar": {
+    "bytes": 351126,
+    "sha256": "820de7bbaf430eaf2e3e5ccb92f23e2085797c5ac4d4f7fc6c8b660fbefa1dbc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar": {
+    "bytes": 2015101,
+    "sha256": "406bb3132c47a5d322e5c571feb0787ca84496469f346eb51f1ef2ee45499902"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar": {
+    "bytes": 30211,
+    "sha256": "cfc1bddbd39e684b698ae968291d8a3b3a55ee0ec2ef3d3ea5c2336a9e151598"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar": {
+    "bytes": 778846,
+    "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar": {
+    "bytes": 3819,
+    "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar": {
+    "bytes": 126151,
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar": {
+    "bytes": 35140,
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar": {
+    "bytes": 74840,
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar": {
+    "bytes": 51958,
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar": {
+    "bytes": 95628,
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar": {
+    "bytes": 69908,
+    "sha256": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/emma-smp-0.1.0+26.2.jar": {
+    "bytes": 13412208,
+    "sha256": "2932f9e505862158c5da91ea9404a3aa5839a3e5f8114fb7a6db3da74be35057"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 801042,
+    "sha256": "4ec07618e97e124f41ba5b9e6be7d5fcba9f622396f71a3b074a6466461a6c3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/fabric-api-0.161.0+26.2.jar": {
+    "bytes": 2566123,
+    "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/lithium-fabric-0.25.3+mc26.2.jar": {
+    "bytes": 912850,
+    "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/multithreadmc-0.1.0+26.2.jar": {
+    "bytes": 156479,
+    "sha256": "acbcb239cb68e3b0bbc33e9f4a0d63f3bb671a59231bbfaa5d473fa98a5c8aca"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/mods/servercore-fabric-1.5.19+26.2.jar": {
+    "bytes": 909932,
+    "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/a/versions/26.2/server-26.2.jar": {
+    "bytes": 24952681,
+    "sha256": "183c0499c5f855570ee487dd38e141a53f0121f83a0b07a3bac2d8b6698823e8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/common-economy-api-2.0.0-587a5cd772b9a635.jar": {
+    "bytes": 17121,
+    "sha256": "c07cb4966f7c5569036657f2213aaa6ab50d814dc63529a8fda195074558c719"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/common-protection-api-2.0.0-db0e71a2d7e4e731.jar": {
+    "bytes": 7307,
+    "sha256": "b5df058db0fb9dc8924ef7b5838cede655332d393cb51d9cafc53182df624d96"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/emma-smp-protocol-0.1.0+26.2-c9d3d5b606d19a47.jar": {
+    "bytes": 68389,
+    "sha256": "83f383a2aeafb37b3e7a3e9cb098e0add317ea2dc7c9f0e9440c12fc13fd0828"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-advancement-api-v1-1.0.0+58719a3b9e-8121aae71695a264.jar": {
+    "bytes": 27244,
+    "sha256": "221ddba7ff60ac669394e04edfaeae21d60844a2c093ec4929539e20403a6222"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-api-base-2.0.4+ece063239e-25b880d50d5aa2e2.jar": {
+    "bytes": 29032,
+    "sha256": "91679a213120ca9fe8681461f4e9ff65f296a80a844d50c7dfc2113787b8b41a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-api-lookup-api-v1-2.0.18+11e1c9a39e-3056e396c0d94af3.jar": {
+    "bytes": 47777,
+    "sha256": "319e6bad3a47ba64a3df19e460a029cc21ae23ab47f4703693edcc0aa0a9906a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-biome-api-v1-18.0.6+c7bd5b8e9e-9885bfedbd54269e.jar": {
+    "bytes": 76336,
+    "sha256": "be7eb427937567cebbebb08921c9bd9108632ef30c3596f0a8cc05401c028311"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-block-api-v1-3.1.0+53515aab9e-5f75675410a9b032.jar": {
+    "bytes": 23757,
+    "sha256": "74db9db9e1315231598c1e6bbaba1f4f8fcb85a329253c4771b6b19a68b28a0c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-block-getter-api-v2-2.0.7+ec56b6019e-966c8d9cdabc4f8e.jar": {
+    "bytes": 19738,
+    "sha256": "1dfe5f51dc614910bdf419dab2ac73c46d10fb7f29cfb21b49263333bb149749"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-command-api-v2-3.1.0+00cb03469e-d720b639ff932d22.jar": {
+    "bytes": 35413,
+    "sha256": "008f9f7a3a4af755ce8272ba623a20d94ef5ccca870fcfd37f25be899a65f64a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-content-registries-v0-11.+37b1aa249e-721bfa86eda2c2c1.jar": {
+    "bytes": 98582,
+    "sha256": "1e7ad0db5cf0ca5ffa505185ccd94fdbc29573ed85cf157a3514eb4f60d7d986"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-convention-tags-v2-4.7.1+1f023a9e9e-c788265350eb0500.jar": {
+    "bytes": 255431,
+    "sha256": "ddfce65cad99011b13a993714f8f07aeb8a964a73ddbd09139c5857152d2313d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-crash-report-info-v1-1.0.+086d547a9e-9685a2b83148644a.jar": {
+    "bytes": 15251,
+    "sha256": "d8c17e57d942b44b0fb8fbb56bb963b280c9b89fdc5bbfaa12975912bfea2080"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-creative-tab-api-v1-5.0.1+6468574f9e-e248256412bb8ac0.jar": {
+    "bytes": 51771,
+    "sha256": "b126dbac5cfc4b07568609089c23eaeb1e9dc968e9c04a336e2995a12df3d7ba"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-data-attachment-api-v1-2.+515ac5339e-f0a3c1c8f5c46115.jar": {
+    "bytes": 110453,
+    "sha256": "d4669cb34e150e023018fca95ebdc0cbb3a829895df63f6f652d1ae8c62e2840"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-data-generation-api-v1-25+c0da0b829e-ccb1c785a966edc3.jar": {
+    "bytes": 147836,
+    "sha256": "857c428b1481af2d29b05a7c0e1840a14fb3fc37e6317e669c43f45f36a9e6ff"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-debug-api-v1-1.0.2+c792624d9e-eb0b681f426ccae6.jar": {
+    "bytes": 26956,
+    "sha256": "6906961485754447aa5cf149fc42e4eae55f7b977c132d8e9bc98f3a7d22029a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-dimensions-v1-5.1.12+515ac5339e-61f71fa003dce951.jar": {
+    "bytes": 27097,
+    "sha256": "b09397e9bbdcb8bd5cc1384400ae4dc7076a858d42ce39def2d0d326be13d56c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-entity-events-v1-5.0.5+06488ac19e-9ac0c9834212b60c.jar": {
+    "bytes": 72443,
+    "sha256": "d9912622f0ae615ec4df8aada79309b0b52dbade87cf70a7be21536cfc1fc916"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-events-interaction-v0-5.2+515ac5339e-c034a17183ac09fd.jar": {
+    "bytes": 64945,
+    "sha256": "2adc42c9e1072dedd0eabcfd9e6a858cbab451cdfc9bf8ff195f3403add7bda2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-game-rule-api-v1-4.0.8+46a6d00c9e-88173a29c40598e0.jar": {
+    "bytes": 50875,
+    "sha256": "244106ce11032eba15485c6e84a866ab974707420baa956d16e87e41914c9896"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-item-api-v1-14.5.0+c68f6cbe9e-f3ee7a6183ae5f28.jar": {
+    "bytes": 74484,
+    "sha256": "074dc670b3d862345f3b7823d47ad0b0fa559c04760a353673d7f36c29a4957e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-lifecycle-events-v1-4.1.4+29b6eb019e-f90ec9235e4e0207.jar": {
+    "bytes": 97408,
+    "sha256": "cba8c892c9f203aaac8441da7cd800510097120610dc69557592f2b1dcab9d8a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-loot-api-v3-3.0.17+06488ac19e-13194bd6e826ad33.jar": {
+    "bytes": 32685,
+    "sha256": "8bd58904a3582e3ccbe41b533cc7a50b6734ead684a02e41f6546a93994b6ecd"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-menu-api-v1-2.0.17+086d547a9e-a5b6e3f1edf8c041.jar": {
+    "bytes": 23785,
+    "sha256": "6f1b81c71bdf4e5fc2fb2485f127d537fd1d6ec8fa2ad507e773310f1cfe7161"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-message-api-v1-7.0.8+bb2ed3f79e-715d2c64265d7294.jar": {
+    "bytes": 39862,
+    "sha256": "e28c594da6e871328c84e5d597d3e99cac3745acf23179924e97229ad574d26f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-networking-api-v1-6.3.4+2989c6a09e-dbea85319463f0cb.jar": {
+    "bytes": 226229,
+    "sha256": "10b88a11d0c534810bee2ce10b3e70482200f20ba92f1fa5457ce81b6649b923"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-object-builder-api-v1-24.+6fcd5f039e-383f5242a61f2746.jar": {
+    "bytes": 60474,
+    "sha256": "dd335d64ec99b68ee64c661287058e307593a9352e8590205fa2c951e7ebecb5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-particles-v1-5.0.19+d1756aa99e-8c5c43d24c413ce9.jar": {
+    "bytes": 51429,
+    "sha256": "2fb8820ea89d5821d12baa2c95633098f083a49614bf292001478d80100cc806"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-permission-api-v1-1.0.5+e442d8d09e-70539fa656926913.jar": {
+    "bytes": 39104,
+    "sha256": "d334ff3af4e641255d444558e847f68dfb923fcc5d5c5c9cfbd5d25310e3fefb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-permissions-api-v0-0.7.0-a3f5e4a9ae61994e.jar": {
+    "bytes": 15050,
+    "sha256": "444c8752bf3fc40a452074106fd02d3341b7d350ff006254f59ea1fd17f1272b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-recipe-api-v1-9.0.22+11e1c9a39e-46901fc6d1ecec5b.jar": {
+    "bytes": 92651,
+    "sha256": "9a3b476ffce2f9a9c05dcae50ed8aa5448d23de746483bfdff82f534de95f7df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-registry-sync-v0-7.1.1+c7bd5b8e9e-8c221961a9c5172c.jar": {
+    "bytes": 118121,
+    "sha256": "4c0d4b6e81b872ac63396d99ebb45bc83ce955c1234e55d53e744a26cde4df9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-rendering-fluids-v1-6.0.4+06488ac19e-280e4eabf267722b.jar": {
+    "bytes": 22057,
+    "sha256": "392935f1e49d5c52e94556046b42566bcc39637274b35c19b4be79371a69c593"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-resource-conditions-api-v+10e9a28b9e-f834ed286ec08414.jar": {
+    "bytes": 55438,
+    "sha256": "bedf189c0fc5a1314efab58ec1b168f236740ddfcfe54f766aa204a260f369b8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-resource-loader-v0-3.3.20+4fc5413f9e-20c73f9845cf9cc2.jar": {
+    "bytes": 17841,
+    "sha256": "9c62b5b85e903a07542ed4825890afb70fe533795e791dc6515a9484f8221654"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-resource-loader-v1-2.0.13+9edec1269e-28376715ed6c3abf.jar": {
+    "bytes": 133457,
+    "sha256": "a0825a89eb44f9bd1ac7e237757adb230dc31d4202ccf5c638aa22376befb738"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-serialization-api-v1-2.0.+11a26f319e-3a7d22f929fdbe1c.jar": {
+    "bytes": 19272,
+    "sha256": "bfe2d8d7c5b4120ddb0b0598857deb2fc875d47633c33ffca8fe394ca5063e0e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-tag-api-v1-2.1.4+515ac5339e-82d69a6463160864.jar": {
+    "bytes": 47238,
+    "sha256": "8e5eae826343acac61219de8b0077b2180c35dd34301f32b3bc107efc8965207"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-transfer-api-v1-8.0.13+11dbb7d79e-10f1197b575d3001.jar": {
+    "bytes": 192621,
+    "sha256": "546e5dc5f364c65a9f1f011d589514b9807059d107fb55fccc13dd377bf88c26"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/fabric-transitive-access-widener+67c847259e-28f76200e9a6f6b2.jar": {
+    "bytes": 12508,
+    "sha256": "8d1aa1e30aebf6acb255bd93f1fcac897331068b61ce1ca11f34a4102996210a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/mixinextras-0.5.5-cd81fe35163f5828.jar": {
+    "bytes": 727864,
+    "sha256": "5da883dc4bfb16e4ceca3f16d8c4ad937bdfb1ce337ed5ba15472d4d81dd6242"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/org_xerial_sqlite-jdbc-3.53.4.0-4e22e487e8eacb13.jar": {
+    "bytes": 12002613,
+    "sha256": "57525d07ce37e7922371553dfb784a311431b1c08ec293711048c27dbaf6093f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/org_yaml_snakeyaml-2.6-d4950520e3a61190.jar": {
+    "bytes": 340300,
+    "sha256": "8d9adae904e4eadde2399a4bc667f29f784328c122ff0f5a127f8e7acec63e9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/placeholder-api-3.1.0-beta.1+26.2-4b5ea82aac73952e.jar": {
+    "bytes": 254973,
+    "sha256": "c2ca2b5c397a0c198a32e7af68d2d0a011bc2c7baeae5cffd3996efd65c5069e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/sgui-2.1.0+26.2-1812cb6715a1ec88.jar": {
+    "bytes": 108163,
+    "sha256": "741984361a6d0eea648377ce573c40a7bb31a2369f3bf606d7070261aac6ca5a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/space_arim_dazzleconf_dazzleconfml-1.3.0-M2-be20db82564942fd.jar": {
+    "bytes": 22921,
+    "sha256": "22d35669f20f12b86993034b15ad84a2724cfa618d2192535274f1b9664be71b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/processedMods/space_arim_dazzleconf_dazzleconfre-1.3.0-M2-ef80c55a5f97069b.jar": {
+    "bytes": 144778,
+    "sha256": "d4c90d854967a34bf7cef196ee03ee25059566895eef89c2523de1d4fda1bd3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/server/26.2-server.jar": {
+    "bytes": 60894273,
+    "sha256": "cdacdfb25898de5e4b4b0e5ddcc2722f77067e46605709c2d886c000ebb63ec5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/.fabric/server/fabric-loader-server-0.19.5-minecraft-26.2.jar": {
+    "bytes": 622,
+    "sha256": "03de41e3ce076f42ed3139f8b961fab22e3e5c7f1caf4ca179ab6cb6d9d9aae1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/fabric-server-launch.jar": {
+    "bytes": 181838,
+    "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar": {
+    "bytes": 910232,
+    "sha256": "a58a84c4271e50df4c96ed916ccb7e48a869f8ed9cdcda1ad5d3d4c33b0214a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar": {
+    "bytes": 325945,
+    "sha256": "c50bc998cd1a6c689f8644b51c206217bf2da09d5b949e777490a60290cc3a0d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar": {
+    "bytes": 1022125,
+    "sha256": "b29ba9bce041e6ea822203d5b5a692660c87551241510ebc76eedffe684844c7"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar": {
+    "bytes": 313604,
+    "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar": {
+    "bytes": 10763,
+    "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar": {
+    "bytes": 3064793,
+    "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar": {
+    "bytes": 396486,
+    "sha256": "12e62f79d1a71d176a41c168c0587f8167f0add99b78f006f39595bd7242aebe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar": {
+    "bytes": 145285,
+    "sha256": "1f77e70240548b9cd233da0e12938bbbe5597ac9e94f6c6b07577faf1461a951"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar": {
+    "bytes": 80082,
+    "sha256": "c8ee4136e474ac7723ca2b432ec8d1a2bc88ef7d1ec57c314ba9e33cdc83dd75"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar": {
+    "bytes": 753612,
+    "sha256": "3547cb1da8993fb7ebd42494d0e78997d2cfbe90c421f5efd022863e6909941e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar": {
+    "bytes": 12876,
+    "sha256": "8bb68d0b65e8eceb92de2bd1d9e1443a8c9a9dd1b5818a5e54870b0f8253672a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar": {
+    "bytes": 19540,
+    "sha256": "3c7ac9742fa98c773275379eb1046c048b5d2ee989152a8c69e7ba696c3f8538"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar": {
+    "bytes": 563971,
+    "sha256": "df90bba0fe3cb586b7f164e78fe8f8f4da3f2dd5c27fa645f888100ccc25dd72"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar": {
+    "bytes": 371912,
+    "sha256": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar": {
+    "bytes": 152914,
+    "sha256": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar": {
+    "bytes": 183091,
+    "sha256": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar": {
+    "bytes": 674986,
+    "sha256": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar": {
+    "bytes": 818260,
+    "sha256": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar": {
+    "bytes": 586442,
+    "sha256": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar": {
+    "bytes": 32977,
+    "sha256": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar": {
+    "bytes": 549606,
+    "sha256": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar": {
+    "bytes": 159908,
+    "sha256": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar": {
+    "bytes": 116801,
+    "sha256": "2a15e2213a1fe49e73b4bb39bc746e7196dba8c1b182bc0d21a719a4d1be2c00"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar": {
+    "bytes": 43866,
+    "sha256": "5a401e9dfb4f937e37a2221f6b91da25a008eac1f08ddd4bb0d9ed20e0e32668"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar": {
+    "bytes": 42314,
+    "sha256": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar": {
+    "bytes": 27468,
+    "sha256": "c9696a41e549eb42432f1e2cc3f387c85435034b73a3bf8748ffff40d00f921a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar": {
+    "bytes": 26722,
+    "sha256": "6095c29661abe1f2fbc2c79c54a94de4fdaddd6e99c702927fd3c00e66872574"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar": {
+    "bytes": 46876,
+    "sha256": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar": {
+    "bytes": 23965563,
+    "sha256": "9094ae67d01d0ad246f886f11ad557fc2e79c72cbf3feed83e1512a8ae90a74a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar": {
+    "bytes": 1984980,
+    "sha256": "93044e4dd46de5d8136701292f05e868da096d2c9fddb4793e4fdbcc63efc695"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar": {
+    "bytes": 1539080,
+    "sha256": "1f0ae44db7295f8626f33b1dc0ad7f043d8954a8d6847247875fcc5dfcecc934"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar": {
+    "bytes": 2002589,
+    "sha256": "b3a9408e7c51e08ef0e3bfcc08f443f6ec0f6191ba8cd7c18d53d2b22e5bdbc0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar": {
+    "bytes": 1378617,
+    "sha256": "b7e3d46c87bad2eb409b0e704916bcd81206168e357312dfddd0e253679cd9e0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar": {
+    "bytes": 78146,
+    "sha256": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar": {
+    "bytes": 713862,
+    "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar": {
+    "bytes": 351126,
+    "sha256": "820de7bbaf430eaf2e3e5ccb92f23e2085797c5ac4d4f7fc6c8b660fbefa1dbc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar": {
+    "bytes": 2015101,
+    "sha256": "406bb3132c47a5d322e5c571feb0787ca84496469f346eb51f1ef2ee45499902"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar": {
+    "bytes": 30211,
+    "sha256": "cfc1bddbd39e684b698ae968291d8a3b3a55ee0ec2ef3d3ea5c2336a9e151598"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar": {
+    "bytes": 778846,
+    "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar": {
+    "bytes": 3819,
+    "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar": {
+    "bytes": 126151,
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar": {
+    "bytes": 35140,
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar": {
+    "bytes": 74840,
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar": {
+    "bytes": 51958,
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar": {
+    "bytes": 95628,
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar": {
+    "bytes": 69908,
+    "sha256": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/emma-smp-0.1.0+26.2.jar": {
+    "bytes": 13412208,
+    "sha256": "2932f9e505862158c5da91ea9404a3aa5839a3e5f8114fb7a6db3da74be35057"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 801042,
+    "sha256": "4ec07618e97e124f41ba5b9e6be7d5fcba9f622396f71a3b074a6466461a6c3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/fabric-api-0.161.0+26.2.jar": {
+    "bytes": 2566123,
+    "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/lithium-fabric-0.25.3+mc26.2.jar": {
+    "bytes": 912850,
+    "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/multithreadmc-0.1.0+26.2.jar": {
+    "bytes": 156479,
+    "sha256": "acbcb239cb68e3b0bbc33e9f4a0d63f3bb671a59231bbfaa5d473fa98a5c8aca"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/mods/servercore-fabric-1.5.19+26.2.jar": {
+    "bytes": 909932,
+    "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/BOOT/b/versions/26.2/server-26.2.jar": {
+    "bytes": 24952681,
+    "sha256": "183c0499c5f855570ee487dd38e141a53f0121f83a0b07a3bac2d8b6698823e8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/client/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 801042,
+    "sha256": "4ec07618e97e124f41ba5b9e6be7d5fcba9f622396f71a3b074a6466461a6c3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/common-economy-api-2.0.0-587a5cd772b9a635.jar": {
+    "bytes": 17121,
+    "sha256": "c07cb4966f7c5569036657f2213aaa6ab50d814dc63529a8fda195074558c719"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/common-protection-api-2.0.0-db0e71a2d7e4e731.jar": {
+    "bytes": 7307,
+    "sha256": "b5df058db0fb9dc8924ef7b5838cede655332d393cb51d9cafc53182df624d96"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/emma-smp-protocol-0.1.0+26.2-c9d3d5b606d19a47.jar": {
+    "bytes": 68389,
+    "sha256": "83f383a2aeafb37b3e7a3e9cb098e0add317ea2dc7c9f0e9440c12fc13fd0828"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-advancement-api-v1-1.0.0+58719a3b9e-8121aae71695a264.jar": {
+    "bytes": 27244,
+    "sha256": "221ddba7ff60ac669394e04edfaeae21d60844a2c093ec4929539e20403a6222"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-api-base-2.0.4+ece063239e-25b880d50d5aa2e2.jar": {
+    "bytes": 29032,
+    "sha256": "91679a213120ca9fe8681461f4e9ff65f296a80a844d50c7dfc2113787b8b41a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-api-lookup-api-v1-2.0.18+11e1c9a39e-3056e396c0d94af3.jar": {
+    "bytes": 47777,
+    "sha256": "319e6bad3a47ba64a3df19e460a029cc21ae23ab47f4703693edcc0aa0a9906a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-biome-api-v1-18.0.6+c7bd5b8e9e-9885bfedbd54269e.jar": {
+    "bytes": 76336,
+    "sha256": "be7eb427937567cebbebb08921c9bd9108632ef30c3596f0a8cc05401c028311"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-block-api-v1-3.1.0+53515aab9e-5f75675410a9b032.jar": {
+    "bytes": 23757,
+    "sha256": "74db9db9e1315231598c1e6bbaba1f4f8fcb85a329253c4771b6b19a68b28a0c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-block-getter-api-v2-2.0.7+ec56b6019e-966c8d9cdabc4f8e.jar": {
+    "bytes": 19738,
+    "sha256": "1dfe5f51dc614910bdf419dab2ac73c46d10fb7f29cfb21b49263333bb149749"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-command-api-v2-3.1.0+00cb03469e-d720b639ff932d22.jar": {
+    "bytes": 35413,
+    "sha256": "008f9f7a3a4af755ce8272ba623a20d94ef5ccca870fcfd37f25be899a65f64a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-content-registries-v0-11.+37b1aa249e-721bfa86eda2c2c1.jar": {
+    "bytes": 98582,
+    "sha256": "1e7ad0db5cf0ca5ffa505185ccd94fdbc29573ed85cf157a3514eb4f60d7d986"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-convention-tags-v2-4.7.1+1f023a9e9e-c788265350eb0500.jar": {
+    "bytes": 255431,
+    "sha256": "ddfce65cad99011b13a993714f8f07aeb8a964a73ddbd09139c5857152d2313d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-crash-report-info-v1-1.0.+086d547a9e-9685a2b83148644a.jar": {
+    "bytes": 15251,
+    "sha256": "d8c17e57d942b44b0fb8fbb56bb963b280c9b89fdc5bbfaa12975912bfea2080"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-creative-tab-api-v1-5.0.1+6468574f9e-e248256412bb8ac0.jar": {
+    "bytes": 51771,
+    "sha256": "b126dbac5cfc4b07568609089c23eaeb1e9dc968e9c04a336e2995a12df3d7ba"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-data-attachment-api-v1-2.+515ac5339e-f0a3c1c8f5c46115.jar": {
+    "bytes": 110453,
+    "sha256": "d4669cb34e150e023018fca95ebdc0cbb3a829895df63f6f652d1ae8c62e2840"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-data-generation-api-v1-25+c0da0b829e-ccb1c785a966edc3.jar": {
+    "bytes": 147836,
+    "sha256": "857c428b1481af2d29b05a7c0e1840a14fb3fc37e6317e669c43f45f36a9e6ff"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-debug-api-v1-1.0.2+c792624d9e-eb0b681f426ccae6.jar": {
+    "bytes": 26956,
+    "sha256": "6906961485754447aa5cf149fc42e4eae55f7b977c132d8e9bc98f3a7d22029a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-dimensions-v1-5.1.12+515ac5339e-61f71fa003dce951.jar": {
+    "bytes": 27097,
+    "sha256": "b09397e9bbdcb8bd5cc1384400ae4dc7076a858d42ce39def2d0d326be13d56c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-entity-events-v1-5.0.5+06488ac19e-9ac0c9834212b60c.jar": {
+    "bytes": 72443,
+    "sha256": "d9912622f0ae615ec4df8aada79309b0b52dbade87cf70a7be21536cfc1fc916"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-events-interaction-v0-5.2+515ac5339e-c034a17183ac09fd.jar": {
+    "bytes": 64945,
+    "sha256": "2adc42c9e1072dedd0eabcfd9e6a858cbab451cdfc9bf8ff195f3403add7bda2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-game-rule-api-v1-4.0.8+46a6d00c9e-88173a29c40598e0.jar": {
+    "bytes": 50875,
+    "sha256": "244106ce11032eba15485c6e84a866ab974707420baa956d16e87e41914c9896"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-item-api-v1-14.5.0+c68f6cbe9e-f3ee7a6183ae5f28.jar": {
+    "bytes": 74484,
+    "sha256": "074dc670b3d862345f3b7823d47ad0b0fa559c04760a353673d7f36c29a4957e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-lifecycle-events-v1-4.1.4+29b6eb019e-f90ec9235e4e0207.jar": {
+    "bytes": 97408,
+    "sha256": "cba8c892c9f203aaac8441da7cd800510097120610dc69557592f2b1dcab9d8a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-loot-api-v3-3.0.17+06488ac19e-13194bd6e826ad33.jar": {
+    "bytes": 32685,
+    "sha256": "8bd58904a3582e3ccbe41b533cc7a50b6734ead684a02e41f6546a93994b6ecd"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-menu-api-v1-2.0.17+086d547a9e-a5b6e3f1edf8c041.jar": {
+    "bytes": 23785,
+    "sha256": "6f1b81c71bdf4e5fc2fb2485f127d537fd1d6ec8fa2ad507e773310f1cfe7161"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-message-api-v1-7.0.8+bb2ed3f79e-715d2c64265d7294.jar": {
+    "bytes": 39862,
+    "sha256": "e28c594da6e871328c84e5d597d3e99cac3745acf23179924e97229ad574d26f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-networking-api-v1-6.3.4+2989c6a09e-dbea85319463f0cb.jar": {
+    "bytes": 226229,
+    "sha256": "10b88a11d0c534810bee2ce10b3e70482200f20ba92f1fa5457ce81b6649b923"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-object-builder-api-v1-24.+6fcd5f039e-383f5242a61f2746.jar": {
+    "bytes": 60474,
+    "sha256": "dd335d64ec99b68ee64c661287058e307593a9352e8590205fa2c951e7ebecb5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-particles-v1-5.0.19+d1756aa99e-8c5c43d24c413ce9.jar": {
+    "bytes": 51429,
+    "sha256": "2fb8820ea89d5821d12baa2c95633098f083a49614bf292001478d80100cc806"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-permission-api-v1-1.0.5+e442d8d09e-70539fa656926913.jar": {
+    "bytes": 39104,
+    "sha256": "d334ff3af4e641255d444558e847f68dfb923fcc5d5c5c9cfbd5d25310e3fefb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-permissions-api-v0-0.7.0-a3f5e4a9ae61994e.jar": {
+    "bytes": 15050,
+    "sha256": "444c8752bf3fc40a452074106fd02d3341b7d350ff006254f59ea1fd17f1272b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-recipe-api-v1-9.0.22+11e1c9a39e-46901fc6d1ecec5b.jar": {
+    "bytes": 92651,
+    "sha256": "9a3b476ffce2f9a9c05dcae50ed8aa5448d23de746483bfdff82f534de95f7df"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-registry-sync-v0-7.1.1+c7bd5b8e9e-8c221961a9c5172c.jar": {
+    "bytes": 118121,
+    "sha256": "4c0d4b6e81b872ac63396d99ebb45bc83ce955c1234e55d53e744a26cde4df9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-rendering-fluids-v1-6.0.4+06488ac19e-280e4eabf267722b.jar": {
+    "bytes": 22057,
+    "sha256": "392935f1e49d5c52e94556046b42566bcc39637274b35c19b4be79371a69c593"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-resource-conditions-api-v+10e9a28b9e-f834ed286ec08414.jar": {
+    "bytes": 55438,
+    "sha256": "bedf189c0fc5a1314efab58ec1b168f236740ddfcfe54f766aa204a260f369b8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-resource-loader-v0-3.3.20+4fc5413f9e-20c73f9845cf9cc2.jar": {
+    "bytes": 17841,
+    "sha256": "9c62b5b85e903a07542ed4825890afb70fe533795e791dc6515a9484f8221654"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-resource-loader-v1-2.0.13+9edec1269e-28376715ed6c3abf.jar": {
+    "bytes": 133457,
+    "sha256": "a0825a89eb44f9bd1ac7e237757adb230dc31d4202ccf5c638aa22376befb738"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-serialization-api-v1-2.0.+11a26f319e-3a7d22f929fdbe1c.jar": {
+    "bytes": 19272,
+    "sha256": "bfe2d8d7c5b4120ddb0b0598857deb2fc875d47633c33ffca8fe394ca5063e0e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-tag-api-v1-2.1.4+515ac5339e-82d69a6463160864.jar": {
+    "bytes": 47238,
+    "sha256": "8e5eae826343acac61219de8b0077b2180c35dd34301f32b3bc107efc8965207"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-transfer-api-v1-8.0.13+11dbb7d79e-10f1197b575d3001.jar": {
+    "bytes": 192621,
+    "sha256": "546e5dc5f364c65a9f1f011d589514b9807059d107fb55fccc13dd377bf88c26"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/fabric-transitive-access-widener+67c847259e-28f76200e9a6f6b2.jar": {
+    "bytes": 12508,
+    "sha256": "8d1aa1e30aebf6acb255bd93f1fcac897331068b61ce1ca11f34a4102996210a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/mixinextras-0.5.5-cd81fe35163f5828.jar": {
+    "bytes": 727864,
+    "sha256": "5da883dc4bfb16e4ceca3f16d8c4ad937bdfb1ce337ed5ba15472d4d81dd6242"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/org_xerial_sqlite-jdbc-3.53.4.0-4e22e487e8eacb13.jar": {
+    "bytes": 12002613,
+    "sha256": "57525d07ce37e7922371553dfb784a311431b1c08ec293711048c27dbaf6093f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/org_yaml_snakeyaml-2.6-d4950520e3a61190.jar": {
+    "bytes": 340300,
+    "sha256": "8d9adae904e4eadde2399a4bc667f29f784328c122ff0f5a127f8e7acec63e9c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/placeholder-api-3.1.0-beta.1+26.2-4b5ea82aac73952e.jar": {
+    "bytes": 254973,
+    "sha256": "c2ca2b5c397a0c198a32e7af68d2d0a011bc2c7baeae5cffd3996efd65c5069e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/sgui-2.1.0+26.2-1812cb6715a1ec88.jar": {
+    "bytes": 108163,
+    "sha256": "741984361a6d0eea648377ce573c40a7bb31a2369f3bf606d7070261aac6ca5a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfml-1.3.0-M2-be20db82564942fd.jar": {
+    "bytes": 22921,
+    "sha256": "22d35669f20f12b86993034b15ad84a2724cfa618d2192535274f1b9664be71b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/processedMods/space_arim_dazzleconf_dazzleconfre-1.3.0-M2-ef80c55a5f97069b.jar": {
+    "bytes": 144778,
+    "sha256": "d4c90d854967a34bf7cef196ee03ee25059566895eef89c2523de1d4fda1bd3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/server/26.2-server.jar": {
+    "bytes": 60894273,
+    "sha256": "cdacdfb25898de5e4b4b0e5ddcc2722f77067e46605709c2d886c000ebb63ec5"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/.fabric/server/fabric-loader-server-0.19.5-minecraft-26.2.jar": {
+    "bytes": 622,
+    "sha256": "9fe0b8f18235541ecebbaa1825b66d47cf96dccf79cabceba5b29b454008499b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/fabric-server-launch.jar": {
+    "bytes": 181838,
+    "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar": {
+    "bytes": 910232,
+    "sha256": "a58a84c4271e50df4c96ed916ccb7e48a869f8ed9cdcda1ad5d3d4c33b0214a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar": {
+    "bytes": 325945,
+    "sha256": "c50bc998cd1a6c689f8644b51c206217bf2da09d5b949e777490a60290cc3a0d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar": {
+    "bytes": 1022125,
+    "sha256": "b29ba9bce041e6ea822203d5b5a692660c87551241510ebc76eedffe684844c7"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar": {
+    "bytes": 313604,
+    "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar": {
+    "bytes": 10763,
+    "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar": {
+    "bytes": 3064793,
+    "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar": {
+    "bytes": 396486,
+    "sha256": "12e62f79d1a71d176a41c168c0587f8167f0add99b78f006f39595bd7242aebe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar": {
+    "bytes": 145285,
+    "sha256": "1f77e70240548b9cd233da0e12938bbbe5597ac9e94f6c6b07577faf1461a951"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar": {
+    "bytes": 80082,
+    "sha256": "c8ee4136e474ac7723ca2b432ec8d1a2bc88ef7d1ec57c314ba9e33cdc83dd75"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar": {
+    "bytes": 753612,
+    "sha256": "3547cb1da8993fb7ebd42494d0e78997d2cfbe90c421f5efd022863e6909941e"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar": {
+    "bytes": 12876,
+    "sha256": "8bb68d0b65e8eceb92de2bd1d9e1443a8c9a9dd1b5818a5e54870b0f8253672a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar": {
+    "bytes": 19540,
+    "sha256": "3c7ac9742fa98c773275379eb1046c048b5d2ee989152a8c69e7ba696c3f8538"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar": {
+    "bytes": 563971,
+    "sha256": "df90bba0fe3cb586b7f164e78fe8f8f4da3f2dd5c27fa645f888100ccc25dd72"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar": {
+    "bytes": 371912,
+    "sha256": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar": {
+    "bytes": 152914,
+    "sha256": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar": {
+    "bytes": 183091,
+    "sha256": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar": {
+    "bytes": 674986,
+    "sha256": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar": {
+    "bytes": 818260,
+    "sha256": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar": {
+    "bytes": 586442,
+    "sha256": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar": {
+    "bytes": 32977,
+    "sha256": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar": {
+    "bytes": 549606,
+    "sha256": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar": {
+    "bytes": 159908,
+    "sha256": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar": {
+    "bytes": 116801,
+    "sha256": "2a15e2213a1fe49e73b4bb39bc746e7196dba8c1b182bc0d21a719a4d1be2c00"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar": {
+    "bytes": 43866,
+    "sha256": "5a401e9dfb4f937e37a2221f6b91da25a008eac1f08ddd4bb0d9ed20e0e32668"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar": {
+    "bytes": 42314,
+    "sha256": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar": {
+    "bytes": 27468,
+    "sha256": "c9696a41e549eb42432f1e2cc3f387c85435034b73a3bf8748ffff40d00f921a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar": {
+    "bytes": 26722,
+    "sha256": "6095c29661abe1f2fbc2c79c54a94de4fdaddd6e99c702927fd3c00e66872574"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar": {
+    "bytes": 46876,
+    "sha256": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar": {
+    "bytes": 23965563,
+    "sha256": "9094ae67d01d0ad246f886f11ad557fc2e79c72cbf3feed83e1512a8ae90a74a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar": {
+    "bytes": 1984980,
+    "sha256": "93044e4dd46de5d8136701292f05e868da096d2c9fddb4793e4fdbcc63efc695"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar": {
+    "bytes": 1539080,
+    "sha256": "1f0ae44db7295f8626f33b1dc0ad7f043d8954a8d6847247875fcc5dfcecc934"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar": {
+    "bytes": 2002589,
+    "sha256": "b3a9408e7c51e08ef0e3bfcc08f443f6ec0f6191ba8cd7c18d53d2b22e5bdbc0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar": {
+    "bytes": 1378617,
+    "sha256": "b7e3d46c87bad2eb409b0e704916bcd81206168e357312dfddd0e253679cd9e0"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar": {
+    "bytes": 78146,
+    "sha256": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar": {
+    "bytes": 713862,
+    "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar": {
+    "bytes": 351126,
+    "sha256": "820de7bbaf430eaf2e3e5ccb92f23e2085797c5ac4d4f7fc6c8b660fbefa1dbc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar": {
+    "bytes": 2015101,
+    "sha256": "406bb3132c47a5d322e5c571feb0787ca84496469f346eb51f1ef2ee45499902"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar": {
+    "bytes": 30211,
+    "sha256": "cfc1bddbd39e684b698ae968291d8a3b3a55ee0ec2ef3d3ea5c2336a9e151598"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar": {
+    "bytes": 778846,
+    "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar": {
+    "bytes": 3819,
+    "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar": {
+    "bytes": 126151,
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar": {
+    "bytes": 35140,
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar": {
+    "bytes": 74840,
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar": {
+    "bytes": 51958,
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar": {
+    "bytes": 95628,
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar": {
+    "bytes": 69908,
+    "sha256": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/emma-smp-0.1.0+26.2.jar": {
+    "bytes": 13412208,
+    "sha256": "2932f9e505862158c5da91ea9404a3aa5839a3e5f8114fb7a6db3da74be35057"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/emma_endinv-fabric-26.2-1.4.5.jar": {
+    "bytes": 801042,
+    "sha256": "4ec07618e97e124f41ba5b9e6be7d5fcba9f622396f71a3b074a6466461a6c3d"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/fabric-api-0.161.0+26.2.jar": {
+    "bytes": 2566123,
+    "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/lithium-fabric-0.25.3+mc26.2.jar": {
+    "bytes": 912850,
+    "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/multithreadmc-0.1.0+26.2.jar": {
+    "bytes": 156479,
+    "sha256": "acbcb239cb68e3b0bbc33e9f4a0d63f3bb671a59231bbfaa5d473fa98a5c8aca"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/mods/servercore-fabric-1.5.19+26.2.jar": {
+    "bytes": 909932,
+    "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666"
+  },
+  "/workspace/mtmc-prototype/runs/run-004/STACK_SMOKE/server/versions/26.2/server-26.2.jar": {
+    "bytes": 24952681,
+    "sha256": "183c0499c5f855570ee487dd38e141a53f0121f83a0b07a3bac2d8b6698823e8"
+  }
+}

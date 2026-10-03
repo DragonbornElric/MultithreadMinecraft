@@ -140,3 +140,55 @@ admission tests. Opaque ledger fixtures still do not count as player-state trans
 Minecraft cluster startup guards remain enabled because worker dimension isolation,
 source quiescence, destination restoration and global EndInv/emma-smp mutation adapters
 are unfinished.
+
+## Review and local testing
+
+The feature branch is `feature/dimension-hosting-prototype` in all three changed repositories:
+`DragonbornElric/MultithreadMinecraft`, `DragonbornElric/emma-smp`, and
+`DragonbornElric/Emma-EndInv`. Use the three linked draft PRs together for the full local stack.
+The coordinator unit tests can run independently. emma-smp's ordinary unit tests remain local.
+The EndInv codec probe and populated smoke fixture require the real EndInv source build; the
+cached 1.4.4 jar is not a substitute for the tested 1.4.5 source.
+
+For control-plane and server unit checks on Linux/WSL, install Java 25, Gradle 9.7.1 and OpenSSL,
+set `JAVA_HOME` to that Java installation, and run from the indicated checkout:
+
+```bash
+# MultithreadMinecraft
+ gradle -p coordination test installDist
+ gradle -p mod assemble
+# emma-smp
+ gradle :server:test :server:assemble
+# Emma-EndInv/java/emma-endinv (Fabric build only)
+ gradle -Dorg.gradle.java.home="$JAVA_HOME" -Pfolia_version= :fabric:assemble
+```
+
+Use fresh disposable worlds, not production data. Cluster gameplay deliberately refuses
+`-Dmtmc.cluster.enabled=true`; that is an unfinished acceptance case, not a launch instruction
+for a safe distributed server. `/mtmc cluster`, `/mtmc player-snapshot <player>` and
+`/endinv-cluster-snapshot` expose admin-only diagnostic behavior on the normal local stack.
+The coordinator can be launched separately with a fresh database and lab mTLS certificates;
+its usage and peer identity requirements are documented above. Unit tests create their own
+PKI and abrupt-death subprocesses in temporary directories.
+
+The full matrix currently assumes the Linux `/workspace` tool/cache layout of this run and
+uses isolated Xvfb/llvmpipe clients plus loopback ports 25680/25681. It is not a turnkey native
+Windows benchmark. Prepare source/baseline worktrees and exact pinned assets, export the
+client manifest using `exportLabLaunch` in `emma-smp/tools/lab/driver`, then generate a **new**
+config with `make_config.py`. Review/override Java, Gradle, Gradle cache, Xvfb and client launch
+paths for the local environment; some preparation scripts still assume `/workspace`. The
+exported client classpath/native paths must be regenerated locally. Never use the archived
+cloud freeze/config as a local launch manifest. Run the suite into a new output directory:
+
+```bash
+python lab/dimension_hosting/run_suite.py --config /absolute/new-config.json --out /absolute/new-run
+```
+
+The original baseline revisions are MTMC `7a4d74762750c1d43410eb86083794582e5498c8`,
+emma-smp `afa8cc96e01d1cd78a321120bab7ae6a93654618`, and EndInv
+`6a6ac376dacf086762c4afc7a20149c1b24099fd`. Retain them in detached baseline worktrees when
+reproducing off/on fixtures. Missing hardware/workloads/adapters must remain BLOCKED.
+
+The published evidence is in `lab/dimension_hosting/evidence/`. Run-004 tested behavioral heads
+MTMC `5ee0bff`, emma-smp `05f87ff`, EndInv `a21ccc0`. Subsequent publication changes add only
+these review instructions and archived evidence, not implementation or test behavior.

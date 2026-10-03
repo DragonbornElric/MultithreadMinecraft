@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "full_run_complete": true,
+  "runner_exit_code": 1,
+  "summary": {
+    "counts": {
+      "BLOCKED": 20,
+      "PASS": 3,
+      "FAIL": 2
+    },
+    "total": 25,
+    "frozen_digest": "c84066363ff90b4b3aa4348881f0587a9b1d3f31db48961d5f6447a76818b712",
+    "final_digest": "c84066363ff90b4b3aa4348881f0587a9b1d3f31db48961d5f6447a76818b712",
+    "freeze_unchanged": true,
+    "all_approved_cases_accounted_for": true,
+    "capacity_claim": "NONE; no active-player multi-PC capacity was measured",
+    "records": [
+      "/workspace/mtmc-prototype/runs/run-002/ENV/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/CORE_LEDGER/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/CORE_TRANSPORT/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/SMP_UNIT/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/STACK_SMOKE/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/BASE0/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/BASE1/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/BOOT/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ROUTE/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/TRAVEL/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ESS/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/PLAYER/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ENTITY/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ENDSEL/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ENDCON/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/ENDSTATION/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/SMP/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/CROSS/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/FAULT/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/WIRE/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/RECOVERY/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/LOADLOCAL/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/LOADPC/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/LIFECYCLE/result.json",
+      "/workspace/mtmc-prototype/runs/run-002/UNLOAD/result.json"
+    ]
+  },
+  "approved_matrix_counts": {
+    "BLOCKED": 20,
+    "FAIL": 1
+  },
+  "junit": {
+    "SMP_UNIT": {
+      "tests": 103,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "CORE_LEDGER": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "CORE_TRANSPORT": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "grouped_findings": [
+    {
+      "kind": "harness defect",
+      "cases": [
+        "STACK_SMOKE"
+      ],
+      "finding": "Dashed UUID substring assertion against NBT fails because the actual codec encodes UUIDs as four signed integers. Inventory creation, selection and real menu deposit reached successful codec round-trip with 64 stored diamonds. Official case remains FAIL. Player capture and subsequent selftest in this case were not reached.",
+      "evidence": [
+        "/workspace/mtmc-prototype/runs/run-002/STACK_SMOKE/result.json",
+        "/workspace/mtmc-prototype/runs/run-002/STACK_SMOKE/client/actions.jsonl",
+        "/workspace/mtmc-prototype/runs/run-002/STACK_SMOKE/server/commands.jsonl"
+      ],
+      "uuid_proof": {
+        "uuid": "a56bbbe4-5aee-4753-aceb-a880438fbe16",
+        "signed_ints": [
+          -1519666204,
+          1525565267,
+          -1393842048,
+          1133493782
+        ],
+        "encoded_occurrences_in_error_evidence": 2,
+        "confidence": "high"
+      }
+    },
+    {
+      "kind": "unfinished prototype acceptance",
+      "cases": [
+        "BOOT"
+      ],
+      "finding": "Both worker starts refused distributed gameplay via explicit guards. Durable transport and diagnostic snapshots are insufficient for dimension ownership, admission, mutation, and restoration."
+    },
+    {
+      "kind": "environment/workload blockers",
+      "cases": [
+        "TRAVEL",
+        "BASE0",
+        "ENDSTATION",
+        "WIRE",
+        "LOADLOCAL",
+        "LOADPC",
+        "ESS",
+        "FAULT",
+        "ENV",
+        "RECOVERY",
+        "ENTITY",
+        "CROSS",
+        "ROUTE",
+        "ENDCON",
+        "UNLOAD",
+        "PLAYER",
+        "LIFECYCLE",
+        "ENDSEL",
+        "BASE1",
+        "SMP"
+      ],
+      "finding": "Multi-PC tests remain BLOCKED by explicit user decision. Full workload generator, pinned permission stack, whole-dimension gameplay adapters and approved sustained capacity workloads are incomplete."
+    },
+    {
+      "kind": "environment/configuration diagnostics",
+      "finding": "Offline server/client authlib services report connection refused; online authentication remains unverified. Client simulationDistance=4 is outside MC26.2 valid range and defaulted. Headless OpenAL unavailable. These logged issues did not prevent actual client joins, menu actions, or baseline selftests; causal effect beyond those observations unestablished."
+    }
+  ],
+  "baseline_observations": {
+    "BASE0": {
+      "fixture": {
+        "client": {
+          "ok": true,
+          "connected": true,
+          "name": "DimensionLab",
+          "x": 0.5,
+          "y": 82.0,
+          "z": 1.5,
+          "dim": "minecraft:overworld",
+          "health": 20.0,
+          "max_health": 20.0,
+          "food": 20,
+          "dead": false,
+          "gamemode": "survival",
+          "selected": 0,
+          "inventory": []
+        },
+        "created": "Created a new public endInv with uuid: 12b09afa-8d74-4d40-b7a2-5c6b0608f1c0",
+        "selected_uuid": "12b09afa-8d74-4d40-b7a2-5c6b0608f1c0",
+        "selected_index": 1,
+        "deposited_item": "minecraft:diamond",
+        "deposited_count": 64
+      },
+      "measurements": {
+        "label": "synthetic mob smoke, zero active clients; not playable capacity",
+        "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+        "samples": [
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 5.0ms (Target: 50.0ms)Percentiles: P50: 3.5ms P95: 15.9ms P99: 36.8ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.036,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":8.279,\"phase_max_ms\":46.453,\"overlap\":1.248,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":5.507,\"max_ms\":45.972},\"minecraft:the_end\":{\"avg_ms\":2.095,\"max_ms\":27.785},\"minecraft:the_nether\":{\"avg_ms\":2.729,\"max_ms\":17.689}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 2.4ms (Target: 50.0ms)Percentiles: P50: 1.7ms P95: 6.0ms P99: 8.9ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.036,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":8.279,\"phase_max_ms\":46.453,\"overlap\":1.248,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":5.507,\"max_ms\":45.972},\"minecraft:the_end\":{\"avg_ms\":2.095,\"max_ms\":27.785},\"minecraft:the_nether\":{\"avg_ms\":2.729,\"max_ms\":17.689}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 2.0ms (Target: 50.0ms)Percentiles: P50: 1.6ms P95: 4.8ms P99: 7.5ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":2.054,\"phase_max_ms\":7.750,\"overlap\":1.728,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":1.458,\"max_ms\":7.524},\"minecraft:the_end\":{\"avg_ms\":0.969,\"max_ms\":3.780},\"minecraft:the_nether\":{\"avg_ms\":1.123,\"max_ms\":6.977}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.7ms (Target: 50.0ms)Percentiles: P50: 1.4ms P95: 4.5ms P99: 7.2ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":2.054,\"phase_max_ms\":7.750,\"overlap\":1.728,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":1.458,\"max_ms\":7.524},\"minecraft:the_end\":{\"avg_ms\":0.969,\"max_ms\":3.780},\"minecraft:the_nether\":{\"avg_ms\":1.123,\"max_ms\":6.977}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.1ms (Target: 50.0ms)Percentiles: P50: 0.9ms P95: 2.4ms P99: 4.3ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":2.054,\"phase_max_ms\":7.750,\"overlap\":1.728,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":1.458,\"max_ms\":7.524},\"minecraft:the_end\":{\"avg_ms\":0.969,\"max_ms\":3.780},\"minecraft:the_nether\":{\"avg_ms\":1.123,\"max_ms\":6.977}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.8ms (Target: 50.0ms)Percentiles: P50: 0.6ms P95: 1.9ms P99: 4.2ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.040,\"phase_max_ms\":4.135,\"overlap\":1.318,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":0.453,\"max_ms\":1.615},\"minecraft:the_end\":{\"avg_ms\":0.467,\"max_ms\":2.146},\"minecraft:the_nether\":{\"avg_ms\":0.451,\"max_ms\":2.234}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20}}"
+          }
+        ]
+      },
+      "scope": "One real fixture client disconnected before synthetic mob sampling; not playable capacity"
+    },
+    "BASE1": {
+      "fixture": {
+        "client": {
+          "ok": true,
+          "connected": true,
+          "name": "DimensionLab",
+          "x": 6.5,
+          "y": 80.0,
+          "z": 0.5,
+          "dim": "minecraft:overworld",
+          "health": 20.0,
+          "max_health": 20.0,
+          "food": 20,
+          "dead": false,
+          "gamemode": "survival",
+          "selected": 0,
+          "inventory": []
+        },
+        "created": "Created a new public endInv with uuid: de1d5890-ca7f-4bef-9c90-6a3e675438e7",
+        "selected_uuid": "de1d5890-ca7f-4bef-9c90-6a3e675438e7",
+        "selected_index": 1,
+        "deposited_item": "minecraft:diamond",
+        "deposited_count": 64
+      },
+      "measurements": {
+        "label": "synthetic mob smoke, zero active clients; not playable capacity",
+        "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+        "samples": [
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 5.4ms (Target: 50.0ms)Percentiles: P50: 3.3ms P95: 15.3ms P99: 23.5ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.004,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":7.865,\"phase_max_ms\":26.679,\"overlap\":1.080,\"levels\":{\"minecraft:overworld\":{\"max_ms\":22.328,\"avg_ms\":4.118},\"minecraft:the_end\":{\"max_ms\":19.111,\"avg_ms\":1.485},\"minecraft:the_nether\":{\"max_ms\":21.721,\"avg_ms\":2.891}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":236},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 2.3ms (Target: 50.0ms)Percentiles: P50: 1.7ms P95: 7.1ms P99: 9.4ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.004,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":7.865,\"phase_max_ms\":26.679,\"overlap\":1.080,\"levels\":{\"minecraft:overworld\":{\"max_ms\":22.328,\"avg_ms\":4.118},\"minecraft:the_end\":{\"max_ms\":19.111,\"avg_ms\":1.485},\"minecraft:the_nether\":{\"max_ms\":21.721,\"avg_ms\":2.891}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":236},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.6ms (Target: 50.0ms)Percentiles: P50: 1.5ms P95: 3.0ms P99: 7.9ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.738,\"phase_max_ms\":8.848,\"overlap\":1.789,\"levels\":{\"minecraft:overworld\":{\"max_ms\":7.641,\"avg_ms\":1.241},\"minecraft:the_end\":{\"max_ms\":1.881,\"avg_ms\":0.924},\"minecraft:the_nether\":{\"max_ms\":2.117,\"avg_ms\":0.943}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":539},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.2ms (Target: 50.0ms)Percentiles: P50: 1.2ms P95: 2.3ms P99: 3.0ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.738,\"phase_max_ms\":8.848,\"overlap\":1.789,\"levels\":{\"minecraft:overworld\":{\"max_ms\":7.641,\"avg_ms\":1.241},\"minecraft:the_end\":{\"max_ms\":1.881,\"avg_ms\":0.924},\"minecraft:the_nether\":{\"max_ms\":2.117,\"avg_ms\":0.943}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":539},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.0ms (Target: 50.0ms)Percentiles: P50: 0.9ms P95: 2.5ms P99: 3.5ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.049,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.738,\"phase_max_ms\":8.848,\"overlap\":1.789,\"levels\":{\"minecraft:overworld\":{\"max_ms\":7.641,\"avg_ms\":1.241},\"minecraft:the_end\":{\"max_ms\":1.881,\"avg_ms\":0.924},\"minecraft:the_nether\":{\"max_ms\":2.117,\"avg_ms\":0.943}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":539},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          },
+          {
+            "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.9ms (Target: 50.0ms)Percentiles: P50: 0.8ms P95: 2.6ms P99: 3.5ms. Sample: 100",
+            "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.050,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":0.984,\"phase_max_ms\":3.426,\"overlap\":1.312,\"levels\":{\"minecraft:overworld\":{\"max_ms\":1.770,\"avg_ms\":0.486},\"minecraft:the_end\":{\"max_ms\":2.198,\"avg_ms\":0.403},\"minecraft:the_nether\":{\"max_ms\":1.323,\"avg_ms\":0.402}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1022,\"one_region\":842},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+          }
+        ]
+      },
+      "scope": "One real fixture client disconnected before synthetic mob sampling; not playable capacity"
+    }
+  },
+  "confidence": {
+    "ledger_and_tls_unit_scope": "high; 15 tests, including abrupt ledger deaths and network TLS",
+    "smp_existing_unit_scope": "high; 103 assertions/tests, no skips",
+    "distributed_gameplay": "not established",
+    "capacity_100_or_300": "not measured"
+  },
+  "recommended_next_phase": [
+    "Replace text UUID check with structured/normalized UUID comparison against actual codec representation; retain stored-item and selection assertions",
+    "Set valid client simulation distance and explicitly record headless audio/proxy limitations",
+    "Keep cluster guards; implement boot sessions, authority-checked async admission and durable source quiesce/destination restore before enabling distributed gameplay",
+    "After approved fixes, execute full frozen matrix again; keep remote tests BLOCKED until user supplies/authorizes remote hosts"
+  ],
+  "next_phase_gate": "User request section 6: Wait for my approval before beginning the next implementation/fix phase.",
+  "production_actions": "No push, merge, or deploy; all code remains on local dev/dimension-hosting worktrees",
+  "diagnostic": {
+    "purpose": "Verify actual player/cursor capture not reached after smoke assertion failure",
+    "status": "PASS",
+    "exit_code": 0,
+    "freeze_unchanged": true,
+    "result": "/workspace/mtmc-prototype/runs/diagnostic-002-cursor/result.json",
+    "findings": "Real player NBT includes EndInv Fabric attachment; captured seven diamonds on cursor with inventory empty, and all seven returned to inventory on close. No handoff, restore, crash, or cross-server conservation tested."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "counts": {
+    "BLOCKED": 20,
+    "PASS": 3,
+    "FAIL": 2
+  },
+  "total": 25,
+  "frozen_digest": "c84066363ff90b4b3aa4348881f0587a9b1d3f31db48961d5f6447a76818b712",
+  "final_digest": "c84066363ff90b4b3aa4348881f0587a9b1d3f31db48961d5f6447a76818b712",
+  "freeze_unchanged": true,
+  "all_approved_cases_accounted_for": true,
+  "capacity_claim": "NONE; no active-player multi-PC capacity was measured",
+  "records": [
+    "/workspace/mtmc-prototype/runs/run-002/ENV/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/CORE_LEDGER/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/CORE_TRANSPORT/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/SMP_UNIT/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/STACK_SMOKE/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/BASE0/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/BASE1/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/BOOT/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ROUTE/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/TRAVEL/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ESS/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/PLAYER/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ENTITY/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ENDSEL/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ENDCON/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/ENDSTATION/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/SMP/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/CROSS/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/FAULT/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/WIRE/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/RECOVERY/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/LOADLOCAL/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/LOADPC/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/LIFECYCLE/result.json",
+    "/workspace/mtmc-prototype/runs/run-002/UNLOAD/result.json"
+  ]
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.maps.ChunkOutlinesTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:44.620Z" hostname="9f47e8df99f5" time="0.036">
+  <properties/>
+  <testcase name="oneChunkIsASquare()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.03"/>
+  <testcase name="diagonalNeighboursAreSeparateAreas()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.0"/>
+  <testcase name="islandInsideAHoleKeepsTheHoleOnTheOuterRing()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.001"/>
+  <testcase name="ringHasAHole()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.001"/>
+  <testcase name="straightRunsAreMerged()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.001"/>
+  <testcase name="lShapeHasSixCorners()" classname="us.emmaandelric.smp.maps.ChunkOutlinesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

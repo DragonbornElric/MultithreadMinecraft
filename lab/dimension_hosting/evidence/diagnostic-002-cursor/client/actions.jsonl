@@ -1,0 +1,31 @@
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": false}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": true, "name": "DimensionLab", "x": 2.5, "y": 87.0, "z": -2.5, "dim": "minecraft:overworld", "health": 20.0, "max_health": 20.0, "food": 20, "dead": false, "gamemode": "survival", "selected": 0, "screen": "net.minecraft.client.gui.screens.LevelLoadingScreen", "inventory": []}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": true, "name": "DimensionLab", "x": 2.5, "y": 87.0, "z": -2.5, "dim": "minecraft:overworld", "health": 20.0, "max_health": 20.0, "food": 20, "dead": false, "gamemode": "survival", "selected": 0, "screen": "net.minecraft.client.gui.screens.LevelLoadingScreen", "inventory": [{"id": "minecraft:diamond", "count": 7, "name": "Diamond", "lore": [], "slot": 0}]}}
+{"request": {"op": "open_inventory"}, "response": {"ok": true, "opened": true}}
+{"request": {"op": "screen"}, "response": {"ok": true, "open": true, "class": "net.minecraft.client.gui.screens.inventory.InventoryScreen", "title": "Crafting", "container_id": 0, "slot_count": 46, "slots": [{"id": "minecraft:diamond", "count": 7, "name": "Diamond", "lore": [], "slot": 36, "player_inv": true}]}}
+{"request": {"op": "click", "slot": 36}, "response": {"ok": true, "clicked": 36}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": true, "name": "DimensionLab", "x": 2.5, "y": 87.0, "z": -2.5, "dim": "minecraft:overworld", "health": 20.0, "max_health": 20.0, "food": 20, "dead": false, "gamemode": "survival", "selected": 0, "screen": "net.minecraft.client.gui.screens.inventory.InventoryScreen", "inventory": []}}
+{"request": {"op": "close"}, "response": {"ok": true, "closed": true}}
+{"request": {"op": "state"}, "response": {"ok": true, "connected": true, "name": "DimensionLab", "x": 2.5, "y": 87.0, "z": -2.5, "dim": "minecraft:overworld", "health": 20.0, "max_health": 20.0, "food": 20, "dead": false, "gamemode": "survival", "selected": 0, "inventory": [{"id": "minecraft:diamond", "count": 7, "name": "Diamond", "lore": [], "slot": 0}]}}
