@@ -3,6 +3,7 @@
     python lab/region_lab.py ab --pens 6 --mobs 3000                # /mtmc regions on/off A/B, same load
     python lab/region_lab.py tnt --sites 6 --trials 3                 # crater, chain, cannon in 6 regions at once
     python lab/region_lab.py chaos --pens 6 --minutes 5               # a zoo in every pen, sprinted, then checked
+    CONFIGS=lab/configs/owner-stack python lab/region_lab.py churn --variant mtmcr+lithium   # Lithium's tracker maps
 
 All of it runs in the Overworld, so dimension parallelism doesn't help: whatever is gained is
 region ticking. Every scenario starts the server with the `mtmcr` variant (regions on) unless
@@ -23,6 +24,18 @@ sheep on grass, chickens, wolves, iron golems, items and TNT, run sprinting. Pas
 is alive, nothing logged an exception or an entity-section warning, the region counters show
 no escapes and the mod no foreign chunk access.
 
+churn: Lithium's level-wide block-tracking maps under regions (run it on the owner stack, Lithium
+with mixin.experimental on: `--variant mtmcr+lithium` with CONFIGS=lab/configs/owner-stack). At
+--pens sites, `--mobs` mobs per site are moved together to a fresh 4x4-chunk patch every round
+(spreadplayers; every other round all teleported to the patch centre), the new patch force-loaded and the
+old one unloaded. A mob's block cache
+(experimental entity.block_caching) registers trackers in the sections around it, and the first
+one in a section puts a callback in a level-wide map; unloading the old patch takes them out
+again. So every round all sites put into that map from their region threads at once, and it
+grows and shrinks all run. Pass: the server is alive, nothing logged an exception and no escapes.
+If the server crashed, the scenario also checks that it shut down by itself (a thread dump is
+saved to $LAB_DIR/churn_hang_<time>.txt when it hangs).
+
 Results: stdout and $LAB_DIR/region_lab.jsonl.
 """
 from __future__ import annotations
@@ -30,6 +43,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import random
 import re
 import statistics
@@ -339,6 +353,110 @@ def chaos(args) -> dict:
     return res
 
 
+# ── churn ────────────────────────────────────────────────────────────
+CHURN_MIX = ["pig", "cow", "sheep", "zombie", "chicken"]
+PATCH = 64  # one patch: 4x4 chunks
+PATCHES = 4  # per site, in a row along z
+
+
+def server_alive() -> bool:
+    try:
+        pid = int((SERVER / "server.pid").read_text().strip())
+        os.kill(pid, 0)
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def thread_dump(path: Path) -> None:
+    import subprocess
+    pid = (SERVER / "server.pid").read_text().strip()
+    jcmd = Path(os.environ.get("JAVA", "java")).with_name("jcmd")
+    out = subprocess.run([str(jcmd) if jcmd.exists() else "jcmd", pid, "Thread.print"], capture_output=True, text=True)
+    path.write_text(out.stdout + out.stderr)
+
+
+def churn(args) -> dict:
+    r = start(args)
+    rng = random.Random(args.seed)
+    sites = [i * args.pen_spacing for i in range(args.pens)]
+    ex = "execute in minecraft:overworld run "
+    y = bench.PEN_Y
+
+    def patch(cx: int, k: int) -> tuple[int, int, int, int]:
+        z0 = k * (PATCH + 32)
+        return cx - PATCH // 2, z0, cx + PATCH // 2 - 1, z0 + PATCH - 1
+
+    for cx in sites:
+        for k in range(PATCHES):
+            x1, z1, x2, z2 = patch(cx, k)
+            r_cmd(r, ex + f"forceload add {x1} {z1} {x2} {z2}")
+            for xa in range(x1, x2 + 1, 32):
+                r_cmd(r, ex + f"fill {xa} {y} {z1} {min(xa + 31, x2)} {y} {z2} minecraft:glass")
+            for (a, b, c, d) in [(x1 - 1, z1 - 1, x2 + 1, z1 - 1), (x1 - 1, z2 + 1, x2 + 1, z2 + 1),
+                                 (x1 - 1, z1 - 1, x1 - 1, z2 + 1), (x2 + 1, z1 - 1, x2 + 1, z2 + 1)]:
+                r_cmd(r, ex + f"fill {a} {y + 1} {b} {c} {y + 2} {d} minecraft:glass")
+            if k:
+                r_cmd(r, ex + f"forceload remove {x1} {z1} {x2} {z2}")
+        x1, z1, x2, z2 = patch(cx, 0)
+        for _ in range(args.mobs):
+            mob = rng.choice(CHURN_MIX)
+            r_cmd(r, ex + f"summon minecraft:{mob} {rng.uniform(x1 + 1, x2 - 1):.2f} {y + 1} {rng.uniform(z1 + 1, z2 - 1):.2f} "
+                          f"{{PersistenceRequired:1b,Tags:[\"churn{cx}\"]}}")
+    time.sleep(args.settle)
+    since = log_offset()
+    r.cmd("mtmc regions on")
+    t0 = time.time()
+    rounds = 0
+    cur = 0
+    crashed = False
+    while time.time() - t0 < args.minutes * 60:
+        nxt = (cur + 1) % PATCHES
+        try:
+            for cx in sites:
+                r.cmd(ex + "forceload add %d %d %d %d" % patch(cx, nxt))
+            for cx in sites:
+                x1, z1, x2, z2 = patch(cx, nxt)
+                # every other round all on one spot, then spread over the patch: the tracker
+                # count jumps by a large factor both ways, so the maps grow and shrink from region threads
+                if rounds % 2:
+                    r.cmd(ex + f"tp @e[tag=churn{cx}] {(x1 + x2) / 2:.1f} {y + 1} {(z1 + z2) / 2:.1f}")
+                else:
+                    r.cmd(ex + f"spreadplayers {(x1 + x2) / 2:.1f} {(z1 + z2) / 2:.1f} 1 {PATCH // 2 - 2} false @e[tag=churn{cx}]")
+            for cx in sites:
+                r.cmd(ex + "forceload remove %d %d %d %d" % patch(cx, cur))
+        except (OSError, ConnectionError, EOFError):
+            crashed = True
+            break
+        cur = nxt
+        rounds += 1
+        time.sleep(args.period)
+        if not server_alive() or "Ticking entity" in (SERVER / "server.log").read_text(errors="replace")[since:]:
+            crashed = True
+            break
+    res = {"scenario": "churn", "pens": args.pens, "mobs": args.mobs, "rounds": rounds, "wall_s": round(time.time() - t0, 1)}
+    if crashed or not server_alive():
+        # a crash: does the server get itself down, or hang until the watchdog / forever?
+        t1 = time.time()
+        while server_alive() and time.time() - t1 < args.shutdown_timeout:
+            time.sleep(1)
+        res["crashed"] = True
+        res["shutdown_s"] = round(time.time() - t1, 1)
+        res["shutdown_hang"] = server_alive()
+        if res["shutdown_hang"]:
+            dump = LAB_DIR / f"churn_hang_{time.strftime('%Y%m%d-%H%M%S')}.txt"
+            thread_dump(dump)
+            res["thread_dump"] = str(dump)
+        res["problems"] = log_problems(since)
+        res["ok"] = False
+        return res
+    res["tick"] = bench.tick_query(r)
+    res["regions"] = regions_stats(r)
+    res["problems"] = log_problems(since)
+    res["ok"] = (not res["problems"] and res["regions"].get("escapes", 1) == 0 and res["regions"].get("phases", 0) > 0)
+    return res
+
+
 def count_in_pen(r: Rcon, cx: int) -> dict:
     out = {}
     for t in ("villager", "zombie", "sheep", "chicken", "item", "iron_golem", "wolf"):
@@ -637,7 +755,7 @@ def summarize_moves(runs: dict) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("scenario", choices=["ab", "tnt", "chaos", "fights", "moves"])
+    ap.add_argument("scenario", choices=["ab", "tnt", "chaos", "fights", "moves", "churn"])
     ap.add_argument("--variant", default="mtmcr")
     ap.add_argument("--running", action="store_true", help="use the server that is up")
     ap.add_argument("--pens", type=int, default=6)
@@ -655,9 +773,10 @@ def main() -> None:
     ap.add_argument("--zoo-scale", type=int, default=1)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--cards", nargs="+", choices=list(CARDS), help="fights: which fights (default all)")
+    ap.add_argument("--shutdown-timeout", type=float, default=120, help="churn: seconds a crashed server gets to exit")
     ap.add_argument("--move-cards", nargs="+", choices=list(MOVE_CARDS), help="moves: which cards (default all)")
     args = ap.parse_args()
-    res = {"ab": ab, "tnt": tnt, "chaos": chaos, "fights": fights, "moves": moves}[args.scenario](args)
+    res = {"ab": ab, "tnt": tnt, "chaos": chaos, "fights": fights, "moves": moves, "churn": churn}[args.scenario](args)
     res["time"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     res["variant"] = "(running)" if args.running else args.variant
     res["host"] = bench.host_info()

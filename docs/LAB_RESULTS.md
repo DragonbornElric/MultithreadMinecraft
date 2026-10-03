@@ -568,6 +568,31 @@ the means are more than 3 standard errors apart and more than 15%.
   iron golem's `MoveBackToVillageGoal`. In vanilla, `isVillage` runs the level-wide tracker's
   pending updates before reading it. That call is now exclusive when there are pending updates.
 
+### Lithium block-tracking churn (2026-10-03, `cloud-4`)
+
+The owner's 400-player stress run crashed with regions on: two region threads grew Lithium's
+level-wide chunk-section callback map at once (ArrayIndexOutOfBoundsException, "Ticking
+entity"). Experimental `entity.block_caching` registers block-change trackers from entity ticks,
+which the earlier chaos runs never stressed because their pens never left the same sections.
+`region_lab.py churn`: owner stack (`mtmcr+lithium`, Lithium `mixin.experimental=true`), 6 sites,
+300 mobs each, all moved to a fresh force-loaded patch every second.
+
+| Build | Runs | Result |
+| --- | --- | --- |
+| before the fix | 4 × 3-6 min, 6 regions on 3 threads | 1 crash, in round 2: `ArrayIndexOutOfBoundsException` in `ObjectOpenHashSet.rehash`, from `LithiumInterner.deleteCanonical`. The server shut down by itself in 4 s. |
+| before the fix | 3 × 3 min, every other round all mobs on one spot | no crash |
+| before the fix | 8 × 2 min, 12 region threads on 4 cores | no crash |
+| with `SyncLong2ReferenceMap` + `SyncObjectSet` | 1 × 6 min + 8 × 2 min (12 threads) | no problems, 0 escapes |
+
+The race needs two region threads inside a rehash at the same moment, and on 4 cores the lab only hit
+that once in 15 unfixed runs, so the clean fixed runs say little alone. The stronger evidence:
+* The same collections outside Minecraft (3 threads adding and removing 2000 keys 20 times): plain
+  `ObjectOpenHashSet` threw or hung in 19 of 20 trials and plain `Long2ReferenceOpenHashMap` in 17 of
+  20 (2 of each hung: a corrupted table can make a lookup loop forever); the synchronized subclasses,
+  0 of 20 each.
+* The owner's runs below: run 8 crashed this way at 65 players; run 9 with the fix (acebd22) and full
+  Lithium ran to 314 players without it.
+
 ## Owner stack at scale, regions: run 8 (regions, MTMC bf8e677) and run 9 (MTMC acebd22), emmaserver server, 28 PvP bots on emmabrain, 2026-10-03
 **Run 8 crash (02:02:34, 34 s after `/mtmc regions on`, 65 players):** "Ticking entity", `ArrayIndexOutOfBoundsException 2047/1025`
 in `Long2ReferenceOpenHashMap.rehash` ← Lithium `ChunkSectionChangeCallback.create` ← `SectionedBlockChangeTracker.register` ←

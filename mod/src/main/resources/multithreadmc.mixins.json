@@ -29,6 +29,7 @@
     "RegionEntitySectionCallbackMixin",
     "RegionLevelChunkMixin",
     "RegionLithiumDataMixin",
+    "RegionLithiumInternerMixin",
     "RegionLevelMixin",
     "RegionLevelTicksMixin",
     "RegionNeighborUpdaterMixin",
