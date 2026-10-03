@@ -84,13 +84,21 @@ small for something that moved; it logs the first 10.
 
 ## Mod compatibility
 
-* **Lithium 0.25.3** (`mixin.experimental=true` too): `entity.inactive_navigations` keeps one
-  level-wide set of active path navigations, and a mob adds or removes itself from inside its
-  own tick. Two region threads corrupted it, which caused an NPE in `sendBlockUpdated` in the
-  first lab run. `RegionLithiumDataMixin` (a `@Pseudo` mixin, so it does nothing without
-  Lithium) makes that set synchronized. Lithium's other per-level data (block and
-  entity-movement trackers) is written by hoppers and section moves, which run on the level's
-  thread.
+* **Lithium 0.25.3** (`mixin.experimental=true` too). Lithium keeps per-level collections that
+  a mob writes to from inside its own tick. Two `@Pseudo` mixins (they do nothing without
+  Lithium) replace each one with a synchronized one when it is created:
+  * `entity.inactive_navigations`: the set of active path navigations. A mob adds or removes
+    itself when it starts or stops a path. Unsynchronized, it caused an NPE in
+    `sendBlockUpdated` in the first lab run (`RegionLithiumDataMixin`).
+  * `util.block_tracking`: the map of chunk-section change callbacks. The first block-change
+    tracker in a section puts one in, and experimental `entity.block_caching` (each mob's
+    `VicinityCache`) registers trackers from entity ticks. Two region threads growing the map
+    at once threw ArrayIndexOutOfBoundsException, a "Ticking entity" crash in the owner's
+    400-player stress run (`RegionLithiumDataMixin`).
+  * The block-change and entity-movement tracker interners (`LithiumInterner`). The same mob
+    ticks register and delete trackers there (`RegionLithiumInternerMixin`).
+
+  The `churn` lab scenario reproduces the map crash.
 * **ServerCore 1.5.19** (`dynamic` on): tested together with Lithium.
 
 Other mods that keep shared mutable state touched from an entity tick are not safe with

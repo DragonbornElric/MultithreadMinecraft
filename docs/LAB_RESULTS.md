@@ -568,6 +568,20 @@ the means are more than 3 standard errors apart and more than 15%.
   iron golem's `MoveBackToVillageGoal`. In vanilla, `isVillage` runs the level-wide tracker's
   pending updates before reading it. That call is now exclusive when there are pending updates.
 
+### Lithium block-tracking churn (2026-10-03, `cloud-4`)
+
+The owner's 400-player stress run crashed with regions on: two region threads grew Lithium's
+level-wide chunk-section callback map at once (ArrayIndexOutOfBoundsException, "Ticking
+entity"). Experimental `entity.block_caching` registers block-change trackers from entity ticks,
+which the earlier chaos runs never stressed because their pens never left the same sections.
+`region_lab.py churn`: owner stack (`mtmcr+lithium`, Lithium `mixin.experimental=true`), 6 sites,
+300 mobs each, all moved to a fresh force-loaded patch every second.
+
+| Build | Result |
+| --- | --- |
+| before the fix | crashed in round 2: `ArrayIndexOutOfBoundsException` in `ObjectOpenHashSet.rehash`, from `LithiumInterner.deleteCanonical` (the tracker interner, the same race as the owner's callback map). The server shut down by itself in 4 s. |
+| with `SyncLong2ReferenceMap` + `SyncObjectSet` | 6 min, 305 rounds, 7973 region phases (5.9 regions on average), no problems, 0 escapes, 9.4 ms average tick |
+
 ## Open items
 
 * Rerun `nether_hero` for the second mtmc session (the worker restart cut it off).
