@@ -192,3 +192,32 @@ reproducing off/on fixtures. Missing hardware/workloads/adapters must remain BLO
 The published evidence is in `lab/dimension_hosting/evidence/`. Run-004 tested behavioral heads
 MTMC `5ee0bff`, emma-smp `05f87ff`, EndInv `a21ccc0`. Subsequent publication changes add only
 these review instructions and archived evidence, not implementation or test behavior.
+
+## Two real Fabric JVM communication experiment
+
+The lab-only `peer_mod` runs inside two genuine Fabric server JVMs, with the normal MTMC,
+emma-smp and actual EndInv mods present. Worker `a` ticks Overworld; worker `b` ticks Nether.
+A lab mixin cancels `ServerLevel.tick` for the other dimensions. Vanilla still loads backing
+worlds, and shared clocks/bootstrap/mod background work are not isolated by this experiment.
+This is assigned **tick** isolation, not proof of exclusive world ownership or player safety.
+Minecraft joins are disabled in these workers (`max-players=0`); cluster gameplay remains gated.
+
+Both workers expose a separate loopback-only mTLS gRPC NodeProbe endpoint (25780 and 25782),
+distinct from game/RCON ports (25680/25681 and 25682/25683). They asynchronously exchange
+nonce-matched reports of their node, assigned dimension, fresh boot UUID, completed dimension
+ticks and authenticated requester every 500ms, with one in-flight request and a two-second
+deadline. Network handlers read atomic diagnostic counters, not live mutable Minecraft state.
+The receiving node allowlists only its other peer's URI SAN. These reports do not mutate
+shared inventories/economy or authorize transfers.
+
+The `TWO_NODE_COMM` supplemental case boots both stacks together, checks authenticated reports
+in both directions and live assigned tick progress, stops `b`, verifies `a` continues ticking
+while peer requests fail, then starts a fresh `b` process and checks reconnection to its new
+boot. It is single-host correctness evidence. Multi-PC performance remains BLOCKED.
+
+Build the coordinator distribution first, then `gradle -p lab/dimension_hosting/peer_mod assemble`
+using the pinned Java/Gradle versions. Generate a fresh matrix config: it includes the lab jar
+and the new case. The entire matrix runs frozen as usual. To run just this case after a full
+run as an unchanged diagnostic, use `tests/t_two_node_comm.py --config ... --out ...`; each
+output directory must be new. The script creates fresh PKI and worlds, checks its ports are
+free, and only closes its own processes. Do not add the lab mod to a player-facing server.

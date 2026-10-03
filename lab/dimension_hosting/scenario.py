@@ -32,6 +32,9 @@ def gradle(config, cwd, arguments, directory):
 
 def execute(case, config, directory):
     key = case["id"]
+    if key == "TWO_NODE_COMM":
+        from two_node import execute_two_node
+        return execute_two_node(case, config, directory)
     if key == "ENV":
         checks = {
             "runtime_artifacts_present": all(Path(p).is_file() for p in config["artifacts"]),

@@ -7,3 +7,6 @@ mod/run/
 __pycache__/
 *.pyc
 dist/
+
+lab/dimension_hosting/peer_mod/build/
+lab/dimension_hosting/peer_mod/.gradle/

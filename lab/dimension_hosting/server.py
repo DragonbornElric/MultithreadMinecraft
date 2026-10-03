@@ -14,26 +14,27 @@ from rcon import Rcon
 
 
 class LabServer:
-    def __init__(self, config, directory, variant="prototype", regions=False, cluster=False):
+    def __init__(self, config, directory, variant="prototype", regions=False, cluster=False, ports=(25680, 25681), lab_peer=None):
         self.config, self.directory = config, Path(directory)
         if self.directory.exists():
             raise RuntimeError("Disposable server directory already exists; refusing to overwrite evidence")
-        for port in [25680, 25681]:
+        self.mc_port, self.rcon_port = ports
+        for port in ports:
             with socket.socket() as probe:
                 probe.bind(("127.0.0.1", port))
         self.directory.mkdir(parents=True)
         mods = self.directory / "mods"
         mods.mkdir()
         shutil.copy2(config["launcher"], self.directory / "fabric-server-launch.jar")
-        for jar in config[variant + "_jars"] + config["stack_jars"]:
+        for jar in config[variant + "_jars"] + config["stack_jars"] + ([config["peer_lab_jar"]] if lab_peer else []):
             shutil.copy2(jar, mods / Path(jar).name)
         (self.directory / "eula.txt").write_text("eula=true\n")
         # These are isolated lab fixtures, not production identities or credentials.
         self.password = "disposable-mtmc-lab"
         (self.directory / "server.properties").write_text("\n".join([
-            "server-ip=127.0.0.1", "server-port=25680", "online-mode=false", "enforce-secure-profile=false",
-            "enable-rcon=true", "rcon.port=25681", "rcon.password=" + self.password,
-            "level-name=world", "level-seed=" + str(config["seed"]), "max-players=300", "spawn-protection=0",
+            "server-ip=127.0.0.1", "server-port=" + str(self.mc_port), "online-mode=false", "enforce-secure-profile=false",
+            "enable-rcon=true", "rcon.port=" + str(self.rcon_port), "rcon.password=" + self.password,
+            "level-name=world", "level-seed=" + str(config["seed"]), "max-players=" + ("0" if lab_peer else "300"), "spawn-protection=0",
             "view-distance=12", "simulation-distance=8", "gamemode=survival", "difficulty=normal",
             "pause-when-empty-seconds=0", "enable-command-block=true", "allow-flight=true", "sync-chunk-writes=true", "motd=DISPOSABLE MTMC LAB"
         ]) + "\n")
@@ -49,6 +50,9 @@ class LabServer:
         command = [config["java"], "-Xms512M", "-Xmx3G", "-XX:+UseZGC", "-Xlog:gc*:file=gc.log:time,uptime,level,tags",
             "-Dhttps.proxyHost=proxy", "-Dhttps.proxyPort=8080", "-Dhttp.proxyHost=proxy", "-Dhttp.proxyPort=8080",
             "-Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts"]
+        if lab_peer:
+            command.append("-Dmtmc.lab.peer.enabled=true")
+            command.extend("-Dmtmc.lab." + str(key) + "=" + str(value) for key, value in lab_peer.items())
         if cluster:
             command.append("-Dmtmc.cluster.enabled=true")
         command += ["-jar", "fabric-server-launch.jar", "nogui"]
@@ -63,7 +67,7 @@ class LabServer:
             if self.process.poll() is not None:
                 return False
             if "Done (" in text:
-                self.rcon = Rcon("127.0.0.1", 25681, self.password)
+                self.rcon = Rcon("127.0.0.1", self.rcon_port, self.password)
                 return True
             time.sleep(0.5)
         return False
