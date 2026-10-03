@@ -27,7 +27,8 @@ no escapes and the mod no foreign chunk access.
 churn: Lithium's level-wide block-tracking maps under regions (run it on the owner stack, Lithium
 with mixin.experimental on: `--variant mtmcr+lithium` with CONFIGS=lab/configs/owner-stack). At
 --pens sites, `--mobs` mobs per site are moved together to a fresh 4x4-chunk patch every round
-(spreadplayers), the new patch force-loaded and the old one unloaded. A mob's block cache
+(spreadplayers; every other round all teleported to the patch centre), the new patch force-loaded and the
+old one unloaded. A mob's block cache
 (experimental entity.block_caching) registers trackers in the sections around it, and the first
 one in a section puts a callback in a level-wide map; unloading the old patch takes them out
 again. So every round all sites put into that map from their region threads at once, and it
@@ -416,7 +417,12 @@ def churn(args) -> dict:
                 r.cmd(ex + "forceload add %d %d %d %d" % patch(cx, nxt))
             for cx in sites:
                 x1, z1, x2, z2 = patch(cx, nxt)
-                r.cmd(ex + f"spreadplayers {(x1 + x2) / 2:.1f} {(z1 + z2) / 2:.1f} 1 {PATCH // 2 - 2} false @e[tag=churn{cx}]")
+                # every other round all on one spot, then spread over the patch: the tracker
+                # count jumps by a large factor both ways, so the maps grow and shrink from region threads
+                if rounds % 2:
+                    r.cmd(ex + f"tp @e[tag=churn{cx}] {(x1 + x2) / 2:.1f} {y + 1} {(z1 + z2) / 2:.1f}")
+                else:
+                    r.cmd(ex + f"spreadplayers {(x1 + x2) / 2:.1f} {(z1 + z2) / 2:.1f} 1 {PATCH // 2 - 2} false @e[tag=churn{cx}]")
             for cx in sites:
                 r.cmd(ex + "forceload remove %d %d %d %d" % patch(cx, cur))
         except (OSError, ConnectionError, EOFError):
