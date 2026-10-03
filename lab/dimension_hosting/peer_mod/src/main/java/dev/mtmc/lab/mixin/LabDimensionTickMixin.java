@@ -1,4 +1,6 @@
-package dev.mtmc.lab;
+package dev.mtmc.lab.mixin;
+
+import dev.mtmc.lab.LabPeer;
 
 import net.minecraft.server.level.ServerLevel;
 import org.spongepowered.asm.mixin.Mixin;
