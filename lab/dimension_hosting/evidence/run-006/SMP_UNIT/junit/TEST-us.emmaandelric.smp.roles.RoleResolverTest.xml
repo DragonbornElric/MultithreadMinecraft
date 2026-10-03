@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.roles.RoleResolverTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.681Z" hostname="9f47e8df99f5" time="0.009">
+  <properties/>
+  <testcase name="opLevels()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.001"/>
+  <testcase name="staffLadder()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.001"/>
+  <testcase name="bannedDeniesEverything()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.0"/>
+  <testcase name="paroleBeatsVip()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.0"/>
+  <testcase name="homesLimitsFollowTheStore()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.0"/>
+  <testcase name="wildcardSpecificity()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.0"/>
+  <testcase name="defaultPlayerHasNoBackButVipDoes()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.001"/>
+  <testcase name="oldFixedBanTimesMigrateToPercentages()" classname="us.emmaandelric.smp.roles.RoleResolverTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

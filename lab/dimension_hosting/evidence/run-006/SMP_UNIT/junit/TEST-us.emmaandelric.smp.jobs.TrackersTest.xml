@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.jobs.TrackersTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.613Z" hostname="9f47e8df99f5" time="0.025">
+  <properties/>
+  <testcase name="afkAfterNoMovement()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.001"/>
+  <testcase name="placedBlocksPayNothingUntilExpired()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.009"/>
+  <testcase name="exploreFirstVisitorsOnly()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.005"/>
+  <testcase name="purgeRemovesExpired()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.004"/>
+  <testcase name="positionCooldowns()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.002"/>
+  <testcase name="journalKeepsOnlyTheLatestChangePerPosition()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.0"/>
+  <testcase name="fishingSameSpotStopsPaying()" classname="us.emmaandelric.smp.jobs.TrackersTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

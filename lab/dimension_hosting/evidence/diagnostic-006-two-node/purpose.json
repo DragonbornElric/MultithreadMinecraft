@@ -1,0 +1,5 @@
+{
+  "purpose": "Validate repaired real Fabric entrypoint packaging and two-node runtime integration before full run-006; follows completed frozen run-005.",
+  "implementation_change": "Only reserved Mixin package narrowed; no implementation changes permitted during diagnostic.",
+  "required_followup": "Full approved matrix against same configuration and artifacts."
+}

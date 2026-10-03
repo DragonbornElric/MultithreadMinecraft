@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.essentials.TpaServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.460Z" hostname="9f47e8df99f5" time="0.004">
+  <properties/>
+  <testcase name="requestsExpireAndReplace()" classname="us.emmaandelric.smp.essentials.TpaServiceTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,77 @@
+{
+  "run": "run-006",
+  "counts": {
+    "BLOCKED": 20,
+    "PASS": 5,
+    "FAIL": 1
+  },
+  "total": 26,
+  "freeze_unchanged": true,
+  "runner_exit": 1,
+  "behavioral_heads": {
+    "mtmc": "7d5b45d",
+    "emma-smp": "05f87ff",
+    "endinv": "a21ccc0"
+  },
+  "tests": {
+    "CORE_LEDGER": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "CORE_TRANSPORT": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "SMP_UNIT": {
+      "tests": 103,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "two_node": {
+    "status": "PASS",
+    "processes": [
+      19481,
+      19486
+    ],
+    "assigned_ticks": {
+      "a": "minecraft:overworld",
+      "b": "minecraft:the_nether"
+    },
+    "authenticated_bidirectional_reports": true,
+    "peer_restart_new_boot_verified": true,
+    "measurements": {
+      "a_tick_delta_during_peer_outage": 60,
+      "peer_rpc_failures_detected_during_outage": 6
+    },
+    "evidence": "TWO_NODE_COMM/observations.json",
+    "limits": "Tick isolation only: vanilla backing worlds load, shared clocks/bootstrap/background work remain. No exclusive load/save ownership, lobby routing or player transfer demonstrated."
+  },
+  "failures": {
+    "BOOT": {
+      "classification": "unfinished gameplay integration",
+      "cause": "Both workers explicitly reject cluster gameplay; dimension load/save ownership, real admission/mutation fencing, source quiescence, destination apply journals, shared EndInv/economy adapters and routing are not integrated.",
+      "evidence": [
+        "BOOT/a/server.log",
+        "BOOT/b/server.log"
+      ]
+    }
+  },
+  "resolved_failure": {
+    "run-005/TWO_NODE_COMM": "Reserved Mixin package included entrypoint; fixed by narrowing package to dev.mtmc.lab.mixin. Focused diagnostic and fresh full run both PASS."
+  },
+  "blockers": {
+    "multi_PC": "Explicit user decision: keep blocked this run",
+    "baseline_capacity": "Short synthetic fixtures only; approved sustained active workload/generator unavailable",
+    "permissions": "Pinned real permissions stack absent",
+    "gameplay": "Dependent acceptance cases blocked by BOOT"
+  },
+  "confidence": "High for observed single-host real JVM report exchange, selected dimension ticks and restart reconnection; no evidence for safe player travel, global shared-state concurrency or capacity.",
+  "capacity_claim": "NONE; no 100/300-player result",
+  "next_steps": "Complete exclusive dimension load/save/tick ownership and real state/admission/transfer integration before enabling cluster gameplay; preserve consistency guards."
+}

@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "case": "RECOVERY",
+  "status": "BLOCKED",
+  "exit_code": 2,
+  "expected": "No timeout-only reassignment or stale overwrite.",
+  "observed": {
+    "blocking_case": "BOOT",
+    "gameplay_adapters_ready": false
+  },
+  "reason": "Depends on distributed gameplay boot and asynchronous real-mod mutation/admission adapters",
+  "versions": {
+    "minecraft": "26.2",
+    "loader": "0.19.5",
+    "fabric_api": "0.161.0+26.2",
+    "java": "25.0.4.1",
+    "endinv": "1.4.5",
+    "peer_protocol": 2,
+    "grpc": "1.76.0",
+    "protobuf": "4.33.0",
+    "assets": [
+      {
+        "id": "launcher",
+        "path": "/workspace/mtmc-prototype/assets/fabric-server-launch.jar",
+        "version": "26.2/0.19.5/1.1.2",
+        "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127",
+        "url": "https://meta.fabricmc.net/v2/versions/loader/26.2/0.19.5/1.1.2/server/jar"
+      },
+      {
+        "id": "fabric-api",
+        "path": "/workspace/mtmc-prototype/assets/fabric-api-0.161.0+26.2.jar",
+        "version": "0.161.0+26.2",
+        "version_id": "ewUK83HI",
+        "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a",
+        "sha512": "2502fa5ade78e9a120b3747bc1a9a2167d6671743bea45bf115d3174c94121aeda87c549446d1a604a9c11fb828de17a551e3514ce42f3e93069dd14bdaee55b",
+        "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/ewUK83HI/fabric-api-0.161.0%2B26.2.jar"
+      },
+      {
+        "id": "lithium",
+        "path": "/workspace/mtmc-prototype/assets/lithium-fabric-0.25.3+mc26.2.jar",
+        "version": "mc26.2-0.25.3-fabric",
+        "version_id": "f7vZ0VWU",
+        "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563",
+        "sha512": "148b638f3c6229fbaf487120a2344a0af5e411a5aa6533d5db9d75da0a8c0d8304f63eb4cca13f4d03b2c9b4c23d559dd74c1d832422ef8a3087bd005e62a8bd",
+        "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/f7vZ0VWU/lithium-fabric-0.25.3%2Bmc26.2.jar"
+      },
+      {
+        "id": "servercore",
+        "path": "/workspace/mtmc-prototype/assets/servercore-fabric-1.5.19+26.2.jar",
+        "version": "1.5.19+26.2",
+        "version_id": "edrtnY9v",
+        "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666",
+        "sha512": "aa4cfc93f8e02172910302444330e37713dfcf2047d28e55eb7323a3cd5d51493374a0959aa3e626ec2bf43fc707a755508b83454bb34b6d57d65c069929074b",
+        "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/edrtnY9v/servercore-fabric-1.5.19%2B26.2.jar"
+      }
+    ]
+  },
+  "commit_ids": {
+    "mtmc": "7d5b45d4f3dc587af57df232b64a109b16c69810",
+    "emma-smp": "05f87ff7e8b6e5b266eb53fe70e2e2fcf49892a2",
+    "endinv": "a21ccc073515d153ca41f25c18b9b2fb46aec6d0",
+    "baseline-mtmc": "7a4d74762750c1d43410eb86083794582e5498c8",
+    "baseline-smp": "afa8cc96e01d1cd78a321120bab7ae6a93654618",
+    "baseline-endinv": "6a6ac376dacf086762c4afc7a20149c1b24099fd"
+  },
+  "limits": {
+    "cpu.max": "400000 100000",
+    "cpu.stat": "usage_usec 5484227888\nuser_usec 5191773550\nsystem_usec 292454337\nnice_usec 16000\nnr_periods 57025\nnr_throttled 4444\nthrottled_usec 238975553\nnr_bursts 0\nburst_usec 0",
+    "memory.max": "17179869184",
+    "memory.current": "10586812416",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpuset.cpus.effective": "0-4",
+    "host_scope": "single attached host; server and local probes share quota",
+    "remote_hosts": "not observed"
+  },
+  "configuration": {
+    "archive_reference": "../freeze.json#config",
+    "note": "Shared exact frozen configuration; original cloud paths retained for provenance."
+  },
+  "seed": "mtmc-dimensions-approved-2026-10-03",
+  "workload": "Authority outage/restart, stale worker/local playerdata, backend admission/double login, unknown commit retry, unavailable target",
+  "measurements": {},
+  "evidence": [],
+  "scope": "approved matrix",
+  "started_unix": 1791071461.970334,
+  "duration_seconds": 0.00023365020751953125,
+  "original_result_sha256": "d39c729908a8481b9ba2b4452ff6d103fd10dc1cca1fdee91492dff4414cd2f0",
+  "published_evidence": []
+}

@@ -189,9 +189,9 @@ emma-smp `afa8cc96e01d1cd78a321120bab7ae6a93654618`, and EndInv
 `6a6ac376dacf086762c4afc7a20149c1b24099fd`. Retain them in detached baseline worktrees when
 reproducing off/on fixtures. Missing hardware/workloads/adapters must remain BLOCKED.
 
-The published evidence is in `lab/dimension_hosting/evidence/`. Run-004 tested behavioral heads
-MTMC `5ee0bff`, emma-smp `05f87ff`, EndInv `a21ccc0`. Subsequent publication changes add only
-these review instructions and archived evidence, not implementation or test behavior.
+The published evidence is in `lab/dimension_hosting/evidence/`. Run-006 tested behavioral heads
+MTMC `7d5b45d`, emma-smp `05f87ff`, EndInv `a21ccc0`. Subsequent publication changes add only
+review instructions and archived evidence, not implementation or test behavior. Historical runs remain preserved.
 
 ## Two real Fabric JVM communication experiment
 
@@ -221,3 +221,52 @@ and the new case. The entire matrix runs frozen as usual. To run just this case 
 run as an unchanged diagnostic, use `tests/t_two_node_comm.py --config ... --out ...`; each
 output directory must be new. The script creates fresh PKI and worlds, checks its ports are
 free, and only closes its own processes. Do not add the lab mod to a player-facing server.
+
+### Reproduce the local two-server check
+
+This diagnostic needs Linux/WSL, Java 25, Gradle 9.7.1, Python 3, OpenSSL and the pinned real
+mods/assets described in the review setup above. The config generator also requires the
+baseline jars and exported client manifest, even when running this focused case. Rebuild all
+changed repositories together; keep lab worlds separate from existing servers. With the
+MTMC checkout as the current directory and the prepared worktrees under one lab root:
+
+```bash
+export JAVA_HOME=/absolute/path/to/jdk-25
+export PATH="$JAVA_HOME/bin:$PATH"
+gradle -p coordination installDist
+gradle -p lab/dimension_hosting/peer_mod assemble
+python3 lab/dimension_hosting/make_config.py \
+  --workspace /absolute/path/to/lab-root \
+  --approved-plan lab/dimension_hosting/approved-plan.json \
+  --out /absolute/path/to/new-config.json
+# Review paths in new-config.json before launching; use fresh output directories.
+python3 lab/dimension_hosting/tests/t_two_node_comm.py \
+  --config /absolute/path/to/new-config.json \
+  --out /absolute/path/to/new-two-node-result
+python3 lab/dimension_hosting/run_suite.py \
+  --config /absolute/path/to/new-config.json \
+  --out /absolute/path/to/new-full-run
+```
+
+The focused command starts both processes itself, creates disposable certificates and worlds,
+records RCON observations, stops/restarts the Nether worker, and shuts down only its own
+processes. Read `result.json` and `observations.json`; inspect each worker's `server.log`,
+`commands.jsonl` and `launch.json`. A PASS checks real completed dimension ticks and
+nonce-matched reports with the expected authenticated requester, not merely open sockets.
+Keep all six loopback ports free: game/RCON 25680/25681 and 25682/25683; peer 25780/25782.
+The full suite still exits nonzero while distributed BOOT fails and acceptance cases are blocked.
+
+The harness adds the separate lab jar and passes `-Dmtmc.lab.peer.enabled=true`, node `a`/`b`,
+assigned/peer dimensions, peer ports and a disposable PKI directory. `launch.json` records the
+exact JVM arguments. This switch is only for the two-process diagnostic. Normal local servers
+omit the lab jar; `-Dmtmc.cluster.enabled=true` remains intentionally refused. The lab endpoints
+bind to loopback and cannot be moved to another PC by changing only a port or dimension flag.
+The intended production design supports server processes on one or several PCs, but safe
+exclusive dimension hosting, lobby travel and shared state are still unfinished.
+
+Latest full frozen run-006: **5 PASS, 1 FAIL, 20 BLOCKED**, 26 cases, unchanged freeze.
+The two-real-JVM case PASS includes authenticated bidirectional reports, 60 survivor ticks
+during peer outage (six failed RPCs), and reconnect to a fresh peer boot. The focused diagnostic
+also PASS (61 ticks). All 126 Java tests and the genuine client/EndInv smoke PASS. BOOT remains
+FAIL at deliberate cluster guards; multi-PC and dependent gameplay/capacity cases stay BLOCKED.
+See `lab/dimension_hosting/evidence/run-006/analysis.json` and the two-node observations.

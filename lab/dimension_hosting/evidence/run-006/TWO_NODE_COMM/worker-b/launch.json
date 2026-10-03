@@ -1,0 +1,23 @@
+[
+  "/workspace/.tools/jdk-25.0.4.1/bin/java",
+  "-Xms512M",
+  "-Xmx3G",
+  "-XX:+UseZGC",
+  "-Xlog:gc*:file=gc.log:time,uptime,level,tags",
+  "-Dhttps.proxyHost=proxy",
+  "-Dhttps.proxyPort=8080",
+  "-Dhttp.proxyHost=proxy",
+  "-Dhttp.proxyPort=8080",
+  "-Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts",
+  "-Dmtmc.lab.peer.enabled=true",
+  "-Dmtmc.lab.node=b",
+  "-Dmtmc.lab.other=a",
+  "-Dmtmc.lab.dimension=minecraft:the_nether",
+  "-Dmtmc.lab.otherDimension=minecraft:overworld",
+  "-Dmtmc.lab.port=25782",
+  "-Dmtmc.lab.otherPort=25780",
+  "-Dmtmc.lab.pki=/workspace/mtmc-prototype/runs/run-006/TWO_NODE_COMM/pki",
+  "-jar",
+  "fabric-server-launch.jar",
+  "nogui"
+]
