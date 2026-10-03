@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.importer.ImportersTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:44.422Z" hostname="9f47e8df99f5" time="0.04">
+  <properties/>
+  <testcase name="jobsReborn()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.012"/>
+  <testcase name="lifestealArray()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.014"/>
+  <testcase name="cmiHomeNamesWithSpacesKeepAllWords()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.002"/>
+  <testcase name="jobsRebornWithTablePrefix()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.003"/>
+  <testcase name="cmi()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.004"/>
+  <testcase name="cmiUnparseableHomesWarn()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.001"/>
+  <testcase name="lifestealMap()" classname="us.emmaandelric.smp.importer.ImportersTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

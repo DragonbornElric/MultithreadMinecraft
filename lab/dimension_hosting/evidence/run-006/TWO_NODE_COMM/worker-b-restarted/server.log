@@ -1,0 +1,234 @@
+Downloading Minecraft server
+Installing Fabric Loader 0.19.5(26.2) on the server
+Downloading required files
+Downloading library org.ow2.asm:asm:9.10.1
+Downloading library org.ow2.asm:asm-analysis:9.10.1
+Downloading library org.ow2.asm:asm-commons:9.10.1
+Downloading library org.ow2.asm:asm-tree:9.10.1
+Downloading library org.ow2.asm:asm-util:9.10.1
+Downloading library net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7
+Downloading library net.fabricmc:fabric-loader:0.19.5
+Generating server launch JAR
+Unpacking 26.2/server-26.2.jar (versions:26.2) to versions/26.2/server-26.2.jar
+Unpacking at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar (libraries:at.yawk.lz4:lz4-java:1.10.1) to libraries/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar
+Unpacking com/azure/azure-json/1.4.0/azure-json-1.4.0.jar (libraries:com.azure:azure-json:1.4.0) to libraries/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar
+Unpacking com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar (libraries:com.github.oshi:oshi-core:6.9.0) to libraries/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar
+Unpacking com/google/code/gson/gson/2.14.0/gson-2.14.0.jar (libraries:com.google.code.gson:gson:2.14.0) to libraries/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar
+Unpacking com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar (libraries:com.google.guava:failureaccess:1.0.3) to libraries/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar
+Unpacking com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar (libraries:com.google.guava:guava:33.6.0-jre) to libraries/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar
+Unpacking com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar (libraries:com.microsoft.azure:msal4j:1.24.1) to libraries/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar
+Unpacking com/mojang/authlib/9.0.75/authlib-9.0.75.jar (libraries:com.mojang:authlib:9.0.75) to libraries/com/mojang/authlib/9.0.75/authlib-9.0.75.jar
+Unpacking com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar (libraries:com.mojang:brigadier:1.3.10) to libraries/com/mojang/brigadier/1.3.10/brigadier-1.3.10.jar
+Unpacking com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar (libraries:com.mojang:datafixerupper:10.0.21) to libraries/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar
+Unpacking com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar (libraries:com.mojang:jtracy:1.0.37) to libraries/com/mojang/jtracy/1.0.37/jtracy-1.0.37.jar
+Unpacking com/mojang/logging/1.7.12/logging-1.7.12.jar (libraries:com.mojang:logging:1.7.12) to libraries/com/mojang/logging/1.7.12/logging-1.7.12.jar
+Unpacking commons-io/commons-io/2.20.0/commons-io-2.20.0.jar (libraries:commons-io:commons-io:2.20.0) to libraries/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar
+Unpacking io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar (libraries:io.netty:netty-buffer:4.2.15.Final) to libraries/io/netty/netty-buffer/4.2.15.Final/netty-buffer-4.2.15.Final.jar
+Unpacking io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar (libraries:io.netty:netty-codec-base:4.2.15.Final) to libraries/io/netty/netty-codec-base/4.2.15.Final/netty-codec-base-4.2.15.Final.jar
+Unpacking io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar (libraries:io.netty:netty-codec-compression:4.2.15.Final) to libraries/io/netty/netty-codec-compression/4.2.15.Final/netty-codec-compression-4.2.15.Final.jar
+Unpacking io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar (libraries:io.netty:netty-codec-http:4.2.15.Final) to libraries/io/netty/netty-codec-http/4.2.15.Final/netty-codec-http-4.2.15.Final.jar
+Unpacking io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar (libraries:io.netty:netty-common:4.2.15.Final) to libraries/io/netty/netty-common/4.2.15.Final/netty-common-4.2.15.Final.jar
+Unpacking io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar (libraries:io.netty:netty-handler:4.2.15.Final) to libraries/io/netty/netty-handler/4.2.15.Final/netty-handler-4.2.15.Final.jar
+Unpacking io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar (libraries:io.netty:netty-resolver:4.2.15.Final) to libraries/io/netty/netty-resolver/4.2.15.Final/netty-resolver-4.2.15.Final.jar
+Unpacking io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar (libraries:io.netty:netty-transport:4.2.15.Final) to libraries/io/netty/netty-transport/4.2.15.Final/netty-transport-4.2.15.Final.jar
+Unpacking io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar (libraries:io.netty:netty-transport-classes-epoll:4.2.15.Final) to libraries/io/netty/netty-transport-classes-epoll/4.2.15.Final/netty-transport-classes-epoll-4.2.15.Final.jar
+Unpacking io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar (libraries:io.netty:netty-transport-classes-kqueue:4.2.15.Final) to libraries/io/netty/netty-transport-classes-kqueue/4.2.15.Final/netty-transport-classes-kqueue-4.2.15.Final.jar
+Unpacking io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar (libraries:io.netty:netty-transport-native-epoll:4.2.15.Final:linux-x86_64) to libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-x86_64.jar
+Unpacking io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar (libraries:io.netty:netty-transport-native-epoll:4.2.15.Final:linux-aarch_64) to libraries/io/netty/netty-transport-native-epoll/4.2.15.Final/netty-transport-native-epoll-4.2.15.Final-linux-aarch_64.jar
+Unpacking io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar (libraries:io.netty:netty-transport-native-kqueue:4.2.15.Final:osx-x86_64) to libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-x86_64.jar
+Unpacking io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar (libraries:io.netty:netty-transport-native-kqueue:4.2.15.Final:osx-aarch_64) to libraries/io/netty/netty-transport-native-kqueue/4.2.15.Final/netty-transport-native-kqueue-4.2.15.Final-osx-aarch_64.jar
+Unpacking io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar (libraries:io.netty:netty-transport-native-unix-common:4.2.15.Final) to libraries/io/netty/netty-transport-native-unix-common/4.2.15.Final/netty-transport-native-unix-common-4.2.15.Final.jar
+Unpacking it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar (libraries:it.unimi.dsi:fastutil:8.5.18) to libraries/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar
+Unpacking net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar (libraries:net.java.dev.jna:jna:5.17.0) to libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar
+Unpacking net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar (libraries:net.java.dev.jna:jna-platform:5.17.0) to libraries/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar
+Unpacking net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar (libraries:net.sf.jopt-simple:jopt-simple:5.0.4) to libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar
+Unpacking org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar (libraries:org.apache.commons:commons-lang3:3.20.0) to libraries/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar
+Unpacking org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar (libraries:org.apache.logging.log4j:log4j-api:2.26.0) to libraries/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar
+Unpacking org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar (libraries:org.apache.logging.log4j:log4j-core:2.26.0) to libraries/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar
+Unpacking org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar (libraries:org.apache.logging.log4j:log4j-slf4j2-impl:2.26.0) to libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar
+Unpacking org/joml/joml/1.10.8/joml-1.10.8.jar (libraries:org.joml:joml:1.10.8) to libraries/org/joml/joml/1.10.8/joml-1.10.8.jar
+Unpacking org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar (libraries:org.jspecify:jspecify:1.0.0) to libraries/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar
+Unpacking org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar (libraries:org.slf4j:slf4j-api:2.0.17) to libraries/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar
+Starting net.fabricmc.loader.impl.game.minecraft.BundlerClassPathCapture
+[23:42:03] [main/INFO]: Loading Minecraft 26.2 with Fabric Loader 0.19.5
+[23:42:03] [main/INFO]: Mappings not present!
+[23:42:03] [main/INFO]: Loading 79 mods:
+	- emma-smp 0.1.0+26.2
+	   |-- common-economy-api 2.0.0
+	   |-- common-protection-api 2.0.0
+	   |-- emma-smp-protocol 0.1.0+26.2
+	   |-- fabric-permissions-api-v0 0.7.0
+	   |-- org_xerial_sqlite-jdbc 3.53.4.0
+	   |-- placeholder-api 3.1.0-beta.1+26.2
+	   \-- sgui 2.1.0+26.2
+	- emma_endinv 1.4.5
+	- fabric-api 0.161.0+26.2
+	   |-- fabric-advancement-api-v1 1.0.0+58719a3b9e
+	   |-- fabric-api-base 2.0.4+ece063239e
+	   |-- fabric-api-lookup-api-v1 2.0.18+11e1c9a39e
+	   |-- fabric-biome-api-v1 18.0.6+c7bd5b8e9e
+	   |-- fabric-block-api-v1 3.1.0+53515aab9e
+	   |-- fabric-block-getter-api-v2 2.0.7+ec56b6019e
+	   |-- fabric-command-api-v2 3.1.0+00cb03469e
+	   |-- fabric-content-registries-v0 11.3.2+37b1aa249e
+	   |-- fabric-convention-tags-v2 4.7.1+1f023a9e9e
+	   |-- fabric-crash-report-info-v1 1.0.5+086d547a9e
+	   |-- fabric-creative-tab-api-v1 5.0.15+6468574f9e
+	   |-- fabric-data-attachment-api-v1 2.2.19+515ac5339e
+	   |-- fabric-data-generation-api-v1 25.6.0+c0da0b829e
+	   |-- fabric-debug-api-v1 1.0.2+c792624d9e
+	   |-- fabric-dimensions-v1 5.1.12+515ac5339e
+	   |-- fabric-entity-events-v1 5.0.5+06488ac19e
+	   |-- fabric-events-interaction-v0 5.2.8+515ac5339e
+	   |-- fabric-game-rule-api-v1 4.0.8+46a6d00c9e
+	   |-- fabric-item-api-v1 14.5.0+c68f6cbe9e
+	   |-- fabric-lifecycle-events-v1 4.1.4+29b6eb019e
+	   |-- fabric-loot-api-v3 3.0.17+06488ac19e
+	   |-- fabric-menu-api-v1 2.0.17+086d547a9e
+	   |-- fabric-message-api-v1 7.0.8+bb2ed3f79e
+	   |-- fabric-networking-api-v1 6.3.4+2989c6a09e
+	   |-- fabric-object-builder-api-v1 24.1.1+6fcd5f039e
+	   |-- fabric-particles-v1 5.0.19+d1756aa99e
+	   |-- fabric-permission-api-v1 1.0.5+e442d8d09e
+	   |-- fabric-recipe-api-v1 9.0.22+11e1c9a39e
+	   |-- fabric-registry-sync-v0 7.1.1+c7bd5b8e9e
+	   |-- fabric-rendering-fluids-v1 6.0.4+06488ac19e
+	   |-- fabric-resource-conditions-api-v1 6.1.0+10e9a28b9e
+	   |-- fabric-resource-loader-v0 3.3.20+4fc5413f9e
+	   |-- fabric-resource-loader-v1 2.0.13+9edec1269e
+	   |-- fabric-serialization-api-v1 2.0.4+11a26f319e
+	   |-- fabric-tag-api-v1 2.1.4+515ac5339e
+	   |-- fabric-transfer-api-v1 8.0.13+11dbb7d79e
+	   \-- fabric-transitive-access-wideners-v1 8.1.4+67c847259e
+	- fabricloader 0.19.5
+	   \-- mixinextras 0.5.5
+	- java 25
+	- lithium 0.25.3+mc26.2
+	- minecraft 26.2
+	- mtmc_peer_lab 0.1.0-lab
+	   |-- com_google_android_annotations 4.1.1.4
+	   |-- com_google_api_grpc_proto-google-common-protos 2.59.2
+	   |-- com_google_code_findbugs_jsr305 3.0.2
+	   |-- com_google_code_gson_gson 2.11.0
+	   |-- com_google_errorprone_error_prone_annotations 2.47.0
+	   |-- com_google_guava_failureaccess 1.0.3
+	   |-- com_google_guava_guava 33.6.0-jre
+	   |-- com_google_guava_listenablefuture 9999.0-empty-to-avoid-conflict-with-guava
+	   |-- com_google_j2objc_j2objc-annotations 3.1
+	   |-- com_google_protobuf_protobuf-java 4.33.0
+	   |-- io_grpc_grpc-api 1.76.0
+	   |-- io_grpc_grpc-context 1.76.0
+	   |-- io_grpc_grpc-core 1.76.0
+	   |-- io_grpc_grpc-netty-shaded 1.76.0
+	   |-- io_grpc_grpc-protobuf 1.76.0
+	   |-- io_grpc_grpc-protobuf-lite 1.76.0
+	   |-- io_grpc_grpc-stub 1.76.0
+	   |-- io_grpc_grpc-util 1.76.0
+	   |-- io_perfmark_perfmark-api 0.27.0
+	   |-- org_codehaus_mojo_animal-sniffer-annotations 1.24
+	   \-- org_jspecify_jspecify 1.0.0
+	- multithreadmc 0.1.0+26.2
+	- servercore 1.5.19+26.2
+	   |-- org_yaml_snakeyaml 2.6
+	   |-- placeholder-api 3.1.0-beta.1+26.2
+	   |-- space_arim_dazzleconf_dazzleconf-core 1.3.0-M2
+	   \-- space_arim_dazzleconf_dazzleconf-ext-snakeyaml 1.3.0-M2
+[23:42:03] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/workspace/mtmc-prototype/runs/run-006/TWO_NODE_COMM/worker-b-restarted/libraries/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar Service=Knot/Fabric Env=SERVER
+[23:42:03] [main/INFO]: Loaded configuration file for Lithium: 171 options available, 1 override(s) found. Experimental features are enabled! 
+[23:42:04] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.joml.MemUtil$MemUtilUnsafe (file:/workspace/mtmc-prototype/runs/run-006/TWO_NODE_COMM/worker-b-restarted/libraries/org/joml/joml/1.10.8/joml-1.10.8.jar)
+WARNING: Please consider reporting this to the maintainers of class org.joml.MemUtil$MemUtilUnsafe
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[23:42:10] [main/INFO]: emma-smp 0.1.0+26.2 initialised with modules [roles, economy, jobs, essentials, stats, importer, client, worlds, claims, market, admin, events, maps, story]
+[23:42:10] [main/INFO]: Config file ./config/emma_endinv-server.json not found. Creating with defaults.
+[23:42:10] [main/INFO]: [ServerCore] Loaded V1.5.19+26.2!
+[23:42:10] [main/INFO]: MultithreadMC: parallelDimensions=true threads=3 deferCommandBlocks=true
+[23:42:10] [main/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[23:42:11] [Worker-Main-1/INFO]: No existing world data, creating new world
+[23:42:12] [main/INFO]: Loaded 1586 recipes
+[23:42:12] [main/INFO]: Loaded 1688 advancements
+[23:42:12] [main/INFO]: Applied 0 biome modifications to 0 of 71 new biomes in 1.602 ms
+[23:42:12] [Server thread/INFO]: Loaded 12 jobs: [brewer, builder, crafter, digger, enchanter, explorer, farmer, fisherman, hunter, miner, weaponsmith, woodcutter]
+[23:42:12] [Server thread/INFO]: [story] 0 region(s), 1 arc(s), 0 voice line(s)
+[23:42:12] [Server thread/INFO]: Starting minecraft server version 26.2
+[23:42:12] [Server thread/INFO]: Loading properties
+[23:42:12] [Server thread/INFO]: Default game type: SURVIVAL
+[23:42:12] [Server thread/INFO]: Generating keypair
+[23:42:12] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25682
+[23:42:12] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[23:42:12] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[23:42:12] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[23:42:12] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[23:42:12] [Server thread/INFO]: Preparing level "world"
+[23:42:13] [Server thread/INFO]: Initialized EndlessInventoryData in ResourceKey[minecraft:dimension / minecraft:overworld] with 0 inventories
+[23:42:13] [Server thread/INFO]: Selecting global world spawn...
+[23:42:15] [Yggdrasil Key Fetcher/ERROR]: Failed to request yggdrasil public key
+com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://api.minecraftservices.com/publickeys due to Connection refused
+	at knot//com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:151)
+	at knot//com.mojang.authlib.minecraft.client.MinecraftClient.getWithEtag(MinecraftClient.java:81)
+	at knot//com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:65)
+	at knot//com.mojang.authlib.yggdrasil.YggdrasilServicesKeyInfo.fetch(YggdrasilServicesKeyInfo.java:114)
+	at knot//com.mojang.authlib.yggdrasil.YggdrasilServicesKeyInfo$1.run(YggdrasilServicesKeyInfo.java:89)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:284)
+	at java.base/java.net.Socket.connect(Socket.java:659)
+	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:524)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:612)
+	at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:206)
+	at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:288)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:196)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1011)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:902)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:875)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1379)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1305)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:307)
+	at knot//com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:130)
+	... 10 more
+[23:42:16] [Server thread/INFO]: Loading 0 persistent chunks...
+[23:42:16] [Server thread/INFO]: Preparing spawn area: 100%
+[23:42:16] [Server thread/INFO]: Time elapsed: 3652 ms
+[23:42:16] [Server thread/INFO]: Done (4.047s)! For help, type "help"
+[23:42:16] [Server thread/INFO]: Starting remote control listener
+[23:42:16] [Server thread/INFO]: Thread RCON Listener started
+[23:42:16] [Server thread/INFO]: RCON running on 127.0.0.1:25683
+[23:42:16] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[23:42:16] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[23:42:16] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[23:42:16] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[23:42:16] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23:42:16] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23:42:16] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[23:42:16] [Server thread/INFO]: Storage index: no endinv_storage_index.dat yet, starting empty
+[23:42:16] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[23:42:17] [Server thread/INFO]: [STDOUT]: MTMC_LAB_PEER ready node=b dimension=minecraft:the_nether port=25782
+[23:42:17] [grpc-default-executor-0/INFO]: [STDOUT]: MTMC_LAB_PEER received node=a dimension=minecraft:overworld boot=f3d5c24a-bff0-4307-8881-3e64f30bf9fd ticks=1520
+[23:42:22] [Server thread/INFO]: [stats] {"window_seconds":5.044,"parallel":true,"threads":3,"phases":110,"phase_avg_ms":0.826,"phase_max_ms":31.351,"overlap":0.668,"levels":{"minecraft:overworld":{"avg_ms":0.017,"max_ms":1.061},"minecraft:the_end":{"avg_ms":0.012,"max_ms":0.326},"minecraft:the_nether":{"avg_ms":0.523,"max_ms":28.643}},"deferred":{},"cross_level":{}}
+[23:42:23] [Server thread/INFO]: [Rcon: Stopping the server]
+[23:42:23] [RCON Client /127.0.0.1 #2/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[23:42:23] [Server thread/INFO]: Stopping server
+[23:42:23] [Server thread/INFO]: Saving players
+[23:42:23] [Server thread/INFO]: Saving worlds
+[23:42:24] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[23:42:24] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[23:42:24] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[23:42:25] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[23:42:25] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23:42:25] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23:42:25] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[23:42:25] [Server thread/INFO]: Thread RCON Listener stopped

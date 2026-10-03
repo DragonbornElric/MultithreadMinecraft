@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "freeze_unchanged": true,
+  "initial_digest": "cd03e6882f00c9878ac82acd91431b6396dda599234831daa93f846f92e4ca33",
+  "final_digest": "cd03e6882f00c9878ac82acd91431b6396dda599234831daa93f846f92e4ca33",
+  "finding": "Both genuine Fabric JVMs booted, ticked only assigned ServerLevel dimension and exchanged direct authenticated reports; survivor advanced 61 ticks during peer outage and reconnected to new boot.",
+  "limits": "Backing worlds load and shared bootstrap/background work remain; no player transfer or exclusive load/save ownership proven.",
+  "next": "Full matrix run-006 against unchanged source/artifacts/config."
+}

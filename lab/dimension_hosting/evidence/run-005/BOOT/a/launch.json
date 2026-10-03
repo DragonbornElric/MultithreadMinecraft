@@ -1,0 +1,16 @@
+[
+  "/workspace/.tools/jdk-25.0.4.1/bin/java",
+  "-Xms512M",
+  "-Xmx3G",
+  "-XX:+UseZGC",
+  "-Xlog:gc*:file=gc.log:time,uptime,level,tags",
+  "-Dhttps.proxyHost=proxy",
+  "-Dhttps.proxyPort=8080",
+  "-Dhttp.proxyHost=proxy",
+  "-Dhttp.proxyPort=8080",
+  "-Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts",
+  "-Dmtmc.cluster.enabled=true",
+  "-jar",
+  "fabric-server-launch.jar",
+  "nogui"
+]

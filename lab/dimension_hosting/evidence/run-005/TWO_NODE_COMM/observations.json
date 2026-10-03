@@ -1,0 +1,7 @@
+{
+  "distinct_processes": [
+    16582,
+    16587
+  ],
+  "exception": "AssertionError('Two actual stacks failed simultaneous readiness')"
+}

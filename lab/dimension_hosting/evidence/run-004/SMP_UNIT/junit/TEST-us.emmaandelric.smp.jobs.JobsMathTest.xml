@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.jobs.JobsMathTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:44.497Z" hostname="9f47e8df99f5" time="0.04">
+  <properties/>
+  <testcase name="oldEliminationStepsStartAt48Hours()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.008"/>
+  <testcase name="oldDefaultEquationsAreMigrated()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="penaltiesStayPenalties()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="addXpLevelsUpMultipleTimes()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="addXpStopsAtMaxLevel()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="incomeGrowsWithLevelAndShrinksWithMoreJobs()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="customEquationNeverFlipsSign()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <testcase name="zeroBaseStaysZero()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.0"/>
+  <testcase name="defaultCurveMatchesJobsReborn()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.0"/>
+  <testcase name="negativeXpNeverDropsLevel()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.0"/>
+  <testcase name="curveIsMonotonic()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.0"/>
+  <testcase name="cheapTargetsKeepPayingAtHighLevels()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.007"/>
+  <testcase name="rejoinPenalty()" classname="us.emmaandelric.smp.jobs.JobsMathTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mtmc.coordination.SessionLedgerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:42:33.383Z" hostname="9f47e8df99f5" time="0.348">
+  <properties/>
+  <testcase name="racingBootsHaveOneGenerationWinner()" classname="dev.mtmc.coordination.SessionLedgerTest" time="0.018"/>
+  <testcase name="abruptProcessDeathPreservesCurrentAndRetiredSessions()" classname="dev.mtmc.coordination.SessionLedgerTest" time="0.301"/>
+  <testcase name="admissionRequiresCurrentSessionUnfrozenOwnerAndExactEpoch()" classname="dev.mtmc.coordination.SessionLedgerTest" time="0.012"/>
+  <testcase name="newBootFencesOldMutationsIncludingDurableReceiptReplay()" classname="dev.mtmc.coordination.SessionLedgerTest" time="0.009"/>
+  <testcase name="delayedSessionStartsCannotTakeOverAndAckReplayIsIdempotent()" classname="dev.mtmc.coordination.SessionLedgerTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.google.protobuf' version '0.9.5'
+}
+repositories { mavenCentral() }
+version = '0.1.0-prototype'
+java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
+dependencies {
+    implementation 'io.grpc:grpc-netty-shaded:1.76.0'
+    implementation 'io.grpc:grpc-protobuf:1.76.0'
+    implementation 'io.grpc:grpc-stub:1.76.0'
+    implementation 'com.google.protobuf:protobuf-java:4.33.0'
+    implementation 'org.xerial:sqlite-jdbc:3.53.4.0'
+    compileOnly 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+protobuf {
+    protoc { artifact = 'com.google.protobuf:protoc:4.33.0' }
+    plugins { grpc { artifact = 'io.grpc:protoc-gen-grpc-java:1.76.0' } }
+    generateProtoTasks { all().configureEach { plugins { grpc {} } } }
+}
+application { mainClass = 'dev.mtmc.coordination.AuthorityServer' }
+test {
+    useJUnitPlatform()
+    doFirst { systemProperty 'mtmc.test.classpath', sourceSets.test.runtimeClasspath.asPath }
+    systemProperty 'mtmc.pki.script', file('src/test/fixtures/create-pki.sh').absolutePath
+    if (project.hasProperty('mtmcEvidenceDir')) {
+        reports.junitXml.outputLocation = file(project.property('mtmcEvidenceDir'))
+    }
+}
+tasks.register('prepareTests') { doLast { configurations.testRuntimeClasspath.files.each { } } }
+dependencyLocking { lockAllConfigurations() }

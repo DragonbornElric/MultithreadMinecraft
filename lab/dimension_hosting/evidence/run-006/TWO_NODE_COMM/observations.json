@@ -1,0 +1,186 @@
+{
+  "distinct_processes": [
+    19481,
+    19486
+  ],
+  "both_ready_authenticated": {
+    "a": {
+      "node": "a",
+      "dimension": "minecraft:overworld",
+      "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+      "completed_ticks": 139,
+      "received": 3,
+      "sent": 14,
+      "failures": 0,
+      "blocked_dimension_ticks": {
+        "minecraft:the_nether": 139,
+        "minecraft:the_end": 139
+      },
+      "peer": {
+        "node": "b",
+        "dimension": "minecraft:the_nether",
+        "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+        "completed_ticks": 527,
+        "nonce": 14,
+        "authenticated_requester": "a"
+      }
+    },
+    "b": {
+      "node": "b",
+      "dimension": "minecraft:the_nether",
+      "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+      "completed_ticks": 528,
+      "received": 14,
+      "sent": 52,
+      "failures": 49,
+      "blocked_dimension_ticks": {
+        "minecraft:overworld": 528,
+        "minecraft:the_end": 528
+      },
+      "peer": {
+        "node": "a",
+        "dimension": "minecraft:overworld",
+        "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+        "completed_ticks": 130,
+        "nonce": 52,
+        "authenticated_requester": "b"
+      }
+    }
+  },
+  "progress": {
+    "a": {
+      "node": "a",
+      "dimension": "minecraft:overworld",
+      "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+      "completed_ticks": 180,
+      "received": 7,
+      "sent": 18,
+      "failures": 0,
+      "blocked_dimension_ticks": {
+        "minecraft:the_nether": 180,
+        "minecraft:the_end": 180
+      },
+      "peer": {
+        "node": "b",
+        "dimension": "minecraft:the_nether",
+        "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+        "completed_ticks": 567,
+        "nonce": 18,
+        "authenticated_requester": "a"
+      }
+    },
+    "b": {
+      "node": "b",
+      "dimension": "minecraft:the_nether",
+      "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+      "completed_ticks": 569,
+      "received": 18,
+      "sent": 56,
+      "failures": 49,
+      "blocked_dimension_ticks": {
+        "minecraft:overworld": 569,
+        "minecraft:the_end": 569
+      },
+      "peer": {
+        "node": "a",
+        "dimension": "minecraft:overworld",
+        "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+        "completed_ticks": 170,
+        "nonce": 56,
+        "authenticated_requester": "b"
+      }
+    }
+  },
+  "ticks_queries": {
+    "a": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.6ms (Target: 50.0ms)Percentiles: P50: 0.5ms P95: 1.3ms P99: 4.4ms. Sample: 100",
+    "b": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.4ms (Target: 50.0ms)Percentiles: P50: 0.3ms P95: 1.2ms P99: 2.2ms. Sample: 100"
+  },
+  "peer_down_tick_progress": {
+    "before": {
+      "node": "a",
+      "dimension": "minecraft:overworld",
+      "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+      "completed_ticks": 208,
+      "received": 8,
+      "sent": 20,
+      "failures": 2,
+      "blocked_dimension_ticks": {
+        "minecraft:the_nether": 208,
+        "minecraft:the_end": 208
+      },
+      "peer": {
+        "node": "b",
+        "dimension": "minecraft:the_nether",
+        "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+        "completed_ticks": 567,
+        "nonce": 18,
+        "authenticated_requester": "a"
+      }
+    },
+    "after": {
+      "node": "a",
+      "dimension": "minecraft:overworld",
+      "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+      "completed_ticks": 268,
+      "received": 8,
+      "sent": 26,
+      "failures": 8,
+      "blocked_dimension_ticks": {
+        "minecraft:the_nether": 268,
+        "minecraft:the_end": 268
+      },
+      "peer": {
+        "node": "b",
+        "dimension": "minecraft:the_nether",
+        "boot": "ee9b3726-6d2c-40fe-b2a6-136a3aaa5a91",
+        "completed_ticks": 567,
+        "nonce": 18,
+        "authenticated_requester": "a"
+      }
+    }
+  },
+  "reconnected_new_boot": {
+    "a": {
+      "node": "a",
+      "dimension": "minecraft:overworld",
+      "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+      "completed_ticks": 1648,
+      "received": 22,
+      "sent": 164,
+      "failures": 143,
+      "blocked_dimension_ticks": {
+        "minecraft:the_nether": 1648,
+        "minecraft:the_end": 1648
+      },
+      "peer": {
+        "node": "b",
+        "dimension": "minecraft:the_nether",
+        "boot": "55e4dbc8-f87d-40d8-bd43-7c82d47bc1df",
+        "completed_ticks": 132,
+        "nonce": 164,
+        "authenticated_requester": "a"
+      }
+    },
+    "b": {
+      "node": "b",
+      "dimension": "minecraft:the_nether",
+      "boot": "55e4dbc8-f87d-40d8-bd43-7c82d47bc1df",
+      "completed_ticks": 139,
+      "received": 3,
+      "sent": 14,
+      "failures": 0,
+      "blocked_dimension_ticks": {
+        "minecraft:overworld": 139,
+        "minecraft:the_end": 139
+      },
+      "peer": {
+        "node": "a",
+        "dimension": "minecraft:overworld",
+        "boot": "f3d5c24a-bff0-4307-8881-3e64f30bf9fd",
+        "completed_ticks": 1647,
+        "nonce": 14,
+        "authenticated_requester": "b"
+      }
+    }
+  }
+}

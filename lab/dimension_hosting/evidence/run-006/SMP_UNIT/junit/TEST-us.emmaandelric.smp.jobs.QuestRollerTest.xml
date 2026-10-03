@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.jobs.QuestRollerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.603Z" hostname="9f47e8df99f5" time="0.01">
+  <properties/>
+  <testcase name="excludeAndExhaust()" classname="us.emmaandelric.smp.jobs.QuestRollerTest" time="0.003"/>
+  <testcase name="deterministicPerDayAndDistinct()" classname="us.emmaandelric.smp.jobs.QuestRollerTest" time="0.002"/>
+  <testcase name="dayBoundaryAtResetTime()" classname="us.emmaandelric.smp.jobs.QuestRollerTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

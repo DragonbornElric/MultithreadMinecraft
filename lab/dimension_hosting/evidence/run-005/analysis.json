@@ -1,0 +1,26 @@
+{
+  "run": "run-005",
+  "freeze_unchanged": true,
+  "counts": {
+    "PASS": 4,
+    "FAIL": 2,
+    "BLOCKED": 20
+  },
+  "failures": {
+    "TWO_NODE_COMM": {
+      "classification": "lab packaging defect",
+      "cause": "LabPeer entrypoint was inside the configured reserved Mixin package dev.mtmc.lab; both real JVMs rejected its class before server startup.",
+      "evidence": [
+        "TWO_NODE_COMM/worker-a/server.log:175",
+        "TWO_NODE_COMM/worker-b/server.log:175"
+      ],
+      "fix": "Move only LabDimensionTickMixin into dev.mtmc.lab.mixin and narrow the mixin configuration package."
+    },
+    "BOOT": {
+      "classification": "unfinished gameplay integration",
+      "cause": "Explicit production cluster startup guard remains active; exclusive dimension load/save ownership and player/global-state adapters are not implemented."
+    }
+  },
+  "blockers": "Multi-PC explicitly blocked; sustained active workload, permission stack and gameplay adapters remain absent. No capacity claim.",
+  "verification": "126 JUnit assertions passed; genuine real-stack inventory smoke passed; short baseline fixtures recorded, not approved sustained workload."
+}

@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"mtmc_peer_lab","version":"0.1.0-lab","name":"MTMC isolated peer communication lab","environment":"server","entrypoints":{"server":["dev.mtmc.lab.LabPeer"]},"mixins":["mtmc-peer-lab.mixins.json"],"depends":{"fabricloader":">=0.19.5","fabric-api":"*","minecraft":"26.2","java":">=25"}}

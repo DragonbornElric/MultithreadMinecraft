@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.text.FmtTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:50.035Z" hostname="9f47e8df99f5" time="0.01">
+  <properties/>
+  <testcase name="numbers()" classname="us.emmaandelric.smp.text.FmtTest" time="0.007"/>
+  <testcase name="durations()" classname="us.emmaandelric.smp.text.FmtTest" time="0.0"/>
+  <testcase name="colors()" classname="us.emmaandelric.smp.text.FmtTest" time="0.001"/>
+  <testcase name="money()" classname="us.emmaandelric.smp.text.FmtTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

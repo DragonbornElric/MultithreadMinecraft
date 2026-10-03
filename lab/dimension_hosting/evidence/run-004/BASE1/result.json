@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "case": "BASE1",
+  "status": "BLOCKED",
+  "exit_code": 2,
+  "expected": "Same correctness; only regions differs; incremental gain separately attributed.",
+  "observed": {
+    "ready": true,
+    "emma_smp": "emma-smp 0.1.0+26.2 modules: roles, economy, jobs, essentials, stats, importer, client, worlds, claims, market, admin, events, maps, story",
+    "endinv_created": "Created a new public endInv with uuid: 5bc0b67a-cd89-454e-ad2a-dc0ea5b65f57",
+    "real_client_fixture": {
+      "client": {
+        "ok": true,
+        "connected": true,
+        "name": "DimensionLab",
+        "x": 2.5,
+        "y": 87.0,
+        "z": -3.5,
+        "dim": "minecraft:overworld",
+        "health": 20.0,
+        "max_health": 20.0,
+        "food": 20,
+        "dead": false,
+        "gamemode": "survival",
+        "selected": 0,
+        "inventory": []
+      },
+      "created": "Created a new public endInv with uuid: 5bc0b67a-cd89-454e-ad2a-dc0ea5b65f57",
+      "selected_uuid": "5bc0b67a-cd89-454e-ad2a-dc0ea5b65f57",
+      "selected_index": 1,
+      "deposited_item": "minecraft:diamond",
+      "deposited_count": 64
+    }
+  },
+  "reason": "Synthetic off/on measurements available; approved active-player/conservation baseline needs the pinned workload and permission stack; one fixture client is insufficient",
+  "versions": {
+    "minecraft": "26.2",
+    "loader": "0.19.5",
+    "fabric_api": "0.161.0+26.2",
+    "java": "25.0.4.1",
+    "endinv": "1.4.5",
+    "peer_protocol": 2,
+    "grpc": "1.76.0",
+    "protobuf": "4.33.0",
+    "assets": [
+      {
+        "id": "launcher",
+        "path": "/workspace/mtmc-prototype/assets/fabric-server-launch.jar",
+        "version": "26.2/0.19.5/1.1.2",
+        "sha256": "f1d2bafd0b3b97630b0cdd8e890cd102db3dbe60877a38a5c813aa929e691127",
+        "url": "https://meta.fabricmc.net/v2/versions/loader/26.2/0.19.5/1.1.2/server/jar"
+      },
+      {
+        "id": "fabric-api",
+        "path": "/workspace/mtmc-prototype/assets/fabric-api-0.161.0+26.2.jar",
+        "version": "0.161.0+26.2",
+        "version_id": "ewUK83HI",
+        "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a",
+        "sha512": "2502fa5ade78e9a120b3747bc1a9a2167d6671743bea45bf115d3174c94121aeda87c549446d1a604a9c11fb828de17a551e3514ce42f3e93069dd14bdaee55b",
+        "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/ewUK83HI/fabric-api-0.161.0%2B26.2.jar"
+      },
+      {
+        "id": "lithium",
+        "path": "/workspace/mtmc-prototype/assets/lithium-fabric-0.25.3+mc26.2.jar",
+        "version": "mc26.2-0.25.3-fabric",
+        "version_id": "f7vZ0VWU",
+        "sha256": "fdde92e238e8075f89ad7f701f2a3d5854af88ba9a67657184a4407b104ac563",
+        "sha512": "148b638f3c6229fbaf487120a2344a0af5e411a5aa6533d5db9d75da0a8c0d8304f63eb4cca13f4d03b2c9b4c23d559dd74c1d832422ef8a3087bd005e62a8bd",
+        "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/f7vZ0VWU/lithium-fabric-0.25.3%2Bmc26.2.jar"
+      },
+      {
+        "id": "servercore",
+        "path": "/workspace/mtmc-prototype/assets/servercore-fabric-1.5.19+26.2.jar",
+        "version": "1.5.19+26.2",
+        "version_id": "edrtnY9v",
+        "sha256": "4f7c9fb3b35b364d8f6500d04f0d5481656f617a83bc69742b47f39adff59666",
+        "sha512": "aa4cfc93f8e02172910302444330e37713dfcf2047d28e55eb7323a3cd5d51493374a0959aa3e626ec2bf43fc707a755508b83454bb34b6d57d65c069929074b",
+        "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/edrtnY9v/servercore-fabric-1.5.19%2B26.2.jar"
+      }
+    ]
+  },
+  "commit_ids": {
+    "mtmc": "5ee0bff79aa8a369b1c075392493b0cee3af6315",
+    "emma-smp": "05f87ff7e8b6e5b266eb53fe70e2e2fcf49892a2",
+    "endinv": "a21ccc073515d153ca41f25c18b9b2fb46aec6d0",
+    "baseline-mtmc": "7a4d74762750c1d43410eb86083794582e5498c8",
+    "baseline-smp": "afa8cc96e01d1cd78a321120bab7ae6a93654618",
+    "baseline-endinv": "6a6ac376dacf086762c4afc7a20149c1b24099fd"
+  },
+  "limits": {
+    "cpu.max": "400000 100000",
+    "cpu.stat": "usage_usec 3566713334\nuser_usec 3375150011\nsystem_usec 191563323\nnice_usec 16000\nnr_periods 34765\nnr_throttled 2955\nthrottled_usec 158586866\nnr_bursts 0\nburst_usec 0",
+    "memory.max": "17179869184",
+    "memory.current": "9154932736",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpuset.cpus.effective": "0-4",
+    "host_scope": "single attached host; server and local probes share quota",
+    "remote_hosts": "not observed"
+  },
+  "configuration": {
+    "archive_reference": "../freeze.json#config",
+    "note": "Exact shared configuration from the frozen run; original record fields otherwise retained."
+  },
+  "seed": "mtmc-dimensions-approved-2026-10-03",
+  "workload": "Identical single-server workload regions on",
+  "measurements": {
+    "label": "synthetic mob smoke, zero active clients; not playable capacity",
+    "selftest": "cross-dimension chunk loads from workers: 120 ok, 0 failed; cross-dimension tickets handed to their owner: 120",
+    "samples": [
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 4.6ms (Target: 50.0ms)Percentiles: P50: 2.6ms P95: 10.6ms P99: 34.4ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.025,\"parallel\":true,\"threads\":3,\"phases\":116,\"phase_avg_ms\":7.200,\"phase_max_ms\":35.902,\"overlap\":1.119,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":4.293,\"max_ms\":23.512},\"minecraft:the_end\":{\"avg_ms\":1.420,\"max_ms\":8.864},\"minecraft:the_nether\":{\"avg_ms\":2.346,\"max_ms\":35.569}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":296},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      },
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 2.3ms (Target: 50.0ms)Percentiles: P50: 1.3ms P95: 8.2ms P99: 15.6ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.025,\"parallel\":true,\"threads\":3,\"phases\":116,\"phase_avg_ms\":7.200,\"phase_max_ms\":35.902,\"overlap\":1.119,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":4.293,\"max_ms\":23.512},\"minecraft:the_end\":{\"avg_ms\":1.420,\"max_ms\":8.864},\"minecraft:the_nether\":{\"avg_ms\":2.346,\"max_ms\":35.569}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":296},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      },
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.3ms (Target: 50.0ms)Percentiles: P50: 1.1ms P95: 2.4ms P99: 5.1ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.025,\"parallel\":true,\"threads\":3,\"phases\":116,\"phase_avg_ms\":7.200,\"phase_max_ms\":35.902,\"overlap\":1.119,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":4.293,\"max_ms\":23.512},\"minecraft:the_end\":{\"avg_ms\":1.420,\"max_ms\":8.864},\"minecraft:the_nether\":{\"avg_ms\":2.346,\"max_ms\":35.569}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":296},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      },
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 1.1ms (Target: 50.0ms)Percentiles: P50: 1.1ms P95: 1.9ms P99: 2.3ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.046,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.313,\"phase_max_ms\":5.084,\"overlap\":1.759,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":0.817,\"max_ms\":2.249},\"minecraft:the_end\":{\"avg_ms\":0.726,\"max_ms\":1.562},\"minecraft:the_nether\":{\"avg_ms\":0.767,\"max_ms\":1.694}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":599},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      },
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.9ms (Target: 50.0ms)Percentiles: P50: 0.9ms P95: 2.0ms P99: 2.8ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.046,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":1.313,\"phase_max_ms\":5.084,\"overlap\":1.759,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":0.817,\"max_ms\":2.249},\"minecraft:the_end\":{\"avg_ms\":0.726,\"max_ms\":1.562},\"minecraft:the_nether\":{\"avg_ms\":0.767,\"max_ms\":1.694}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":599},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      },
+      {
+        "tick_query": "The game is running normallyTarget tick rate: 20.0 per second.\nAverage time per tick: 0.8ms (Target: 50.0ms)Percentiles: P50: 0.6ms P95: 2.0ms P99: 3.0ms. Sample: 100",
+        "mtmc": "MultithreadMC: on, 3 worker threads for 3 dimensions (threads setting: 3)last stats: {\"window_seconds\":5.050,\"parallel\":true,\"threads\":3,\"phases\":101,\"phase_avg_ms\":0.851,\"phase_max_ms\":2.983,\"overlap\":1.138,\"levels\":{\"minecraft:overworld\":{\"avg_ms\":0.401,\"max_ms\":2.466},\"minecraft:the_end\":{\"avg_ms\":0.261,\"max_ms\":1.328},\"minecraft:the_nether\":{\"avg_ms\":0.305,\"max_ms\":2.279}},\"deferred\":{},\"cross_level\":{\"diag:foreign_chunk_access:addTicketWithRadius\":120,\"getChunk minecraft:overworld -> minecraft:the_end\":20,\"getChunk minecraft:overworld -> minecraft:the_nether\":20,\"getChunk minecraft:the_end -> minecraft:overworld\":20,\"getChunk minecraft:the_end -> minecraft:the_nether\":20,\"getChunk minecraft:the_nether -> minecraft:overworld\":20,\"getChunk minecraft:the_nether -> minecraft:the_end\":20},\"regions\":{\"phases\":0,\"serial\":{\"few_entities\":1011,\"one_region\":902},\"regions_avg\":0.000,\"entities_avg\":0.000,\"biggest_share\":0.000,\"phase_avg_ms\":0.000,\"overlap\":0.000,\"exclusive\":{},\"exclusive_wait_ms\":0.000,\"exclusive_held_ms\":0.000,\"parked_ms\":0.000,\"deferred\":{},\"escapes\":0}}"
+      }
+    ]
+  },
+  "evidence": [
+    "/workspace/mtmc-prototype/runs/run-004/BASE1/server/server.log",
+    "/workspace/mtmc-prototype/runs/run-004/BASE1/server/commands.jsonl",
+    "/workspace/mtmc-prototype/runs/run-004/BASE1/measurements.json",
+    "/workspace/mtmc-prototype/runs/run-004/BASE1/client/client.log",
+    "/workspace/mtmc-prototype/runs/run-004/BASE1/client/actions.jsonl"
+  ],
+  "scope": "approved matrix",
+  "started_unix": 1791065210.5286303,
+  "duration_seconds": 117.8994345664978,
+  "original_result_sha256": "b9cd66daace2495269eaa4d627aaa770b20831a47e28b86cfc7cd73094362a62",
+  "published_evidence": [
+    "BASE1/measurements.json",
+    "BASE1/server/server.log",
+    "BASE1/server/commands.jsonl",
+    "BASE1/server/gc.log",
+    "BASE1/server/launch.json",
+    "BASE1/client/client.log",
+    "BASE1/client/actions.jsonl",
+    "BASE1/client/options.txt",
+    "BASE1/client/xvfb.log",
+    "BASE1/client/launch.json"
+  ]
+}

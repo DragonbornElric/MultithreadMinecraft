@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.util.ExpressionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:50.245Z" hostname="9f47e8df99f5" time="0.006">
+  <properties/>
+  <testcase name="divisionByZeroIsZero()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.001"/>
+  <testcase name="variablesAreCaseInsensitive()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.0"/>
+  <testcase name="errors()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.001"/>
+  <testcase name="functions()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.001"/>
+  <testcase name="scientificNotation()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.0"/>
+  <testcase name="precedenceAndParens()" classname="us.emmaandelric.smp.util.ExpressionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

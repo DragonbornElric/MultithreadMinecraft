@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.lifesteal.LifestealMathTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:44.609Z" hostname="9f47e8df99f5" time="0.01">
+  <properties/>
+  <testcase name="eliminationStreakClimbsOnlyWithinTheWindow()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.001"/>
+  <testcase name="withdrawAndRedeem()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.0"/>
+  <testcase name="killerGainsVictimLoses()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.001"/>
+  <testcase name="killerCappedAtMaxOverflowReported()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.0"/>
+  <testcase name="noGainFromVictimAtMinimum()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.001"/>
+  <testcase name="naturalDeathConfigurable()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.001"/>
+  <testcase name="eliminationMinutesFollowTheStepsAndRoleMultiplier()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.0"/>
+  <testcase name="freeDeathAtZeroDoesNotEliminate()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.001"/>
+  <testcase name="eliminationAtZero()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.0"/>
+  <testcase name="healthModifier()" classname="us.emmaandelric.smp.lifesteal.LifestealMathTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

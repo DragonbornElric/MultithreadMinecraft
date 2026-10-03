@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.stats.StatsJsonTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.690Z" hostname="9f47e8df99f5" time="0.03">
+  <properties/>
+  <testcase name="schemaMatchesOldPlugin()" classname="us.emmaandelric.smp.stats.StatsJsonTest" time="0.027"/>
+  <testcase name="offlineMarker()" classname="us.emmaandelric.smp.stats.StatsJsonTest" time="0.001"/>
+  <testcase name="worldKeyMapping()" classname="us.emmaandelric.smp.stats.StatsJsonTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

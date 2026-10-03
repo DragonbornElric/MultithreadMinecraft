@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="us.emmaandelric.smp.story.StoryTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2026-10-03T23:43:00.725Z" hostname="9f47e8df99f5" time="5.161">
+  <properties/>
+  <testcase name="poolTriggersAreValidated()" classname="us.emmaandelric.smp.story.StoryTest" time="0.017"/>
+  <testcase name="factsPersistAndNotify()" classname="us.emmaandelric.smp.story.StoryTest" time="0.016"/>
+  <testcase name="directorGetsTheCastActionsOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="regionBoxes()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="validationCatchesMistakes()" classname="us.emmaandelric.smp.story.StoryTest" time="0.002"/>
+  <testcase name="malformedArcsAreRejectedNotThrown()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="directorGetsVoiceAndAtmosphereOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="escalationFactNamesAreValid()" classname="us.emmaandelric.smp.story.StoryTest" time="0.0"/>
+  <testcase name="defaultArcsAreValid()" classname="us.emmaandelric.smp.story.StoryTest" time="0.012"/>
+  <testcase name="directorGetsArcStartAndStopOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.0"/>
+  <testcase name="directorGetsCardAndTextOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="idsMustFitTheirFactNames()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="dialogVoiceLinesAreChecked()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="directorGetsJournalOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <testcase name="castIsValidated()" classname="us.emmaandelric.smp.story.StoryTest" time="0.002"/>
+  <testcase name="tiersFollowTheThresholds()" classname="us.emmaandelric.smp.story.StoryTest" time="0.0"/>
+  <testcase name="directorGetsThreatAndBrakeOnUpgrade()" classname="us.emmaandelric.smp.story.StoryTest" time="0.001"/>
+  <system-out><![CDATA[[23:43:00] [INFO] [FabricLoader/MixinExtras|Service]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mtmc.coordination.TransportTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:02:27.183Z" hostname="9f47e8df99f5" time="6.334">
+  <properties/>
+  <testcase name="asynchronousPeerReplaysPersistedRequestAfterClientRestart()" classname="dev.mtmc.coordination.TransportTest" time="1.479"/>
+  <testcase name="sameRuntimeDirectoryCannotStartTwoNodeClients()" classname="dev.mtmc.coordination.TransportTest" time="0.631"/>
+  <testcase name="trustedCaDoesNotAdmitUnknownNodeOrWrongCluster()" classname="dev.mtmc.coordination.TransportTest" time="0.53"/>
+  <testcase name="plaintextAndMissingClientCertificateCannotReachService()" classname="dev.mtmc.coordination.TransportTest" time="0.546"/>
+  <testcase name="incompatibleVersionAndMissingDeadlineRejected()" classname="dev.mtmc.coordination.TransportTest" time="0.581"/>
+  <testcase name="asyncSessionAdmissionRejectsRestartedSourceAndFrozenPlayer()" classname="dev.mtmc.coordination.TransportTest" time="0.761"/>
+  <testcase name="sourceCannotImpersonateLobbyOrCommit()" classname="dev.mtmc.coordination.TransportTest" time="0.517"/>
+  <testcase name="authenticatedDistinctPeersTransferAndReplayOverNetwork()" classname="dev.mtmc.coordination.TransportTest" time="0.555"/>
+  <testcase name="cachedTransferReceiptCannotActAsCurrentOwnerOrBootProof()" classname="dev.mtmc.coordination.TransportTest" time="0.711"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
