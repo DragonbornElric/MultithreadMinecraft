@@ -1,0 +1,287 @@
+---- Minecraft Crash Report ----
+// I blame Dinnerbone.
+
+Time: 2026-10-03 02:02:34
+Description: Ticking entity
+
+java.lang.ArrayIndexOutOfBoundsException: Index 2047 out of bounds for length 1025
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.rehash(Long2ReferenceOpenHashMap.java:1320)
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.insert(Long2ReferenceOpenHashMap.java:255)
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.put(Long2ReferenceOpenHashMap.java:263)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.ChunkSectionChangeCallback.create(ChunkSectionChangeCallback.java:43)
+	at knot//net.minecraft.world.level.chunk.LevelChunkSection.lithium$addToCallback(LevelChunkSection.java:1663)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.SectionedBlockChangeTracker.register(SectionedBlockChangeTracker.java:78)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.SectionedBlockChangeTracker.registerAt(SectionedBlockChangeTracker.java:47)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCache.initTracking(VicinityCache.java:48)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCache.updateCache(VicinityCache.java:57)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCacheProvider.getUpdatedVicinityCache(VicinityCacheProvider.java:10)
+	at knot//net.minecraft.world.entity.Entity.lithium$getCollisionShapeBelow(Entity.java:13070)
+	at knot//net.caffeinemc.mods.lithium.common.entity.LithiumEntityCollisions.getSupportingCollisionForEntity(LithiumEntityCollisions.java:219)
+	at knot//net.minecraft.world.entity.Entity.lithium$CollideMovement(Entity.java:11070)
+	at knot//net.minecraft.world.entity.Entity.redirect$beh000$lithium$collideMovementWithPostponedGetEntities(Entity.java:11031)
+	at knot//net.minecraft.world.entity.Entity.collide(Entity.java:1277)
+	at knot//net.minecraft.world.entity.Entity.move(Entity.java:828)
+	at knot//net.minecraft.world.entity.LivingEntity.handleRelativeFrictionAndCalculateMovement(LivingEntity.java:2771)
+	at knot//net.minecraft.world.entity.LivingEntity.travelInAir(LivingEntity.java:2526)
+	at knot//net.minecraft.world.entity.LivingEntity.travel(LivingEntity.java:2491)
+	at knot//net.minecraft.world.entity.LivingEntity.aiStep(LivingEntity.java:3238)
+	at knot//net.minecraft.world.entity.Mob.aiStep(Mob.java:512)
+	at knot//net.minecraft.world.entity.monster.Monster.aiStep(Monster.java:46)
+	at knot//net.minecraft.world.entity.LivingEntity.tick(LivingEntity.java:2893)
+	at knot//net.minecraft.world.entity.Mob.tick(Mob.java:378)
+	at knot//net.minecraft.server.level.ServerLevel.tickNonPassenger$mixinextras$wrapped$279(ServerLevel.java:851)
+	at knot//net.minecraft.server.level.ServerLevel.mixinextras$bridge$tickNonPassenger$mixinextras$wrapped$279$280(ServerLevel.java)
+	at knot//net.minecraft.server.level.ServerLevel.wrapMethod$bnl000$multithreadmc$mtmc$timeEntity(ServerLevel.java:10557)
+	at knot//net.minecraft.server.level.ServerLevel.tickNonPassenger(ServerLevel.java)
+	at knot//net.minecraft.world.level.Level.guardEntityTick(Level.java:493)
+	at knot//net.minecraft.server.level.ServerLevel.lambda$tick$0(ServerLevel.java:448)
+	at knot//dev.mtmc.region.RegionTicker.participate(RegionTicker.java:193)
+	at knot//dev.mtmc.region.RegionTicker.lambda$run$0(RegionTicker.java:165)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.rehash(Long2ReferenceOpenHashMap.java:1320)
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.insert(Long2ReferenceOpenHashMap.java:255)
+	at knot//it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap.put(Long2ReferenceOpenHashMap.java:263)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.ChunkSectionChangeCallback.create(ChunkSectionChangeCallback.java:43)
+	at knot//net.minecraft.world.level.chunk.LevelChunkSection.lithium$addToCallback(LevelChunkSection.java:1663)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.SectionedBlockChangeTracker.register(SectionedBlockChangeTracker.java:78)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.block.SectionedBlockChangeTracker.registerAt(SectionedBlockChangeTracker.java:47)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCache.initTracking(VicinityCache.java:48)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCache.updateCache(VicinityCache.java:57)
+	at knot//net.caffeinemc.mods.lithium.common.tracking.VicinityCacheProvider.getUpdatedVicinityCache(VicinityCacheProvider.java:10)
+	at knot//net.minecraft.world.entity.Entity.lithium$getCollisionShapeBelow(Entity.java:13070)
+	at knot//net.caffeinemc.mods.lithium.common.entity.LithiumEntityCollisions.getSupportingCollisionForEntity(LithiumEntityCollisions.java:219)
+	at knot//net.minecraft.world.entity.Entity.lithium$CollideMovement(Entity.java:11070)
+	at knot//net.minecraft.world.entity.Entity.redirect$beh000$lithium$collideMovementWithPostponedGetEntities(Entity.java:11031)
+	at knot//net.minecraft.world.entity.Entity.collide(Entity.java:1277)
+	at knot//net.minecraft.world.entity.Entity.move(Entity.java:828)
+	at knot//net.minecraft.world.entity.LivingEntity.handleRelativeFrictionAndCalculateMovement(LivingEntity.java:2771)
+	at knot//net.minecraft.world.entity.LivingEntity.travelInAir(LivingEntity.java:2526)
+	at knot//net.minecraft.world.entity.LivingEntity.travel(LivingEntity.java:2491)
+	at knot//net.minecraft.world.entity.LivingEntity.aiStep(LivingEntity.java:3238)
+	at knot//net.minecraft.world.entity.Mob.aiStep(Mob.java:512)
+	at knot//net.minecraft.world.entity.monster.Monster.aiStep(Monster.java:46)
+	at knot//net.minecraft.world.entity.LivingEntity.tick(LivingEntity.java:2893)
+	at knot//net.minecraft.world.entity.Mob.tick(Mob.java:378)
+	at knot//net.minecraft.server.level.ServerLevel.tickNonPassenger$mixinextras$wrapped$279(ServerLevel.java:851)
+	at knot//net.minecraft.server.level.ServerLevel.mixinextras$bridge$tickNonPassenger$mixinextras$wrapped$279$280(ServerLevel.java)
+
+-- Entity being ticked --
+Details:
+	Entity Type: minecraft:piglin (net.minecraft.world.entity.monster.piglin.Piglin)
+	Entity ID: 51538
+	Entity Name: Piglin
+	Entity's Exact location: -188.57, 37.00, -818.20
+	Entity's Block location: World: (-189,37,-819), Section: (at 3,5,13 in -12,2,-52; chunk contains blocks -192,0,-832 to -177,255,-817), Region: (-1,-2; contains chunks -32,-64 to -1,-33, blocks -512,0,-1024 to -1,255,-513)
+	Entity's Momentum: 0.00, -0.08, 0.00
+	Entity's Passengers: []
+	Entity's Vehicle: null
+Stacktrace:
+	at knot//net.minecraft.world.level.Level.guardEntityTick(Level.java:493)
+	at knot//net.minecraft.server.level.ServerLevel.lambda$tick$0(ServerLevel.java:448)
+	at knot//dev.mtmc.region.RegionTicker.participate(RegionTicker.java:193)
+	at knot//dev.mtmc.region.RegionTicker.lambda$run$0(RegionTicker.java:165)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+
+-- Affected level --
+Details:
+	All players: 9 total; ServerPlayer{name=Ghost005, id=25426, pos=(-99.5, 59.0, -815.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Ghost010, id=30018, pos=(-95.5, 101.0, -1117.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Ghost015, id=34987, pos=(-1668.5, 71.0, 536.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Ghost022, id=40093, pos=(206.5, 74.0, 946.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Ghost029, id=45379, pos=(656.5, 49.0, -463.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Ghost034, id=51270, pos=(-426.5, 69.0, 632.5), mode=CREATIVE, permission=none}, ServerPlayer{name=Headless02, id=653, pos=(-815.5729244384172, 93.0, 483.39783136765186), mode=SURVIVAL, permission=owner}, ServerPlayer{name=Headless04, id=2067, pos=(-1126.4455446763839, 64.0, 759.5), mode=SURVIVAL, permission=owner}, ServerPlayer{name=Ghost039, id=55217, pos=(183.5, 101.0, 1300.5), mode=CREATIVE, permission=none}
+	Chunk stats: 17001
+	Level dimension: anarchy:nether
+	Level time: 29344135 game time, 875489 day time
+	Derived: true
+	Level spawn location: World: (63,101,-330), Section: (at 15,5,6 in 3,6,-21; chunk contains blocks 48,0,-336 to 63,255,-321), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+	Level name: lobby
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Commands: false
+	Known server brands: Folia, fabric
+	Removed feature flags: 
+	Level was modded: true
+	Level storage version: 0x04ABD - Anvil
+	Loaded entity count: 1172
+	Server weather: Rain time: 69561 (now: false), thunder time: 16516 (now: false)
+Stacktrace:
+	at knot//net.minecraft.server.level.ServerLevel.fillReportDetails(ServerLevel.java:1872)
+	at knot//dev.mtmc.ParallelLevelTicker.tickSerial(ParallelLevelTicker.java:205)
+	at knot//dev.mtmc.ParallelLevelTicker.tickOnWorker(ParallelLevelTicker.java:219)
+	at knot//dev.mtmc.ParallelLevelTicker.lambda$runCollected$0(ParallelLevelTicker.java:147)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+
+-- System Details --
+Details:
+	Minecraft Version: 26.2
+	Minecraft Version ID: 26.2
+	Operating System: Linux (amd64) version 6.8.0-142-generic
+	Java Version: 25.0.1, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Microsoft
+	Memory: 19910361088 bytes (18988 MiB) / 36236689408 bytes (34558 MiB) up to 42949672960 bytes (40960 MiB)
+	Memory (heap): init: 16384MiB, used: 15572MiB, committed: 34558MiB, max: 40960MiB
+	Memory (non-head): init: 007MiB, used: 269MiB, committed: 293MiB, max: 000MiB
+	CPUs: 32
+	Processor Vendor: AuthenticAMD
+	Processor Name: AMD Ryzen 9 5950X 16-Core Processor
+	Identifier: AuthenticAMD Family 25 Model 33 Stepping 2
+	Microarchitecture: Zen 3
+	Frequency (GHz): 5.08
+	Number of physical packages: 1
+	Number of physical CPUs: 16
+	Number of logical CPUs: 32
+	Graphics card #0 name: GA106 [GeForce RTX 3060 Lite Hash Rate]
+	Graphics card #0 vendor: NVIDIA Corporation (0x10de)
+	Graphics card #0 VRAM (MiB): 16416.00
+	Graphics card #0 deviceId: 0x2504
+	Graphics card #0 versionInfo: unknown
+	Graphics card #1 name: Device
+	Graphics card #1 vendor: NVIDIA Corporation (0x10de)
+	Graphics card #1 VRAM (MiB): 16416.00
+	Graphics card #1 deviceId: 0x2d04
+	Graphics card #1 versionInfo: unknown
+	Virtual memory max (MiB): 40299.21
+	Virtual memory used (MiB): 56343.86
+	Swap memory total (MiB): 8192.00
+	Swap memory used (MiB): 426.75
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 121884.88, total: 236203.47
+	Space in storage for workdir (MiB): available: 1365527.50, total: 1876684.25
+	Operating System Version: GNU/Linux Ubuntu 24.04.4 LTS (Noble Numbat) build 6.8.0-142-generic
+	Process Elevated: false
+	Process Loads: Uptime: 699s, user: 1962s (280.47%), kernel: 167s (23.83%), total: 2128s (304.30%)
+	Process Virtual Size (MiB): 675536.50
+	Process Resident Size (MiB): 37943.83
+	JVM Flags: 12 total; -Xms16G -Xmx40G -XX:+UseZGC -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:SoftMaxHeapSize=36G -XX:+UseNUMA -XX:+UseFastUnorderedTimeStamps -XX:+UseVectorCmov -XX:+UseCriticalJavaThreadPriority -XX:ConcGCThreads=8 -XX:ZUncommitDelay=60
+	Debug Flags: 0 total; 
+	Fabric Mods: 
+		chunky: Chunky 1.5.3
+		emma-mob-targeting: Emma Mob Targeting 0.1.0
+		emma-smp: Emma SMP 0.1.0+26.2
+			common-economy-api: Common Economy API 2.0.0
+			common-protection-api: Common Protection API 2.0.0
+			emma-smp-protocol: Emma SMP Protocol 0.1.0+26.2
+			fabric-permissions-api-v0: fabric-permissions-api 0.7.0
+			org_xerial_sqlite-jdbc: sqlite-jdbc 3.53.4.0
+			placeholder-api: Placeholder API 3.1.0-beta.1+26.2
+			sgui: sgui 2.1.0+26.2
+		emma_endinv: Emma's Endless Inventory 1.4.5
+		enhancedgroups: Simple Voice Chat Enhanced Groups 1.8.0+26.2
+			admiral: Admiral 0.4.10+26.2
+			fabric-api-base: Fabric API Base 2.0.4+ece063239c
+			fabric-command-api-v2: Fabric Command API (v2) 3.1.0+00cb03469c
+		fabric-api: Fabric API 0.161.0+26.2
+			fabric-advancement-api-v1: Fabric Advancement API (v1) 1.0.0+58719a3b9e
+			fabric-api-lookup-api-v1: Fabric API Lookup API (v1) 2.0.18+11e1c9a39e
+			fabric-biome-api-v1: Fabric Biome API (v1) 18.0.6+c7bd5b8e9e
+			fabric-block-api-v1: Fabric Block API (v1) 3.1.0+53515aab9e
+			fabric-block-getter-api-v2: Fabric BlockGetter API (v2) 2.0.7+ec56b6019e
+			fabric-content-registries-v0: Fabric Content Registries (v0) 11.3.2+37b1aa249e
+			fabric-convention-tags-v2: Fabric Convention Tags (v2) 4.7.1+1f023a9e9e
+			fabric-crash-report-info-v1: Fabric Crash Report Info (v1) 1.0.5+086d547a9e
+			fabric-creative-tab-api-v1: Fabric Creative Tab API (v1) 5.0.15+6468574f9e
+			fabric-data-attachment-api-v1: Fabric Data Attachment API (v1) 2.2.19+515ac5339e
+			fabric-data-generation-api-v1: Fabric Data Generation API (v1) 25.6.0+c0da0b829e
+			fabric-debug-api-v1: Fabric Debug API (v1) 1.0.2+c792624d9e
+			fabric-dimensions-v1: Fabric Dimensions API (v1) 5.1.12+515ac5339e
+			fabric-entity-events-v1: Fabric Entity Events (v1) 5.0.5+06488ac19e
+			fabric-events-interaction-v0: Fabric Events Interaction (v0) 5.2.8+515ac5339e
+			fabric-game-rule-api-v1: Fabric Game Rule API (v1) 4.0.8+46a6d00c9e
+			fabric-item-api-v1: Fabric Item API (v1) 14.5.0+c68f6cbe9e
+			fabric-lifecycle-events-v1: Fabric Lifecycle Events (v1) 4.1.4+29b6eb019e
+			fabric-loot-api-v3: Fabric Loot API (v3) 3.0.17+06488ac19e
+			fabric-menu-api-v1: Fabric Menu API (v1) 2.0.17+086d547a9e
+			fabric-message-api-v1: Fabric Message API (v1) 7.0.8+bb2ed3f79e
+			fabric-networking-api-v1: Fabric Networking API (v1) 6.3.4+2989c6a09e
+			fabric-object-builder-api-v1: Fabric Object Builder API (v1) 24.1.1+6fcd5f039e
+			fabric-particles-v1: Fabric Particles (v1) 5.0.19+d1756aa99e
+			fabric-permission-api-v1: Fabric Permission API (v1) 1.0.5+e442d8d09e
+			fabric-recipe-api-v1: Fabric Recipe API (v1) 9.0.22+11e1c9a39e
+			fabric-registry-sync-v0: Fabric Registry Sync (v0) 7.1.1+c7bd5b8e9e
+			fabric-rendering-fluids-v1: Fabric Rendering Fluids (v1) 6.0.4+06488ac19e
+			fabric-resource-conditions-api-v1: Fabric Resource Conditions API (v1) 6.1.0+10e9a28b9e
+			fabric-resource-loader-v0: Fabric Resource Loader (v0) 3.3.20+4fc5413f9e
+			fabric-resource-loader-v1: Fabric Resource Loader (v1) 2.0.13+9edec1269e
+			fabric-serialization-api-v1: Fabric Serialization API (v1) 2.0.4+11a26f319e
+			fabric-tag-api-v1: Fabric Tag API (v1) 2.1.4+515ac5339e
+			fabric-transfer-api-v1: Fabric Transfer API (v1) 8.0.13+11dbb7d79e
+			fabric-transitive-access-wideners-v1: Fabric Transitive Access Wideners (v1) 8.1.4+67c847259e
+		fabricexporter: FabricExporter 1.0.22
+		fabricloader: Fabric Loader 0.19.5
+			mixinextras: MixinExtras 0.5.5
+		ferritecore: FerriteCore 9.0.0
+		grimac: GrimAC 2.3.74-abb95b6
+			ac_grim_grimac_shared: shared 2.3.74-abb95b6
+			grimac-fabric-official: GrimAC (Fabric, official mappings) 2.3.74-abb95b6
+				ac_grim_grimac_common: common 2.3.74-abb95b6
+				ac_grim_grimac_grim-internal: grim-internal 1.6.0.12
+				ac_grim_grimac_grimapi: GrimAPI 1.6.0.12
+				cloud: Cloud 2.0.0-beta.17
+					io_leangen_geantyref_geantyref: geantyref 1.3.15
+					org_incendo_cloud-brigadier: cloud-brigadier 2.0.0-beta.16
+					org_incendo_cloud-core: cloud-core 2.0.0
+					org_incendo_cloud-minecraft-modded-common: cloud-minecraft-modded-common 2.0.0-beta.17
+					org_incendo_cloud-services: cloud-services 2.0.0
+				com_github_alexheretic_dynamics: dynamics 4.0
+				com_github_alexheretic_fluent: fluent 2.0
+				com_googlecode_json-simple_json-simple: json-simple 1.1.1
+				com_lmax_disruptor: disruptor 3.4.4
+				com_zaxxer_hikaricp: HikariCP 7.0.2
+				github_scarsz_configuralize_slim: configuralize 1.4.1
+				grimac-fabric-mc261: GrimAC mc261 2.3.74-abb95b6
+				net_kyori_adventure-text-minimessage: adventure-text-minimessage 4.26.1
+				org_incendo_cloud-annotations: cloud-annotations 2.0.0
+				org_incendo_cloud-processors-requirements: cloud-processors-requirements 1.0.0-rc.1
+				org_jetbrains_annotations: annotations 24.1.0
+				org_slf4j_slf4j-api: slf4j-api 2.0.17
+				org_slf4j_slf4j-jdk14: slf4j-jdk14 2.0.17
+			packetevents: PacketEvents 2.14.1+b1f9403-SNAPSHOT
+				com_github_retrooper_api: api 2.14.1+b1f9403-SNAPSHOT
+				com_github_retrooper_fabric-common: fabric-common 2.14.1+b1f9403-SNAPSHOT
+				com_github_retrooper_netty-common: netty-common 2.14.1+b1f9403-SNAPSHOT
+				conditional-mixin: conditional mixin 0.6.4
+				net_kyori_adventure-api: adventure-api 4.26.1
+				net_kyori_adventure-key: adventure-key 4.26.1
+				net_kyori_adventure-nbt: adventure-nbt 4.26.1
+				net_kyori_adventure-text-logger-slf4j: adventure-text-logger-slf4j 4.26.1
+				net_kyori_examination-api: examination-api 1.3.0
+				net_kyori_examination-string: examination-string 1.3.0
+				packetevents-fabric-official: PacketEvents (Fabric, official mappings) 2.14.1+b1f9403-SNAPSHOT
+					packetevents-fabric-mc261: packetevents-mc261 2.14.1+b1f9403-SNAPSHOT
+		java: OpenJDK 64-Bit Server VM 25
+		krypton: Krypton 0.3.1
+			com_velocitypowered_velocity-native: velocity-native 3.4.0-SNAPSHOT
+		lithium: Lithium 0.25.3+mc26.2
+		minecraft: Minecraft 26.2
+		multithreadmc: MultithreadMC 0.1.0+26.2
+		nochatreports: No Chat Reports 26.2-v2.20.2
+		servercore: ServerCore 1.5.19+26.2
+			org_yaml_snakeyaml: snakeyaml 2.6
+			space_arim_dazzleconf_dazzleconf-core: dazzleconf-core 1.3.0-M2
+			space_arim_dazzleconf_dazzleconf-ext-snakeyaml: dazzleconf-ext-snakeyaml 1.3.0-M2
+		spark: spark 1.10.187
+		viewdistancefix: View Distance Fix 1.0.2+26.2
+		voicechat: Simple Voice Chat 2.6.24+26.2
+			voicechat_api: Simple Voice Chat API 2.6.24
+	Server Running: true
+	Player Count: 66 / 1000; [ServerPlayer['Headless01'/67, l='ServerLevel[lobby]', x=1231.38, y=61.00, z=-1559.50], ServerPlayer['Headless02'/653, l='ServerLevel[lobby]', x=-815.57, y=93.00, z=483.40], ServerPlayer['Headless03'/1245, l='ServerLevel[lobby]', x=-688.50, y=94.00, z=911.53], ServerPlayer['Headless04'/2067, l='ServerLevel[lobby]', x=-1126.45, y=64.00, z=759.50], ServerPlayer['Headless05'/2855, l='ServerLevel[lobby]', x=-225.50, y=95.00, z=-1491.50], ServerPlayer['Headless06'/3873, l='ServerLevel[lobby]', x=2834.38, y=93.00, z=-2309.52], ServerPlayer['Headless08'/5557, l='ServerLevel[lobby]', x=-1930.02, y=7.00, z=2797.06], ServerPlayer['Headless09'/6459, l='ServerLevel[lobby]', x=-1626.50, y=-52.00, z=-2482.93], ServerPlayer['Headless10'/7687, l='ServerLevel[lobby]', x=2319.70, y=16.00, z=-2746.50], ServerPlayer['Headless11'/8976, l='ServerLevel[lobby]', x=1232.44, y=110.00, z=2859.58], ServerPlayer['Headless12'/10265, l='ServerLevel[lobby]', x=619.51, y=59.63, z=1080.74], ServerPlayer['Headless13'/11578, l='ServerLevel[lobby]', x=-2872.33, y=-16.00, z=899.48], ServerPlayer['Headless14'/12870, l='ServerLevel[lobby]', x=858.63, y=-12.00, z=-702.82], ServerPlayer['Headless15'/14164, l='ServerLevel[lobby]', x=368.51, y=120.00, z=-485.66], ServerPlayer['Headless07'/4748, l='ServerLevel[lobby]', x=-455.56, y=61.93, z=404.65], ServerPlayer['Headless16'/15814, l='ServerLevel[lobby]', x=696.93, y=85.00, z=-1567.10], ServerPlayer['Headless17'/17482, l='ServerLevel[lobby]', x=-2048.32, y=61.00, z=-1154.50], ServerPlayer['Headless18'/19138, l='ServerLevel[lobby]', x=-2866.70, y=70.00, z=-522.48], ServerPlayer['Headless19'/21126, l='ServerLevel[lobby]', x=1199.28, y=63.00, z=-189.44], ServerPlayer['Ghost002'/22863, l='ServerLevel[lobby]', x=-19.50, y=69.00, z=-601.50], ServerPlayer['Ghost003'/23126, l='ServerLevel[lobby]', x=1246.45, y=118.00, z=460.41], ServerPlayer['Headless20'/23771, l='ServerLevel[lobby]', x=-377.91, y=98.25, z=-1675.52], ServerPlayer['Ghost001'/24707, l='ServerLevel[lobby]', x=-1036.50, y=68.00, z=678.50], ServerPlayer['Ghost005'/25426, l='ServerLevel[lobby]', x=-99.50, y=59.00, z=-815.50], ServerPlayer['Ghost004'/26430, l='ServerLevel[lobby]', x=2283.50, y=60.00, z=-1833.50], ServerPlayer['Headless21'/26863, l='ServerLevel[lobby]', x=-1929.30, y=117.12, z=-1939.64], ServerPlayer['Ghost006'/27095, l='ServerLevel[lobby]', x=-2081.50, y=33.00, z=-1752.50], ServerPlayer['Ghost009'/27971, l='ServerLevel[lobby]', x=2028.50, y=63.00, z=1118.50], ServerPlayer['Ghost007'/28631, l='ServerLevel[lobby]', x=1435.50, y=63.00, z=239.50], ServerPlayer['Ghost008'/29223, l='ServerLevel[lobby]', x=49.50, y=81.00, z=-123.50], ServerPlayer['Headless22'/29532, l='ServerLevel[lobby]', x=-324.70, y=4.00, z=-2076.42], ServerPlayer['Ghost010'/30018, l='ServerLevel[lobby]', x=-95.50, y=101.00, z=-1117.50], ServerPlayer['Ghost011'/30884, l='ServerLevel[lobby]', x=2849.50, y=59.00, z=-2444.50], ServerPlayer['Ghost012'/31631, l='ServerLevel[lobby]', x=1122.50, y=58.00, z=1305.50], ServerPlayer['Headless23'/32297, l='ServerLevel[lobby]', x=1475.71, y=159.00, z=2289.29], ServerPlayer['Ghost014'/32434, l='ServerLevel[lobby]', x=-534.50, y=80.00, z=-533.50], ServerPlayer['Ghost013'/33170, l='ServerLevel[lobby]', x=138.50, y=71.00, z=1828.50], ServerPlayer['Ghost016'/33956, l='ServerLevel[lobby]', x=217.50, y=110.00, z=554.50], ServerPlayer['Ghost015'/34987, l='ServerLevel[lobby]', x=-1668.50, y=71.00, z=536.50], ServerPlayer['Headless24'/35597, l='ServerLevel[lobby]', x=707.61, y=64.23, z=-1730.39], ServerPlayer['Ghost017'/35936, l='ServerLevel[lobby]', x=1422.50, y=52.00, z=-1557.50], ServerPlayer['Ghost018'/36825, l='ServerLevel[lobby]', x=1932.50, y=61.00, z=-1978.50], ServerPlayer['Ghost019'/37734, l='ServerLevel[lobby]', x=-286.50, y=98.00, z=-1936.50], ServerPlayer['Ghost020'/38413, l='ServerLevel[lobby]', x=-139.50, y=66.00, z=-1918.50], ServerPlayer['Headless25'/38899, l='ServerLevel[lobby]', x=303.50, y=61.60, z=307.39], ServerPlayer['Ghost021'/39183, l='ServerLevel[lobby]', x=1009.50, y=47.00, z=820.50], ServerPlayer['Ghost022'/40093, l='ServerLevel[lobby]', x=206.50, y=74.00, z=946.50], ServerPlayer['Ghost023'/41039, l='ServerLevel[lobby]', x=-1681.50, y=60.00, z=1801.50], ServerPlayer['Ghost024'/41631, l='ServerLevel[lobby]', x=-1716.50, y=60.00, z=-2450.50], ServerPlayer['Headless26'/42303, l='ServerLevel[lobby]', x=-1213.50, y=104.17, z=-202.76], ServerPlayer['Ghost026'/42532, l='ServerLevel[lobby]', x=-122.50, y=103.00, z=2072.50], ServerPlayer['Ghost025'/43291, l='ServerLevel[lobby]', x=867.50, y=63.00, z=340.50], ServerPlayer['Ghost028'/44453, l='ServerLevel[lobby]', x=-1033.50, y=48.00, z=-994.50], ServerPlayer['Ghost029'/45379, l='ServerLevel[lobby]', x=656.50, y=49.00, z=-463.50], ServerPlayer['Headless27'/45823, l='ServerLevel[lobby]', x=-776.55, y=66.00, z=-2897.65], ServerPlayer['Ghost030'/46532, l='ServerLevel[lobby]', x=1791.50, y=58.00, z=1491.50], ServerPlayer['Ghost027'/47431, l='ServerLevel[lobby]', x=1015.50, y=56.00, z=1587.50], ServerPlayer['Ghost031'/48294, l='ServerLevel[lobby]', x=-2385.50, y=93.00, z=-504.50], ServerPlayer['Ghost032'/49217, l='ServerLevel[lobby]', x=-2156.50, y=79.00, z=305.50], ServerPlayer['Headless28'/49601, l='ServerLevel[lobby]', x=2273.14, y=104.00, z=-2803.44], ServerPlayer['Ghost033'/49946, l='ServerLevel[lobby]', x=1018.50, y=101.00, z=-1242.50], ServerPlayer['Ghost034'/51270, l='ServerLevel[lobby]', x=-426.50, y=69.00, z=632.50], ServerPlayer['Ghost035'/52119, l='ServerLevel[lobby]', x=-1470.50, y=58.00, z=2612.50], ServerPlayer['Ghost036'/53045, l='ServerLevel[lobby]', x=-1786.50, y=35.00, z=1629.50], ServerPlayer['Ghost037'/54211, l='ServerLevel[lobby]', x=-1992.50, y=99.00, z=2560.50], ServerPlayer['Ghost039'/55217, l='ServerLevel[lobby]', x=183.50, y=101.00, z=1300.50]]
+	Active Data Packs: vanilla, emma-smp, emma_endinv, fabric-convention-tags-v2, file/bukkit (incompatible), file/emma_worlds
+	Available Data Packs: emma-smp, emma_endinv, fabric-convention-tags-v2, file/bukkit (incompatible), file/emma_worlds, minecart_improvements, redstone_experiments, trade_rebalance, vanilla
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Experimental
+	World Seed: -7448231233072014922
+	Suppressed Exceptions: ~~NONE~~
+	Is Modded: Definitely; Server brand changed to 'fabric'
+	Type: Dedicated Server

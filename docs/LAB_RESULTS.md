@@ -577,10 +577,72 @@ which the earlier chaos runs never stressed because their pens never left the sa
 `region_lab.py churn`: owner stack (`mtmcr+lithium`, Lithium `mixin.experimental=true`), 6 sites,
 300 mobs each, all moved to a fresh force-loaded patch every second.
 
-| Build | Result |
-| --- | --- |
-| before the fix | crashed in round 2: `ArrayIndexOutOfBoundsException` in `ObjectOpenHashSet.rehash`, from `LithiumInterner.deleteCanonical` (the tracker interner, the same race as the owner's callback map). The server shut down by itself in 4 s. |
-| with `SyncLong2ReferenceMap` + `SyncObjectSet` | 6 min, 305 rounds, 7973 region phases (5.9 regions on average), no problems, 0 escapes, 9.4 ms average tick |
+| Build | Runs | Result |
+| --- | --- | --- |
+| before the fix | 4 × 3-6 min, 6 regions on 3 threads | 1 crash, in round 2: `ArrayIndexOutOfBoundsException` in `ObjectOpenHashSet.rehash`, from `LithiumInterner.deleteCanonical`. The server shut down by itself in 4 s. |
+| before the fix | 3 × 3 min, every other round all mobs on one spot | no crash |
+| before the fix | 8 × 2 min, 12 region threads on 4 cores | no crash |
+| with `SyncLong2ReferenceMap` + `SyncObjectSet` | 1 × 6 min + 8 × 2 min (12 threads) | no problems, 0 escapes |
+
+The race needs two region threads inside a rehash at the same moment, and on 4 cores the lab only hit
+that once in 15 unfixed runs, so the clean fixed runs say little alone. The stronger evidence:
+* The same collections outside Minecraft (3 threads adding and removing 2000 keys 20 times): plain
+  `ObjectOpenHashSet` threw or hung in 19 of 20 trials and plain `Long2ReferenceOpenHashMap` in 17 of
+  20 (2 of each hung: a corrupted table can make a lookup loop forever); the synchronized subclasses,
+  0 of 20 each.
+* The owner's runs below: run 8 crashed this way at 65 players; run 9 with the fix (acebd22) and full
+  Lithium ran to 314 players without it.
+
+## Owner stack at scale, regions: run 8 (regions, MTMC bf8e677) and run 9 (MTMC acebd22), emmaserver server, 28 PvP bots on emmabrain, 2026-10-03
+**Run 8 crash (02:02:34, 34 s after `/mtmc regions on`, 65 players):** "Ticking entity", `ArrayIndexOutOfBoundsException 2047/1025`
+in `Long2ReferenceOpenHashMap.rehash` ← Lithium `ChunkSectionChangeCallback.create` ← `SectionedBlockChangeTracker.register` ←
+`VicinityCache` (Lithium experimental `entity.block_caching`) ← piglin `Entity.move` ← `RegionTicker.participate`. Two region threads
+grew Lithium's level-wide callback map at once. Fixed in MTMC acebd22 (synchronized map + interner).
+- Workaround tried first: `mixin.util.block_tracking=false` **breaks Lithium** (other mixins still cast to `BlockStateFlagHolder` →
+  306 "Failed to load chunk"); server killed within 90 s, no region file written. `mixin.experimental.entity.block_caching=false`
+  alone is the safe switch (used for run 8c).
+
+**Run 8c (block_caching off): regions A/B, 5-min flips, same live load**
+
+| Players | Regions | MSPT |
+|---|---|---|
+| 48-61 | off | 40-49 |
+| 75 | on | 38 |
+| 109 | on | **47** (13 regions, overlap 6.4) |
+| 120 / 130 / 141 / 152 / 162 | off | 59 / 70 / 73 / 84 / 86 |
+| 170 | on | 72-77 |
+| 193 / 226 | on | 94 / 119 |
+Region phase itself ~4 ms per level tick (entity loop, ~15 regions, overlap 6.7). What's left is serial per dimension: spawning,
+random ticks, block entities, chunk system (the ~40 % from the run-5 dumps). Ends never use regions while the dragon lives
+(`serial: ender_dragon`). Playable estimate with regions: 20 TPS to ~100-110 spread players (was ~55-60), ~15 TPS to ~140-150.
+
+**Run 9 (MTMC acebd22, full Lithium incl. experimental block_caching, regions on all run):** no crash, no concurrency exception,
+0 escapes, 0 live `[diag]` (5 = selftest). Ramp with the new ghost swarm (35 ghosts per SoulFire JVM):
+| Players | MSPT | TPS | Entities |
+|---|---|---|---|
+| 54 | 33 | 19.3 | 10.1k |
+| 94 | 48 | 17.3 | 14.9k |
+| 156 | 83 | 10.4 | 24.2k |
+| 202 | 89 | 7.9 | 30.7k |
+| 240 | 122 | 7.9 | 33.8k |
+| **314** | 184 | 5.3 | 40.4k |
+At 314: nethers 165 / 169 ms (the cap), overworlds 96 / 96, ends 88 / 95; level phase 175 ms. CPU: server 7.6 cores, 40 GB
+(emmaserver 27 % busy); 28 bots 18-22 cores, 50 GB (emmabrain 60-72 %); SoulFire 8.7 cores, 41 GB on the PC.
+
+**Mass-disconnect watchdog reproduced (02:52:00):** killing all 285 ghosts at once → 60 s tick → watchdog. Threads were *working*,
+not stuck: two level threads in vanilla `ChunkMap.processUnloads` → `save` (`SerializableChunkData.copyOf`, light data copy,
+`TracingExecutor.execute`). Vanilla forces `unloadQueue.size() - 2000` unloads into one tick, each a synchronous serialize; ~285
+view-12 areas ≈ 150k+ chunks dropped together. This is the run-5 hang (206 ghosts in run 6 stayed under the limit). Not caused by
+regions or Lithium. Fix candidates (MTMC or a small mod): cap unloads per tick / spread the forced backlog over ticks, or raise
+`max-tick-time`. Real servers rarely drop hundreds at once (proxy restart, network blip), but it can kill a big server.
+
+**SoulFire:** the registry break is per JVM: every bot in one SoulFire JVM shares one Fabric item registry and each bot's registry
+sync remaps it; after ~35-40 remaps one fails (`RemapException: Unused id 948 in registry minecraft:item`) and later joins fail.
+Join rate doesn't matter. `ghost_swarm.py` starts 35-ghost JVMs (3 G heap) 45 s apart (two simultaneous starts race on unpacking
+lwjgl.dll). 361 ghosts in 11 JVMs joined cleanly.
+
+Crash reports: `lab/results/eesmp-scale-2026-10-03/`. Next asks from this run: spawning and chunk ticking per region (the serial
+remainder), regions in the End when the dragon fight is far from players, and an unload budget for mass disconnects.
 
 ## Open items
 
