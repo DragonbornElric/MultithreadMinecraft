@@ -107,3 +107,36 @@ against the Mojang 26.2-32 index SHA1 and size. Prepare `exportLabLaunch` in
 `emma-smp/tools/lab/driver` with the pinned Java/Gradle/proxy configuration, then generate
 the matrix config. The freeze includes client classes/resources, runtime classpath,
 launch configuration, native libraries, all game assets, and the Xvfb package/binary.
+
+## Durable boot sessions and admission checks (protocol version 2)
+
+The authority persists each authenticated node's boot UUID and monotonically increasing
+generation in the same SQLite ledger, with a history preventing retired boots from
+being registered again. Starting a new boot requires the previous generation to match;
+delayed registration messages cannot replace a newer generation. Replaying the exact
+current registration after ACK loss returns the same durable session. Mutating admission
+and transfer commands must carry the current boot UUID/generation, even when replaying
+an existing operation receipt. Version 1 messages are rejected.
+
+`SessionClient` provides bounded asynchronous registration and current-owner admission
+checks over the dedicated mTLS peer channel. Construction and close happen off the game
+thread. A runtime-directory file lock prevents two clients using that directory, and each
+new client instance creates a fresh boot UUID. Authority admission checks require the
+current node session, exact player epoch, ownership by the authenticated caller, and an
+unfrozen owner. These are point-in-time diagnostic decisions, **not** admission leases or
+a Minecraft login/restore adapter. Another session/ownership change can occur after a
+response; tick/mutation fencing and a durable application journal remain necessary.
+
+`PeerClient` reconciles a local/cached or newly acknowledged receipt against current
+session, owner, and transfer phase before returning it. The reads do not form an atomic
+application lease and must not authorize gameplay alone. Stale commands and durable
+receipts remain available for reconciliation; a new boot must inspect authority state
+and use a new operation ID for any new command, preserving old receipt identity. A
+restart does not automatically resume a stale command as if it were current.
+
+The frozen regression adds real SQLite restart/abrupt-process-death session checks,
+competing boot registrations, retired mutation/receipt rejection, and real mTLS async
+admission tests. Opaque ledger fixtures still do not count as player-state transfer tests.
+Minecraft cluster startup guards remain enabled because worker dimension isolation,
+source quiescence, destination restoration and global EndInv/emma-smp mutation adapters
+are unfinished.

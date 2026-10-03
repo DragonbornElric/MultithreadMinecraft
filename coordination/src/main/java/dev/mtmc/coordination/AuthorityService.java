@@ -35,6 +35,9 @@ public final class AuthorityService extends AuthorityGrpc.AuthorityImplBase impl
             response.onError(Status.RESOURCE_EXHAUSTED.withDescription("Ledger queue full").asRuntimeException());
         }
     }
+    @Override public void getSession(SessionQuery r, StreamObserver<NodeSession> o) { submit(peer -> ledger.getSession(peer, r), o); }
+    @Override public void openSession(SessionStart r, StreamObserver<NodeSession> o) { submit(peer -> ledger.openSession(peer, r), o); }
+    @Override public void checkAdmission(AdmissionCheck r, StreamObserver<AdmissionDecision> o) { submit(peer -> ledger.checkAdmission(peer, r), o); }
     @Override public void admit(Admission r, StreamObserver<Owner> o) { submit(peer -> ledger.admit(peer, r), o); }
     @Override public void lookup(PlayerKey r, StreamObserver<Owner> o) { submit(peer -> ledger.lookup(peer, r), o); }
     @Override public void advance(TransferCommand r, StreamObserver<TransferResult> o) { submit(peer -> ledger.advance(peer, r), o); }

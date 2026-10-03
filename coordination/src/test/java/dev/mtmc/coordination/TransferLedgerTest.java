@@ -16,19 +16,24 @@ class TransferLedgerTest {
     static final String PLAYER = "11111111-1111-1111-1111-111111111111";
     static final String TRANSFER = "22222222-2222-2222-2222-222222222222";
     static final byte[] SNAPSHOT = "opaque-control-plane-fixture".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    static String boot(String node) { return UUID.nameUUIDFromBytes(("test-boot-"+node).getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString(); }
+    static void sessions(TransferLedger l) throws Exception {
+        for (var node : NODES) l.openSession(node, SessionStart.newBuilder().setVersion(TransferLedger.VERSION).setBoot(boot(node)).setPreviousGeneration(0).build());
+    }
     static TransferCommand command(Step step) throws Exception {
-        var b = TransferCommand.newBuilder().setVersion(1).setOperation(UUID.randomUUID().toString())
-            .setTransfer(TRANSFER).setPlayer(PLAYER).setSource("a").setDestination("b").setEpoch(1).setStep(step);
+        var b = TransferCommand.newBuilder().setVersion(TransferLedger.VERSION).setOperation(UUID.randomUUID().toString())
+            .setTransfer(TRANSFER).setPlayer(PLAYER).setSource("a").setDestination("b").setEpoch(1).setStep(step).setBoot(boot(peer(step))).setGeneration(1);
         if (step == Step.QUIESCE) b.setSnapshot(ByteString.copyFrom(SNAPSHOT));
         if (step == Step.QUIESCE || step == Step.PREPARE) b.setDigest(TransferLedger.digest(SNAPSHOT));
         return b.build();
     }
     static TransferLedger open(Path file) throws Exception { return new TransferLedger(file, "lobby", NODES); }
     static void admit(TransferLedger l) throws Exception {
-        l.admit("lobby", Admission.newBuilder().setVersion(1).setPlayer(PLAYER).setNode("a").build());
+        sessions(l);
+        l.admit("lobby", Admission.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(PLAYER).setNode("a").setBoot(boot("lobby")).setGeneration(1).build());
     }
     static Owner owner(TransferLedger l) throws Exception {
-        return l.lookup("lobby", PlayerKey.newBuilder().setVersion(1).setPlayer(PLAYER).build());
+        return l.lookup("lobby", PlayerKey.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(PLAYER).build());
     }
     static String peer(Step s) { return switch(s) { case PREPARE, ACTIVATE -> "b"; case COMMIT -> "lobby"; default -> "a"; }; }
     @Test void ledgerIdentityCannotBeReboundAcrossRestart() throws Exception {
@@ -52,7 +57,7 @@ class TransferLedgerTest {
         try (var l = open(file)) {
             assertEquals(committed, l.advance("lobby", commit));
             assertEquals("b", owner(l).getNode()); assertEquals(2, owner(l).getEpoch()); assertTrue(owner(l).getFrozen());
-            var snapshot = l.inspect("b", TransferKey.newBuilder().setVersion(1).setTransfer(TRANSFER).build());
+            var snapshot = l.inspect("b", TransferKey.newBuilder().setVersion(TransferLedger.VERSION).setTransfer(TRANSFER).build());
             assertArrayEquals(SNAPSHOT, snapshot.getSnapshot().toByteArray());
             l.advance("b", command(Step.ACTIVATE));
             assertFalse(owner(l).getFrozen());
@@ -86,11 +91,11 @@ class TransferLedgerTest {
     @Test void reconnectAndOtherPeersCannotThawOrReadPendingSnapshot() throws Exception {
         try (var l = open(dir.resolve("ledger.db"))) {
             admit(l); l.advance("a", command(Step.REQUEST)); l.advance("a", command(Step.QUIESCE));
-            assertTrue(l.admit("lobby", Admission.newBuilder().setVersion(1).setPlayer(PLAYER).setNode("b").build()).getFrozen());
-            assertThrows(IllegalArgumentException.class, () -> l.inspect("other", TransferKey.newBuilder().setVersion(1).setTransfer(TRANSFER).build()));
-            assertThrows(IllegalArgumentException.class, () -> l.admit("a", Admission.newBuilder().setVersion(1).setPlayer(PLAYER).setNode("a").build()));
-            assertThrows(IllegalArgumentException.class, () -> l.lookup("unknown", PlayerKey.newBuilder().setVersion(1).setPlayer(PLAYER).build()));
-            assertThrows(IllegalArgumentException.class, () -> l.lookup("a", PlayerKey.newBuilder().setVersion(2).setPlayer(PLAYER).build()));
+            assertTrue(l.admit("lobby", Admission.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(PLAYER).setNode("b").setBoot(boot("lobby")).setGeneration(1).build()).getFrozen());
+            assertThrows(IllegalArgumentException.class, () -> l.inspect("other", TransferKey.newBuilder().setVersion(TransferLedger.VERSION).setTransfer(TRANSFER).build()));
+            assertThrows(IllegalArgumentException.class, () -> l.admit("a", Admission.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(PLAYER).setNode("a").setBoot(boot("lobby")).setGeneration(1).build()));
+            assertThrows(IllegalArgumentException.class, () -> l.lookup("unknown", PlayerKey.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(PLAYER).build()));
+            assertThrows(IllegalArgumentException.class, () -> l.lookup("a", PlayerKey.newBuilder().setVersion(999).setPlayer(PLAYER).build()));
         }
     }
     @Test void competingRequestsHaveExactlyOneWinner() throws Exception {
@@ -120,7 +125,7 @@ class TransferLedgerTest {
                 assertEquals(phase >= 4 ? "b" : "a", owner(l).getNode());
                 assertEquals(phase >= 4 ? 2 : 1, owner(l).getEpoch());
                 assertEquals(phase >= 2 && phase <= 4, owner(l).getFrozen());
-                if (phase >= 2) assertArrayEquals(SNAPSHOT, l.inspect("b", TransferKey.newBuilder().setVersion(1).setTransfer(TRANSFER).build()).getSnapshot().toByteArray());
+                if (phase >= 2) assertArrayEquals(SNAPSHOT, l.inspect("b", TransferKey.newBuilder().setVersion(TransferLedger.VERSION).setTransfer(TRANSFER).build()).getSnapshot().toByteArray());
             }
         }
     }

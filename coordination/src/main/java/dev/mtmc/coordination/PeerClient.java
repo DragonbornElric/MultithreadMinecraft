@@ -48,7 +48,7 @@ public final class PeerClient implements AutoCloseable {
         try { disk.execute(() -> {
             try {
                 var receipt = outbox.enqueue(command);
-                if (receipt.isPresent()) finish(command, receipt.get(), null);
+                if (receipt.isPresent()) verifyReceipt(command, receipt.get());
                 else send(command, 0);
             } catch (Exception e) { finish(command, null, e); }
         }); } catch (RejectedExecutionException e) { finish(command, null, e); }
@@ -62,7 +62,7 @@ public final class PeerClient implements AutoCloseable {
             @Override public void onCompleted() {
                 if (response == null) { onError(Status.INTERNAL.asRuntimeException()); return; }
                 try { disk.execute(() -> {
-                    try { outbox.acknowledge(command.getOperation(), response); finish(command, response, null); }
+                    try { outbox.acknowledge(command.getOperation(), response); verifyReceipt(command, response); }
                     catch (Exception e) { finish(command, null, e); }
                 }); } catch (RejectedExecutionException e) { finish(command, null, e); }
             }
@@ -74,6 +74,38 @@ public final class PeerClient implements AutoCloseable {
                     try { retries.schedule(() -> send(command, attempt + 1), delay, TimeUnit.MILLISECONDS); }
                     catch (RejectedExecutionException e) { finish(command, null, e); }
                 } else finish(command, null, error); // Preserve row for operator reconciliation; never pretend committed.
+            }
+        });
+    }
+    // A cached ACK records history. Reconcile current boot, owner and transfer phase before returning it.
+    // This check is diagnostic, not an admission lease; gameplay must perform its own authority check.
+    private void verifyReceipt(TransferCommand command, TransferResult receipt) {
+        rpc.withDeadlineAfter(5, TimeUnit.SECONDS).getSession(SessionQuery.newBuilder().setVersion(TransferLedger.VERSION).build(), new StreamObserver<NodeSession>() {
+            private NodeSession session;
+            @Override public void onNext(NodeSession value) { session = value; }
+            @Override public void onError(Throwable e) { finish(command, null, e); }
+            @Override public void onCompleted() {
+                if (session == null || !session.getBoot().equals(command.getBoot()) || session.getGeneration() != command.getGeneration()) {
+                    finish(command, null, new IllegalStateException("Receipt belongs to retired boot; reconcile transfer")); return;
+                }
+                rpc.withDeadlineAfter(5, TimeUnit.SECONDS).lookup(PlayerKey.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(command.getPlayer()).build(), new StreamObserver<Owner>() {
+                    private Owner owner;
+                    @Override public void onNext(Owner value) { owner = value; }
+                    @Override public void onError(Throwable e) { finish(command, null, e); }
+                    @Override public void onCompleted() {
+                        if (!receipt.getOwner().equals(owner)) { finish(command, null, new IllegalStateException("Receipt owner is stale; reconcile transfer")); return; }
+                        rpc.withDeadlineAfter(5, TimeUnit.SECONDS).inspect(TransferKey.newBuilder().setVersion(TransferLedger.VERSION).setTransfer(command.getTransfer()).build(), new StreamObserver<TransferSnapshot>() {
+                            private TransferSnapshot transfer;
+                            @Override public void onNext(TransferSnapshot value) { transfer = value; }
+                            @Override public void onError(Throwable e) { finish(command, null, e); }
+                            @Override public void onCompleted() {
+                                if (transfer == null || !transfer.getState().equals(receipt.getState()) || !transfer.getDigest().equals(receipt.getDigest()))
+                                    finish(command, null, new IllegalStateException("Receipt phase is stale; reconcile transfer"));
+                                else finish(command, receipt, null);
+                            }
+                        });
+                    }
+                });
             }
         });
     }

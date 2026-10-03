@@ -4,7 +4,7 @@ package dev.mtmc.cluster;
 public final class ClusterReadiness {
     private ClusterReadiness() {}
     public static String status() {
-        return "prototype control plane v1; gameplay BLOCKED: dimension bootstrap isolation, admission/fencing, "
+        return "prototype control plane v2; gameplay BLOCKED: dimension bootstrap isolation, admission/fencing, "
             + "player/entity apply journal, async emma-smp and EndInv mutations are not integrated";
     }
     public static void requireReady() {

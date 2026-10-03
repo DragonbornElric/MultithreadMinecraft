@@ -48,8 +48,8 @@ def main():
     client_artifacts.extend(str(f) for f in sorted(Path("/workspace/.gradle/caches/fabric-loom/assets").rglob("*")) if f.is_file())
     matrix = [{k: c[k] for k in ["id", "scenario", "expected"]} for c in plan["matrix"]]
     supplemental = [
-        {"id": "CORE_LEDGER", "scope": "supplemental control plane; not real-mod transfer coverage", "scenario": "Durable transitions, invalid/stale/duplicate commands, competing requests, abrupt JVM death per phase and outbox persistence", "expected": "All executable ledger assertions pass, no skipped tests"},
-        {"id": "CORE_TRANSPORT", "scope": "supplemental real loopback TLS/gRPC; not multi-PC coverage", "scenario": "mTLS peer identity/version/deadline checks, real network transfer/replay and async outbox client", "expected": "All executable TLS assertions pass, no skipped tests"},
+        {"id": "CORE_LEDGER", "scope": "supplemental control plane; not real-mod transfer coverage", "scenario": "Durable transitions, invalid/stale/duplicate commands, competing requests, abrupt JVM death per phase, outbox persistence, durable boot sessions and stale admission rejection", "expected": "All executable ledger assertions pass, no skipped tests"},
+        {"id": "CORE_TRANSPORT", "scope": "supplemental real loopback TLS/gRPC; not multi-PC coverage", "scenario": "mTLS peer identity/version/deadline checks, real network transfer/replay, stale receipt rejection and async session/admission/outbox clients", "expected": "All executable TLS assertions pass, no skipped tests"},
         {"id": "SMP_UNIT", "scope": "supplemental existing emma-smp unit regression; not cross-server coverage", "scenario": "Existing server unit suite against changed source", "expected": "All existing unit assertions pass, no skipped tests"},
         {"id": "STACK_SMOKE", "scope": "supplemental real Fabric stack smoke; not active-player baseline or capacity", "scenario": "Real MTMC/emma-smp/EndInv1.4.5 boot, public inventory creation, populated actual EndInv codec roundtrip (64 diamonds), player NBT/menu diagnostic capture and MTMC cross-level selftest", "expected": "Actual required mods boot; commands succeed and selftest reports zero failures"},
     ]
@@ -60,7 +60,7 @@ def main():
         "java": "/workspace/.tools/jdk-25.0.4.1/bin/java", "gradle": "/workspace/.tools/gradle-9.7.1/bin/gradle", "gradle_home": "/workspace/.gradle",
         "prototype_jars": prototype, "baseline_jars": baseline, "stack_jars": stack, "launcher": launcher,
         "artifacts": [*client_artifacts, *prototype, *baseline, *stack, launcher, *map(str, sorted((root / "mtmc/coordination/build/install/mtmc-coordination/lib").glob("*.jar")))],
-        "versions": {"minecraft": "26.2", "loader": "0.19.5", "fabric_api": "0.161.0+26.2", "java": "25.0.4.1", "endinv": "1.4.5", "grpc": "1.76.0", "protobuf": "4.33.0", "assets": assets},
+        "versions": {"minecraft": "26.2", "loader": "0.19.5", "fabric_api": "0.161.0+26.2", "java": "25.0.4.1", "endinv": "1.4.5", "peer_protocol": 2, "grpc": "1.76.0", "protobuf": "4.33.0", "assets": assets},
         "seed": "mtmc-dimensions-approved-2026-10-03", "matrix": matrix, "approved_acceptance": plan["acceptance"],
         "remote_hosts": [], "remote_decision": "User explicitly requested multi-PC tests remain BLOCKED for this run",
         "gameplay_adapters_ready": False, "active_generator_ready": False, "permissions_stack_pinned": False,

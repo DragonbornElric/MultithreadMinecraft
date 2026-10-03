@@ -49,7 +49,7 @@ def execute(case, config, directory):
     if key in {"CORE_LEDGER", "CORE_TRANSPORT", "SMP_UNIT"}:
         if key == "CORE_LEDGER":
             cwd = config["repositories"]["mtmc"] + "/coordination"
-            args = ["test", "--tests", "dev.mtmc.coordination.TransferLedgerTest", "--tests", "dev.mtmc.coordination.DurableOutboxTest"]
+            args = ["test", "--tests", "dev.mtmc.coordination.TransferLedgerTest", "--tests", "dev.mtmc.coordination.DurableOutboxTest", "--tests", "dev.mtmc.coordination.SessionLedgerTest"]
         elif key == "CORE_TRANSPORT":
             cwd = config["repositories"]["mtmc"] + "/coordination"
             args = ["test", "--tests", "dev.mtmc.coordination.TransportTest"]

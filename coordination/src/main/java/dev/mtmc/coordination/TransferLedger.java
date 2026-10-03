@@ -8,7 +8,7 @@ import java.util.*;
 
 /** Single-writer durable control plane. It does not assert that Minecraft has applied a snapshot. */
 public final class TransferLedger implements AutoCloseable {
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
     public static final int MAX_SNAPSHOT = 8 * 1024 * 1024;
     private final Connection db;
     private final Set<String> nodes;
@@ -48,6 +48,8 @@ public final class TransferLedger implements AutoCloseable {
             s.execute("CREATE TABLE IF NOT EXISTS owners(player TEXT PRIMARY KEY,node TEXT NOT NULL,epoch INTEGER NOT NULL CHECK(epoch>0),frozen INTEGER NOT NULL)");
             s.execute("CREATE TABLE IF NOT EXISTS transfers(id TEXT PRIMARY KEY,player TEXT NOT NULL REFERENCES owners(player),source TEXT NOT NULL,destination TEXT NOT NULL,epoch INTEGER NOT NULL,state TEXT NOT NULL,snapshot BLOB,digest TEXT)");
             s.execute("CREATE UNIQUE INDEX IF NOT EXISTS one_transfer ON transfers(player) WHERE state NOT IN ('CLEANED','ABORTED')");
+            s.execute("CREATE TABLE IF NOT EXISTS node_sessions(node TEXT PRIMARY KEY,boot TEXT NOT NULL,generation INTEGER NOT NULL CHECK(generation>0))");
+            s.execute("CREATE TABLE IF NOT EXISTS boot_history(node TEXT NOT NULL,boot TEXT NOT NULL,generation INTEGER NOT NULL,PRIMARY KEY(node,boot))");
             s.execute("CREATE TABLE IF NOT EXISTS receipts(op TEXT PRIMARY KEY,peer TEXT NOT NULL,request BLOB NOT NULL,result BLOB NOT NULL)");
         } catch (Exception e) {
             db.close();
@@ -55,9 +57,70 @@ public final class TransferLedger implements AutoCloseable {
         }
     }
 
+    public synchronized NodeSession getSession(String peer, SessionQuery query) throws Exception {
+        peer(peer); version(query.getVersion());
+        return session(peer);
+    }
+
+    public synchronized NodeSession openSession(String peer, SessionStart request) throws Exception {
+        peer(peer); version(request.getVersion()); uuid(request.getBoot());
+        require(request.getPreviousGeneration() >= 0, "Invalid previous generation");
+        db.setAutoCommit(false);
+        try {
+            NodeSession current = session(peer);
+            try (PreparedStatement known = db.prepareStatement("SELECT generation FROM boot_history WHERE node=? AND boot=?")) {
+                known.setString(1, peer); known.setString(2, request.getBoot());
+                try (ResultSet row = known.executeQuery()) {
+                    if (row.next()) {
+                        require(current.getBoot().equals(request.getBoot()) && current.getGeneration() == row.getLong(1), "Retired boot cannot become current again");
+                        require(request.getPreviousGeneration() == current.getGeneration()-1, "Session replay identity mismatch");
+                        db.commit(); return current;
+                    }
+                }
+            }
+            require(current.getGeneration() == request.getPreviousGeneration(), "Session generation CAS failed");
+            long next = Math.addExact(current.getGeneration(), 1);
+            try (PreparedStatement history = db.prepareStatement("INSERT INTO boot_history VALUES(?,?,?)")) {
+                history.setString(1, peer); history.setString(2, request.getBoot()); history.setLong(3, next); history.executeUpdate();
+            }
+            try (PreparedStatement update = db.prepareStatement("INSERT INTO node_sessions VALUES(?,?,?) ON CONFLICT(node) DO UPDATE SET boot=excluded.boot,generation=excluded.generation")) {
+                update.setString(1, peer); update.setString(2, request.getBoot()); update.setLong(3, next); update.executeUpdate();
+            }
+            db.commit(); return NodeSession.newBuilder().setNode(peer).setBoot(request.getBoot()).setGeneration(next).build();
+        } catch (Exception e) { db.rollback(); throw e; }
+        finally { db.setAutoCommit(true); }
+    }
+
+    public synchronized AdmissionDecision checkAdmission(String peer, AdmissionCheck request) throws Exception {
+        peer(peer); version(request.getVersion()); uuid(request.getPlayer());
+        NodeSession current = requireSession(peer, request.getBoot(), request.getGeneration());
+        Owner owner = owner(request.getPlayer());
+        require(request.getEpoch() > 0 && owner.getEpoch() == request.getEpoch() && owner.getNode().equals(peer) && !owner.getFrozen(), "Admission requires current unfrozen owner epoch");
+        return AdmissionDecision.newBuilder().setOwner(owner).setSession(current).build();
+    }
+
+    private NodeSession session(String node) throws Exception {
+        try (PreparedStatement query = db.prepareStatement("SELECT boot,generation FROM node_sessions WHERE node=?")) {
+            query.setString(1, node);
+            try (ResultSet row = query.executeQuery()) {
+                var result = NodeSession.newBuilder().setNode(node);
+                if (row.next()) result.setBoot(row.getString(1)).setGeneration(row.getLong(2));
+                return result.build();
+            }
+        }
+    }
+
+    private NodeSession requireSession(String peer, String boot, long generation) throws Exception {
+        uuid(boot);
+        NodeSession current = session(peer);
+        require(generation > 0 && current.getGeneration() == generation && current.getBoot().equals(boot), "Stale or missing node boot session");
+        return current;
+    }
+
     public synchronized Owner admit(String peer, Admission request) throws Exception {
         peer(peer); version(request.getVersion()); uuid(request.getPlayer()); node(request.getNode());
         require(peer.equals(lobby), "Only lobby can admit");
+        requireSession(peer, request.getBoot(), request.getGeneration());
         // Admission is insert-only. Reconnect never overwrites ownership or thaws a pending transfer.
         try (PreparedStatement p = db.prepareStatement("INSERT OR IGNORE INTO owners VALUES(?,?,1,0)")) {
             p.setString(1, request.getPlayer()); p.setString(2, request.getNode()); p.executeUpdate();
@@ -92,6 +155,7 @@ public final class TransferLedger implements AutoCloseable {
         require(c.getEpoch() > 0, "Invalid epoch");
         require(c.getSnapshot().size() <= MAX_SNAPSHOT, "Snapshot too large");
         require(c.getStep() != Step.UNRECOGNIZED, "Unknown step");
+        requireSession(peer, c.getBoot(), c.getGeneration());
         require(c.getStep() == Step.QUIESCE || c.getSnapshot().isEmpty(), "Snapshot only allowed at quiesce");
         db.setAutoCommit(false);
         try {

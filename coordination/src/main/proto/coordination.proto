@@ -5,12 +5,21 @@ option java_multiple_files = true;
 
 // Peer identity comes from mTLS, never from this request.
 service Authority {
+  rpc GetSession(SessionQuery) returns (NodeSession);
+  rpc OpenSession(SessionStart) returns (NodeSession);
+  rpc CheckAdmission(AdmissionCheck) returns (AdmissionDecision);
   rpc Admit(Admission) returns (Owner);
   rpc Lookup(PlayerKey) returns (Owner);
   rpc Advance(TransferCommand) returns (TransferResult);
   rpc Inspect(TransferKey) returns (TransferSnapshot);
 }
-message Admission { uint32 version = 1; string player = 2; string node = 3; }
+message SessionQuery { uint32 version = 1; }
+message SessionStart { uint32 version = 1; string boot = 2; int64 previous_generation = 3; }
+message NodeSession { string node = 1; string boot = 2; int64 generation = 3; }
+message AdmissionCheck { uint32 version = 1; string player = 2; int64 epoch = 3; string boot = 4; int64 generation = 5; }
+// This is a fresh diagnostic decision, not a lease or proof that Minecraft restored the player.
+message AdmissionDecision { Owner owner = 1; NodeSession session = 2; }
+message Admission { uint32 version = 1; string player = 2; string node = 3; string boot = 4; int64 generation = 5; }
 message PlayerKey { uint32 version = 1; string player = 2; }
 message TransferKey { uint32 version = 1; string transfer = 2; }
 message TransferSnapshot {
@@ -38,5 +47,7 @@ message TransferCommand {
   Step step = 8;
   bytes snapshot = 9;
   string digest = 10;
+  string boot = 11;
+  int64 generation = 12;
 }
 message TransferResult { string state = 1; Owner owner = 2; string digest = 3; }

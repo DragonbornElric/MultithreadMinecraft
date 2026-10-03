@@ -22,7 +22,9 @@ class TransportTest {
             .redirectErrorStream(true).redirectOutput(dir.resolve("pki.log").toFile()).start();
         assertTrue(p.waitFor(30, TimeUnit.SECONDS)); assertEquals(0, p.exitValue());
         var nodes = Set.of("lobby", "a", "b");
-        service = new AuthorityService(new TransferLedger(dir.resolve("ledger.db"), "lobby", nodes));
+        var ledger = new TransferLedger(dir.resolve("ledger.db"), "lobby", nodes);
+        for (var node : nodes) ledger.openSession(node, SessionStart.newBuilder().setVersion(TransferLedger.VERSION).setBoot(TransferLedgerTest.boot(node)).build());
+        service = new AuthorityService(ledger);
         server = NettyServerBuilder.forPort(0)
             .sslContext(GrpcSslContexts.forServer(dir.resolve("server.pem").toFile(), dir.resolve("server.key").toFile())
                 .trustManager(dir.resolve("ca.pem").toFile()).clientAuth(ClientAuth.REQUIRE).build())
@@ -37,7 +39,7 @@ class TransportTest {
         return AuthorityGrpc.newBlockingStub(channel).withDeadlineAfter(5, TimeUnit.SECONDS);
     }
     private Admission admission() {
-        return Admission.newBuilder().setVersion(1).setPlayer(TransferLedgerTest.PLAYER).setNode("a").build();
+        return Admission.newBuilder().setVersion(TransferLedger.VERSION).setPlayer(TransferLedgerTest.PLAYER).setNode("a").setBoot(TransferLedgerTest.boot("lobby")).setGeneration(1).build();
     }
     @Test void authenticatedDistinctPeersTransferAndReplayOverNetwork() throws Exception {
         var lobby = client("lobby"); var source = client("a"); var dest = client("b");
@@ -45,7 +47,7 @@ class TransportTest {
         var request = TransferLedgerTest.command(Step.REQUEST);
         assertEquals(source.advance(request), source.advance(request));
         source.advance(TransferLedgerTest.command(Step.QUIESCE));
-        var recovered = dest.inspect(TransferKey.newBuilder().setVersion(1).setTransfer(TransferLedgerTest.TRANSFER).build());
+        var recovered = dest.inspect(TransferKey.newBuilder().setVersion(TransferLedger.VERSION).setTransfer(TransferLedgerTest.TRANSFER).build());
         assertArrayEquals(TransferLedgerTest.SNAPSHOT, recovered.getSnapshot().toByteArray());
         dest.advance(TransferLedgerTest.command(Step.PREPARE));
         assertEquals("b", lobby.advance(TransferLedgerTest.command(Step.COMMIT)).getOwner().getNode());
@@ -84,8 +86,49 @@ class TransportTest {
     }
     @Test void incompatibleVersionAndMissingDeadlineRejected() throws Exception {
         var lobby = client("lobby");
-        assertEquals(Status.Code.FAILED_PRECONDITION, assertThrows(StatusRuntimeException.class, () -> lobby.admit(admission().toBuilder().setVersion(2).build())).getStatus().getCode());
+        assertEquals(Status.Code.FAILED_PRECONDITION, assertThrows(StatusRuntimeException.class, () -> lobby.admit(admission().toBuilder().setVersion(999).build())).getStatus().getCode());
         assertEquals(Status.Code.UNAUTHENTICATED, assertThrows(StatusRuntimeException.class, () -> lobby.withDeadline(null).admit(admission())).getStatus().getCode());
+    }
+    private SessionClient sessionClient(Path lock) throws Exception {
+        return new SessionClient(lock, "a", "localhost", server.getPort(), dir.resolve("a.pem"), dir.resolve("a.key"), dir.resolve("ca.pem"));
+    }
+    @Test void asyncSessionAdmissionRejectsRestartedSourceAndFrozenPlayer() throws Exception {
+        client("lobby").admit(admission());
+        try (var old = sessionClient(dir.resolve("old.lock"))) {
+            var session = old.start().toCompletableFuture().get(10, TimeUnit.SECONDS);
+            assertEquals(2, session.getGeneration());
+            assertEquals("a", old.checkAdmission(TransferLedgerTest.PLAYER, 1).toCompletableFuture().get(10, TimeUnit.SECONDS).getOwner().getNode());
+            try (var next = sessionClient(dir.resolve("next.lock"))) {
+                var fresh = next.start().toCompletableFuture().get(10, TimeUnit.SECONDS);
+                assertEquals(3, fresh.getGeneration());
+                assertThrows(java.util.concurrent.ExecutionException.class, () -> old.checkAdmission(TransferLedgerTest.PLAYER, 1).toCompletableFuture().get(10, TimeUnit.SECONDS));
+                assertEquals("a", next.checkAdmission(TransferLedgerTest.PLAYER, 1).toCompletableFuture().get(10, TimeUnit.SECONDS).getOwner().getNode());
+                var source = client("a");
+                source.advance(TransferLedgerTest.command(Step.REQUEST).toBuilder().setBoot(fresh.getBoot()).setGeneration(3).build());
+                source.advance(TransferLedgerTest.command(Step.QUIESCE).toBuilder().setBoot(fresh.getBoot()).setGeneration(3).build());
+                assertThrows(java.util.concurrent.ExecutionException.class, () -> next.checkAdmission(TransferLedgerTest.PLAYER, 1).toCompletableFuture().get(10, TimeUnit.SECONDS));
+            }
+        }
+    }
+    @Test void sameRuntimeDirectoryCannotStartTwoNodeClients() throws Exception {
+        try (var first = sessionClient(dir.resolve("node.lock"))) {
+            assertThrows(java.nio.channels.OverlappingFileLockException.class, () -> sessionClient(dir.resolve("node.lock")));
+        }
+        try (var restarted = sessionClient(dir.resolve("node.lock"))) { assertEquals(2, restarted.start().toCompletableFuture().get(10, TimeUnit.SECONDS).getGeneration()); }
+    }
+    @Test void cachedTransferReceiptCannotActAsCurrentOwnerOrBootProof() throws Exception {
+        client("lobby").admit(admission());
+        var command = TransferLedgerTest.command(Step.REQUEST);
+        Path file = dir.resolve("receipt-peer.db");
+        try (var peer = new PeerClient(file, "lab", "a", "localhost", server.getPort(), dir.resolve("a.pem"), dir.resolve("a.key"), dir.resolve("ca.pem"))) {
+            assertEquals("REQUESTED", peer.submit(command).toCompletableFuture().get(10, TimeUnit.SECONDS).getState());
+            client("a").advance(TransferLedgerTest.command(Step.QUIESCE));
+            assertThrows(java.util.concurrent.ExecutionException.class, () -> peer.submit(command).toCompletableFuture().get(10, TimeUnit.SECONDS));
+            try (var fresh = sessionClient(dir.resolve("new-boot.lock"))) {
+                fresh.start().toCompletableFuture().get(10, TimeUnit.SECONDS);
+                assertThrows(java.util.concurrent.ExecutionException.class, () -> peer.submit(command).toCompletableFuture().get(10, TimeUnit.SECONDS));
+            }
+        }
     }
     @Test void plaintextAndMissingClientCertificateCannotReachService() throws Exception {
         var plain = NettyChannelBuilder.forAddress("localhost", server.getPort()).usePlaintext().build();
