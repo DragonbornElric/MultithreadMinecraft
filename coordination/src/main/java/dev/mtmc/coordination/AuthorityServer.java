@@ -14,7 +14,7 @@ public final class AuthorityServer {
         String cluster = args[1], lobby = args[2];
         Set<String> nodes = Set.of(args[7].split(","));
         PeerIdentity identity = new PeerIdentity(cluster, nodes);
-        AuthorityService service = new AuthorityService(new TransferLedger(Path.of(args[0]), lobby, nodes));
+        AuthorityService service = new AuthorityService(new TransferLedger(Path.of(args[0]), cluster, lobby, nodes));
         Server server;
         try {
             server = NettyServerBuilder.forPort(Integer.parseInt(args[3]))

@@ -22,6 +22,15 @@ public final class MtmcCommand {
                 c.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal(dev.mtmc.cluster.ClusterReadiness.status()), false);
                 return 1;
             }))
+            .then(Commands.literal("player-snapshot")
+                .then(Commands.argument("player", net.minecraft.commands.arguments.EntityArgument.player())
+                    .executes(c -> {
+                        var player = net.minecraft.commands.arguments.EntityArgument.getPlayer(c, "player");
+                        var snapshot = dev.mtmc.cluster.PlayerStateSnapshot.capture(player);
+                        c.getSource().sendSuccess(() -> Component.literal("Player diagnostic snapshot OK; uuid=" + player.getUUID()
+                            + "; menu=" + player.containerMenu.containerId + "; nbt=" + snapshot), false);
+                        return 1;
+                    })))
             .then(Commands.literal("on").executes(c -> setParallel(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> setParallel(c.getSource(), false)))
             .then(dev.mtmc.lag.LagCommand.node())

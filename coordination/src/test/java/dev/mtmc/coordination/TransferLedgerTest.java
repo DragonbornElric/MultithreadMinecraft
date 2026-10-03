@@ -31,6 +31,15 @@ class TransferLedgerTest {
         return l.lookup("lobby", PlayerKey.newBuilder().setVersion(1).setPlayer(PLAYER).build());
     }
     static String peer(Step s) { return switch(s) { case PREPARE, ACTIVATE -> "b"; case COMMIT -> "lobby"; default -> "a"; }; }
+    @Test void ledgerIdentityCannotBeReboundAcrossRestart() throws Exception {
+        var file = dir.resolve("bound.db");
+        try (var l = new TransferLedger(file, "cluster-one", "lobby", NODES)) { admit(l); }
+        assertThrows(IllegalArgumentException.class, () -> new TransferLedger(file, "cluster-two", "lobby", NODES));
+        assertThrows(IllegalArgumentException.class, () -> new TransferLedger(file, "cluster-one", "other", NODES));
+        assertThrows(IllegalArgumentException.class, () -> new TransferLedger(file, "cluster-one", "lobby", Set.of("lobby", "a", "b")));
+        try (var l = new TransferLedger(file, "cluster-one", "lobby", NODES)) { assertEquals("a", owner(l).getNode()); }
+    }
+
     @Test void committedReceiptAndSnapshotSurviveRestartAndReplay() throws Exception {
         Path file = dir.resolve("ledger.db");
         TransferCommand commit = command(Step.COMMIT);

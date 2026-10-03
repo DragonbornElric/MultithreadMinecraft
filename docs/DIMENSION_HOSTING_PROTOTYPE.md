@@ -76,3 +76,34 @@ or combat lab directories are used. Multi-PC tests remain BLOCKED by user decisi
 After the whole frozen run, group failures and blockers. Seek approval before any fixes,
 then rerun targeted checks and the complete matrix. No main/master/default branch push,
 merge, or deployment is authorized.
+
+## Second local phase
+
+The lab now provisions a genuine Fabric 26.2 client with the real EndInv client mod,
+using an isolated Xvfb display and a direct, frozen launch manifest. The smoke fixture
+creates a public inventory through a player command, selects it, deposits 64 diamonds
+through the real menu quick-move packet, then checks the actual global codec and
+selection. This is one fixture client; baseline capacity still requires the approved
+workload, permission stack, warmup, duration, and plateau checks.
+
+`/mtmc player-snapshot <player>` captures detached vanilla player NBT, the carried
+cursor and live menu slots on the server thread. `/endinv-cluster-snapshot` reports
+stored counts and the actual global persisted schema. These diagnostic commands are
+admin-only and do not freeze players, write peer snapshots, restore state, or authorize
+admission. A live menu must be settled before a real handoff. Their NBT output is intended
+for disposable test worlds and contains player state.
+
+The authority ledger is now bound to its cluster, lobby, and sorted peer allowlist.
+Reopening with different configuration fails. Unbound legacy prototype ledgers require
+an explicit offline migration; this phase uses fresh disposable databases. Node boot
+sessions and enforcement of current authority epochs by gameplay remain unfinished.
+
+Client prerequisites for this environment: Debian `xvfb_21.1.16-1.3+deb13u4_amd64.deb`
+from `https://deb.debian.org/debian/pool/main/x/xorg-server/`, SHA256
+`893d87bf159b6de077a929fc796a73c39f837d45310b2076e3eeebebb80552b6`,
+extracted without root into `/workspace/mtmc-prototype/tools/xvfb`. Existing Mesa/X11
+libraries provide software rendering. The asset preparation script checks every object
+against the Mojang 26.2-32 index SHA1 and size. Prepare `exportLabLaunch` in
+`emma-smp/tools/lab/driver` with the pinned Java/Gradle/proxy configuration, then generate
+the matrix config. The freeze includes client classes/resources, runtime classpath,
+launch configuration, native libraries, all game assets, and the Xvfb package/binary.

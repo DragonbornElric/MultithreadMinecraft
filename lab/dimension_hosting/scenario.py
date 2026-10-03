@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from common import EXIT, result
 from server import LabServer, synthetic_fixture
+from client import populated_endinv_fixture
 
 
 def gradle(config, cwd, arguments, directory):
@@ -36,7 +37,8 @@ def execute(case, config, directory):
             "runtime_artifacts_present": all(Path(p).is_file() for p in config["artifacts"]),
             "java25": "25." in subprocess.check_output([config["java"], "-version"], stderr=subprocess.STDOUT, text=True),
             "openssl": bool(shutil.which("openssl")),
-            "xvfb": bool(shutil.which("xvfb-run")),
+            "xvfb": Path(config["xvfb"]).is_file(),
+            "real_client_manifest": Path(config["client_manifest"]).is_file(),
             "websocket_client": importlib.util.find_spec("websocket") is not None,
             "remote_hosts_attached": bool(config["remote_hosts"]),
             "gameplay_adapters_ready": config["gameplay_adapters_ready"],
@@ -79,19 +81,20 @@ def execute(case, config, directory):
             if not ready:
                 return result(case, config, "FAIL", "Real mod stack did not reach ready", {"ready": False}, evidence=[str(server.log_path)])
             version = server.cmd("emmasmp version")
-            create = server.cmd("endinv new public")
+            fixture = populated_endinv_fixture(server, config, directory / "client", "baseline" if baseline else "prototype")
+            create = fixture["created"]
             metrics = synthetic_fixture(server, config)
             measurements = directory / "measurements.json"
             measurements.write_text(json.dumps(metrics, indent=2) + "\n")
-            observed = {"ready": True, "emma_smp": version, "endinv_created": create}
+            observed = {"ready": True, "emma_smp": version, "endinv_created": create, "real_client_fixture": fixture}
             if not baseline:
                 observed["endinv_codec"] = server.cmd("endinv-cluster-snapshot")
                 observed["cluster_status"] = server.cmd("mtmc cluster")
                 ok = "emma-smp" in version and "Created a new public" in create and "round-trip OK" in observed["endinv_codec"] and "0 failed" in metrics["selftest"]
                 status, reason = ("PASS", "Real-stack boot/codec/selftest only") if ok else ("FAIL", "Real-stack smoke outcome mismatch")
             else:
-                status, reason = "BLOCKED", "Synthetic off/on measurements available; approved active-player/conservation baseline cannot run without real clients"
-            return result(case, config, status, reason, observed, metrics, [str(server.log_path), str(server.directory / "commands.jsonl"), str(measurements)])
+                status, reason = "BLOCKED", "Synthetic off/on measurements available; approved active-player/conservation baseline needs the pinned workload and permission stack; one fixture client is insufficient"
+            return result(case, config, status, reason, observed, metrics, [str(server.log_path), str(server.directory / "commands.jsonl"), str(measurements), str(directory / "client" / "client.log"), str(directory / "client" / "actions.jsonl")])
         finally:
             server.close()
     if key in {"LOADPC", "LIFECYCLE"}:

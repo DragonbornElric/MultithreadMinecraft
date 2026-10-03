@@ -15,6 +15,11 @@ public final class TransferLedger implements AutoCloseable {
     private final String lobby;
 
     public TransferLedger(Path file, String lobby, Set<String> nodes) throws Exception {
+        this(file, "local-test", lobby, nodes);
+    }
+
+    public TransferLedger(Path file, String cluster, String lobby, Set<String> nodes) throws Exception {
+        if (cluster == null || !cluster.matches("[A-Za-z0-9._-]+")) throw new IllegalArgumentException("Invalid cluster identity");
         if (!nodes.contains(lobby)) throw new IllegalArgumentException("Lobby is not a cluster node");
         this.nodes = Set.copyOf(nodes);
         this.lobby = lobby;
@@ -25,10 +30,28 @@ public final class TransferLedger implements AutoCloseable {
             s.execute("PRAGMA synchronous=FULL");
             s.execute("PRAGMA foreign_keys=ON");
             s.execute("PRAGMA busy_timeout=5000");
+            s.execute("CREATE TABLE IF NOT EXISTS cluster_binding(id INTEGER PRIMARY KEY CHECK(id=1),cluster TEXT NOT NULL,lobby TEXT NOT NULL,nodes TEXT NOT NULL)");
+            String boundNodes = String.join(",", new TreeSet<>(nodes));
+            try (ResultSet existing = s.executeQuery("SELECT cluster,lobby,nodes FROM cluster_binding WHERE id=1")) {
+                if (existing.next()) {
+                    if (!cluster.equals(existing.getString(1)) || !lobby.equals(existing.getString(2)) || !boundNodes.equals(existing.getString(3)))
+                        throw new IllegalArgumentException("Ledger cluster/lobby/node configuration mismatch");
+                } else {
+                    try (Statement check = db.createStatement(); ResultSet tables = check.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('owners','transfers','receipts')")) {
+                        if (tables.next()) throw new IllegalArgumentException("Unbound legacy ledger requires offline migration");
+                    }
+                    try (PreparedStatement bind = db.prepareStatement("INSERT INTO cluster_binding VALUES(1,?,?,?)")) {
+                        bind.setString(1, cluster); bind.setString(2, lobby); bind.setString(3, boundNodes); bind.executeUpdate();
+                    }
+                }
+            }
             s.execute("CREATE TABLE IF NOT EXISTS owners(player TEXT PRIMARY KEY,node TEXT NOT NULL,epoch INTEGER NOT NULL CHECK(epoch>0),frozen INTEGER NOT NULL)");
             s.execute("CREATE TABLE IF NOT EXISTS transfers(id TEXT PRIMARY KEY,player TEXT NOT NULL REFERENCES owners(player),source TEXT NOT NULL,destination TEXT NOT NULL,epoch INTEGER NOT NULL,state TEXT NOT NULL,snapshot BLOB,digest TEXT)");
             s.execute("CREATE UNIQUE INDEX IF NOT EXISTS one_transfer ON transfers(player) WHERE state NOT IN ('CLEANED','ABORTED')");
             s.execute("CREATE TABLE IF NOT EXISTS receipts(op TEXT PRIMARY KEY,peer TEXT NOT NULL,request BLOB NOT NULL,result BLOB NOT NULL)");
+        } catch (Exception e) {
+            db.close();
+            throw e;
         }
     }
 
