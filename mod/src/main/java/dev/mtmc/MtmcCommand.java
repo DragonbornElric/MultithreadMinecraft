@@ -18,6 +18,10 @@ public final class MtmcCommand {
             .requires(Commands.hasPermission(Commands.LEVEL_ADMINS))
             .executes(c -> status(c.getSource()))
             .then(Commands.literal("status").executes(c -> status(c.getSource())))
+            .then(Commands.literal("cluster").executes(c -> {
+                c.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal(dev.mtmc.cluster.ClusterReadiness.status()), false);
+                return 1;
+            }))
             .then(Commands.literal("on").executes(c -> setParallel(c.getSource(), true)))
             .then(Commands.literal("off").executes(c -> setParallel(c.getSource(), false)))
             .then(dev.mtmc.lag.LagCommand.node())

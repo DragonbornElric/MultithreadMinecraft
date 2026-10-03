@@ -1,0 +1,350 @@
+{
+  "kind": "investigation-and-proposed-plan; not an implementation or test execution",
+  "captured_utc": "2026-10-03T19:50:15.000398+00:00",
+  "approval_gate": "User request section 2: Present the plan, test matrix, acceptance criteria, and risks, then wait for my approval before implementing the prototype.",
+  "repositories": {
+    "multithreadminecraft": {
+      "branch": "work",
+      "commit": "7a4d74762750c1d43410eb86083794582e5498c8",
+      "status_porcelain": "",
+      "remote_default_snapshot": "refs/remotes/origin/ccr-c36973eb-axes2h"
+    },
+    "emma-smp": {
+      "branch": "work",
+      "commit": "afa8cc96e01d1cd78a321120bab7ae6a93654618",
+      "status_porcelain": "",
+      "remote_default_snapshot": "refs/remotes/origin/main"
+    },
+    "Emma-EndInv": {
+      "branch": "work",
+      "commit": "6a6ac376dacf086762c4afc7a20149c1b24099fd",
+      "status_porcelain": "",
+      "remote_default_snapshot": "refs/remotes/origin/main"
+    },
+    "EmmaMinecraft261": {
+      "branch": "work",
+      "commit": "9f4fcdfde16df2fb9c31aa0b519f2203a0ceec38",
+      "status_porcelain": "",
+      "remote_default_snapshot": null
+    },
+    "emmaaicohost-claude": {
+      "branch": "work",
+      "commit": "12778361c1ee0d2570a922805533d61be4026547",
+      "status_porcelain": "",
+      "remote_default_snapshot": null
+    },
+    "emmawebsite": {
+      "branch": "work",
+      "commit": "c6c4e9ce0bea7319fbc021c2c176e13665db4820",
+      "status_porcelain": "",
+      "remote_default_snapshot": "refs/remotes/origin/main"
+    }
+  },
+  "environment": {
+    "cpu_quota_cores": 4,
+    "visible_cpus": 5,
+    "memory_limit_bytes": 17179869184,
+    "swap": false,
+    "disk_free_approx_gib": 30,
+    "java_default": "21.0.12.1",
+    "available_jdk": "/workspace/.tools/jdk-25.0.4.1: 25.0.4.1",
+    "available_gradle": "9.7.1, verified using bash launcher and JDK25",
+    "minecraft_java_processes_observed": 0,
+    "vpn_configured": false,
+    "remote_tcp_grants": [],
+    "managed_http_policy_state": "unknown; file snapshot unrestricted; individual HTTPS probes succeeded"
+  },
+  "compatibility": {
+    "minecraft": "26.2",
+    "loader": "0.19.5",
+    "fabric_api": "0.161.0+26.2",
+    "mtmc": "0.1.0",
+    "emma_smp": "0.1.0",
+    "endinv_source": "1.4.5",
+    "bridge": "0.2.0",
+    "mob_targeting": "0.1.0 source present inside EmmaMinecraft261/java/emma-mob-targeting",
+    "loom_actual": "1.18.2",
+    "runtime_builds": "NOT VERIFIED; source pins align only",
+    "cached_endinv": "1.4.4; not current-source proof",
+    "cached_endinv_sha256": "42025017d0c46a662bd730b45137d0010b94ab2f21818391b8c024bf78f5131f"
+  },
+  "network": {
+    "HTTP200": [
+      "Fabric loader 26.2 metadata",
+      "Fabric Maven",
+      "Maven Central",
+      "Mojang manifest",
+      "Modrinth Lithium",
+      "MTMC GitHub",
+      "Nucleoid exact sgui 2.1.0+26.2 POM",
+      "NeoForge exact NeoForm 26.2-2 POM",
+      "Gradle plugin portal"
+    ],
+    "incomplete": "Gradle distribution download returned HTTP200 but timed out after 15 seconds partway through. Installed Gradle works; full dependency resolution not verified."
+  },
+  "blockers_and_unknowns": [
+    "No second host, remote generator or isolated interhost connectivity/access configured.",
+    "Xvfb/xvfb-run and selected Python websocket-client/pytest/requests absent; graphics readiness unverified.",
+    "Current runtime JARs/full dependency builds unverified.",
+    "Exact full stack/config, LuckPerms version/backend and optional map integrations need a pinned manifest.",
+    "SoulFire/HeadlessMC and disposable identity fixtures unverified.",
+    "Standalone mob-targeting repository not separately attached; compatible source exists in EmmaMinecraft261; pin provenance/version."
+  ],
+  "source_evidence": [
+    [
+      "/workspace/multithreadminecraft/mod/src/main/java/dev/mtmc/ParallelLevelTicker.java",
+      "JVM-local worker ownership and deferred queue."
+    ],
+    [
+      "/workspace/multithreadminecraft/mod/src/main/java/dev/mtmc/mixin/ServerPlayerMixin.java",
+      "TeleportTransition expects local ServerLevel."
+    ],
+    [
+      "/workspace/emma-smp/server/src/main/java/us/emmaandelric/smp/db/Database.java",
+      "Local SQLite connection/executor; WAL synchronous NORMAL."
+    ],
+    [
+      "/workspace/emma-smp/server/src/main/java/us/emmaandelric/smp/economy/EconomyService.java",
+      "Local in-memory balances and write-behind snapshots."
+    ],
+    [
+      "/workspace/emma-smp/server/src/main/java/us/emmaandelric/smp/economy/CommonEconomyBridge.java",
+      "Synchronous third-party mutation contract."
+    ],
+    [
+      "/workspace/emma-smp/server/src/main/java/us/emmaandelric/smp/essentials/TeleportService.java",
+      "Local level/back/cooldown/warmup; TpaService also local requests."
+    ],
+    [
+      "/workspace/Emma-EndInv/java/emma-endinv/common/src/main/java/com/emma/endinv/data/EndlessInventoryData.java",
+      "Overworld SavedData global inventory list/selection/names."
+    ],
+    [
+      "/workspace/Emma-EndInv/java/emma-endinv/fabric/src/main/java/com/emma/endinv/event/PlayerEvents.java",
+      "Local viewer/station/player lookup; 60-second save."
+    ],
+    [
+      "/workspace/multithreadminecraft/lab/README.md",
+      "Existing bot lab uses EndInv stand-in; unsuitable as new full-stack coverage."
+    ],
+    [
+      "/workspace/EmmaMinecraft261/AGENTS.md",
+      "Supporting edits must stay in that worktree; targeting only aggressive mobs; active common/fabric source layout."
+    ],
+    [
+      "/workspace/Emma-EndInv/CLAUDE.md",
+      "Preserve legacy save IDs/API compatibility; Java25; real Fabric server mod."
+    ]
+  ],
+  "architecture": {
+    "topology": "Lobby Fabric process owns admission/directory/durable shared-state authority; A and B Fabric workers own disjoint whole gameplay dimensions. MTMC coordinates route/transfer hooks. Static ownership, private per-dimension storage; no shared world/SQLite file or live rsync.",
+    "initialization": "Same full registries/recipes/mod manifest. Only assigned gameplay levels tick/load/save. Explicitly refactor vanilla Overworld bootstrap and mod server.overworld() dependencies; real startup gate must prove no duplicate writable gameplay dimension. Do not use a writable unowned world as fallback.",
+    "transport": "Dedicated mTLS gRPC peer port, generated protobuf, shaded Netty, node identity/cluster allowlist. WebSockets simpler and familiar but need custom typed protocol/flow control; raw TCP adds framing. Choice is maintainability, not measured performance.",
+    "protocol": "Version/node/boot/cluster IDs, op+transfer UUIDs, object UUID, owner epoch, expected revision, deadline and digest. Durable phase-specific ACKs, idempotent inbox and durable outbox. Bounded requests/bytes, backpressure, heartbeat, deadlines, exponential reconnect, ledger reconciliation; reject schema/registry mismatch. Proposed heartbeat1s/unavailable5s/RPC5s/prepare15s/reconnect0.25-5s; freeze values and queue limits before run.",
+    "threading": "I/O and persistence off tick threads; bounded commands applied on actual world/region owner queue. Pending/frozen actions rather than join/get waiting for RPC; within-process mod communication stays local.",
+    "durability": "Single local SQLite WAL writer, synchronous FULL; transactional ownership CAS, snapshots/digests/revisions, transfer ledger, shared transactions, receipts/outboxes. Real mod business logic uses explicit command backends. Mirrors never authorize spending. No automatic authority failover; authority outage pauses critical operations.",
+    "transfer": "REQUEST -> QUIESCED -> SNAPSHOT_DURABLE -> DEST_PREPARED -> OWNER_COMMITTED -> CLIENT_REDIRECTED -> ACTIVATED -> SOURCE_CLEANED. Gate source mutations/death/pickup/menu operations and drain shared transactions. Capture complete player+attachments+mod state preserving cursor/crafting exactly once. Destination prepares inert state/arrival. Durable owner CAS after source quiescence and destination preparation; only committed destination can activate.",
+    "admission": "Validate native 26.2 client transfer with actual Fabric/EndInv clients. One-use short-lived destination/session ticket bound to authenticated UUID+epoch over peer channel; ticket is not a substitute for identity authentication. Lobby reconnect reads committed owner; backend login requires admission. Offline lab identity fixtures clearly labeled. If native transfer/mod handshake fails, report gate failure and seek approval for proxy adaptation.",
+    "recovery": "Precommit durable abort can restore source; postcommit recover only destination. Replays return original committed result. Stale playerdata cannot overwrite ledger/reactivate old epoch. Timeout alone never grants competing ownership: durable quiesce or proven process fencing required. Authority restart reconciles workers before admitting sessions; unknown outcomes remain unavailable.",
+    "entities": "Capture full passenger/entity tree, retain UUIDs, source durable tombstones and load filters, destination dedup before activation. Include leashes/pearls/mob/item portals; unsupported serialized types explicitly fail/block.",
+    "endinv": "Real mod/client with async cluster backend. One authoritative actor/revision per inventory UUID, central ACL/selection, one station scheduler using cluster presence. Include SourceInventory add/take, crafting, autopick, loot, stations, admin and sync; preserve legacy IDs. Replace cluster-mode Overworld SavedData authority, retain local backend for baseline.",
+    "coupled_operations": "Durable operation IDs/escrow for EndInv<->player/menu/item entity/reward/economy. Reserve input/record intent, commit authoritative deltas, idempotently materialize output on owner queue; journal recovery reconciles partial local application. Drain before transfer capture. Test partial-apply crashes; snapshot+ACK alone insufficient. Vanilla world saves outside supported operations remain disclosed limits, not blanket no-loss claims.",
+    "emma_smp": "Route all teleports/admin/ghost/respawn paths and cross-node tpa; commit back/cooldowns on success. Single ownership of economy/jobs/limits/roles/lifesteal/directory/homes/warps/claims/guild/market/events and schedules; local block effects stay dimension-local with event IDs. Permissions globally consistent.",
+    "sync_API_risk": "CommonEconomyBridge and SourceInventory return synchronous results today. Adapt known consumers to async reservations/commit. Never return success before durable commit, use stale caches for spending or block tick on RPC. Enumerate external consumers; unavailable integrations explicit BLOCKED, no silent coverage reduction.",
+    "other_mods": "Mob-targeting refreshes after travel; bridge/cache keys use logical cluster+dimension identity and state resync. Configure real LuckPerms coherently; pin Lithium/ServerCore. Optional maps and other consumers audited before claiming coverage. Moonrise excluded as declared incompatible."
+  },
+  "matrix": [
+    {
+      "id": "ENV",
+      "scenario": "Host/mod/config/registry/toolchain/network/generator preflight",
+      "expected": "All real required mods load; unavailable prerequisites BLOCKED.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "BASE0",
+      "scenario": "Unchanged single-server MTMC regions off",
+      "expected": "Fresh seeded full-stack world; complete correctness and sustained measurements.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "BASE1",
+      "scenario": "Identical single-server workload regions on",
+      "expected": "Same correctness; only regions differs; incremental gain separately attributed.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "BOOT",
+      "scenario": "Lobby plus two workers with static whole-dimension assignment",
+      "expected": "Exactly one writable gameplay owner per dimension; no unowned tick/load/save.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ROUTE",
+      "scenario": "Lobby selection, walk-in/Nether/End portals, scaling/construction/platform/exit/cooldowns",
+      "expected": "Correct remote target, location, return route and dimension rules.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "TRAVEL",
+      "scenario": "1000 repeated transfers per two-player pair; reconnects/respawns at each stage",
+      "expected": "One session owner and latest committed full state.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ESS",
+      "scenario": "Home/back/spawn/warp/tpa/tpahere, remote moving target, warmups/cancel/combat restrictions",
+      "expected": "Existing semantics; back/cooldown commit only on successful travel.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "PLAYER",
+      "scenario": "Inventory/components/armor/offhand/hotbar/cursor/crafting/ender chest/XP/effects/health/food/attachments/advancements/statistics/mod state",
+      "expected": "Conservation with explicit intentional consumptions, death changes and effect decay.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ENTITY",
+      "scenario": "Mob/item/vehicle/nested passengers/leashes/pearls/duplicate UUID messages",
+      "expected": "One live entity/tree; durable source tombstones; unsupported types explicit FAIL/BLOCKED.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ENDSEL",
+      "scenario": "Real EndInv selection, private/public/whitelist/admin and permission revocation",
+      "expected": "Stable selected UUID/attachments, current permissions across reconnect/restart.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ENDCON",
+      "scenario": "Concurrent cross-server insert/extract last stack/craft/loot-all/autopick/death loot/XP/mending",
+      "expected": "No item loss/duplication; serialized revisions and recoverable cross-store operations.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "ENDSTATION",
+      "scenario": "Cooking/brewing/enchanting/unlocks/open and closed menus/remote owner/transfer/restart",
+      "expected": "One station clock; fuel/output/XP conservation and real client sync.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "SMP",
+      "scenario": "Concurrent economy/pay/offline pay/jobs/limits/rewards/shop/auctions/roles/lifesteal/ghost/claims/guilds/wars/events/settings",
+      "expected": "Atomic transactions and one global scheduler; expected domain behavior.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "CROSS",
+      "scenario": "Chat/tab/scoreboards/teams/bossbars/advancements/maps/sleep/time/weather/commands/functions",
+      "expected": "Explicit supported global semantics and no accidental local-only lookup.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "FAULT",
+      "scenario": "Kill source/destination/authority/client at REQUEST, QUIESCED, SNAPSHOT_DURABLE, DEST_PREPARED, OWNER_COMMITTED, CLIENT_REDIRECTED, ACTIVATED, SOURCE_CLEANED; restart; selected concurrent crashes",
+      "expected": "Committed critical state survives; precommit source abort; postcommit destination recovery.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "WIRE",
+      "scenario": "Dropped/duplicated/delayed/reordered requests and ACKs; partition/reconnect/queue saturation/stale epoch/revision/expired ticket/forged peer/version mismatch/large snapshots",
+      "expected": "Fail closed; durable replay/dedup; bounded queues and no tick-thread RPC waits.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "RECOVERY",
+      "scenario": "Authority outage/restart, stale worker/local playerdata, backend admission/double login, unknown commit retry, unavailable target",
+      "expected": "No timeout-only reassignment or stale overwrite.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "LOADLOCAL",
+      "scenario": "Single-host two-worker coordination with lobby; balanced and concentrated activity",
+      "expected": "Coordination correctness only; disclose server/generator contention.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "LOADPC",
+      "scenario": "Separate hosts; fixed total server CPU budget and added hardware comparisons; balanced thirds, 90% and 100% hot dimension; regions off/on",
+      "expected": "Measure playable capacity and bottlenecks; BLOCKED without remote machines.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "LIFECYCLE",
+      "scenario": "Independent plateaus 28/50/75/100/150/200/250/300; ramp, 10min warmup, 30min steady, controlled ramp-down; movement/exploration/mining/farms/mobs",
+      "expected": "Independent result per plateau; active bots and passive ghosts separately labeled.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    },
+    {
+      "id": "UNLOAD",
+      "scenario": "Mass disconnect separate from ramp-down; single/distributed with regions off/on; restart",
+      "expected": "No watchdog/hang/corruption; conservation after recovery.",
+      "status": "NOT RUN",
+      "observed": null,
+      "exit_code": null
+    }
+  ],
+  "acceptance": {
+    "correctness": "Zero unexplained conserved-state deltas, zero simultaneous active owners/stale writes, all durably acknowledged critical operations survive tested process crashes. Explain intentional consumption/death/decay with conservation equations.",
+    "recovery": "Recovered or explicit unavailable state within60s after dependencies reachable; no consistency trade for timeout reassignment; no watchdog/deadlock/unbounded queues.",
+    "proposed_capacity": "30min steady plateau: TPS>=19.5 each60s window; worker/lobby p95 MSPT<=50ms,p99<=100ms; healthy transfer p95<=2s,p99<=5s. Thresholds proposed for approval; all samples/worst windows reported.",
+    "metrics": "Raw tick p95/p99, sustained TPS, dimension/main thread/phase, CPU/process/host/quota/throttle, RAM/heap/GC, disk, network bytes/RTT/retries/queues, transfer stage and end-to-end latency, generator CPU/RAM/action completion/backlog. Existing MTMC aggregates need raw tick/main-thread instrumentation.",
+    "interpretation": "100 remains estimate,300 goal; active vs ghosts separate; regionalization incremental gain separate from MTMC. Single-host coordination not multi-PC performance. Added hardware vs same aggregate CPU budget separate; hot dimension limit explicit."
+  },
+  "harness": {
+    "isolation": "After approval dedicated development branches/worktrees in MTMC/emma-smp/EndInv. EmmaMinecraft supporting changes obey current-worktree rule via dedicated branch or resolve conflict before edits. Independent ports/run dirs/fresh worlds/DBs/seeds; untouched combat baseline; no production data/accounts/services.",
+    "freeze": "Pin all commits/JAR/dependency hashes/config/seed/script/threshold/workload manifests across hosts; collect clock skew. Preserve unchanged original baseline.",
+    "result_schema": "Each test JSON PASS/FAIL/BLOCKED/NOT RUN; exit code0/1/2/3 respectively; expected+observed, reason, versions/commits/hashes, per-node limits, configuration/seed/workload/metrics/evidence paths. Runner emits all scheduled records; skipped or blocked never PASS.",
+    "execution": "Complete independent scenarios safely after failures; stop only suite blocker or data risk, preserve evidence, mark remainder explicitly. No patch/threshold/config change or causal diagnosis midway.",
+    "review": "After complete run group behavioral/consistency/harness/resource/environment failures. Unchanged targeted diagnostic reruns with purpose recorded. Approval before fixes; targeted tests plus full regression after approved fixes."
+  },
+  "risks": [
+    "Overworld/bootstrap assumptions and sync APIs make this broader than adding a transport.",
+    "Native transfer/custom payload handshake/cache identity unverified; possible proxy/client adaptation gate.",
+    "World/player/EndInv/economy partial application requires explicit escrow/recovery.",
+    "Single shared authority/EndInv actor may bottleneck; no HA prototype.",
+    "A hot whole dimension still has one owner budget; regionalization only its measured incremental benefit.",
+    "4core single-host tests cannot establish300-player multi-PC performance.",
+    "Historical314 joins/passive ghosts/poor TPS not proof of300 active playable players."
+  ],
+  "actions": "Read-only inspection and this scratch JSON record only; no prototype/build/workload/push/merge/deployment. Await approval."
+}

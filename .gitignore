@@ -1,4 +1,6 @@
 mod/build/
+coordination/build/
+coordination/.gradle/
 mod/.gradle/
 mod/run/
 .gradle/
