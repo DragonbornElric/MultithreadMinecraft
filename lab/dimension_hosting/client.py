@@ -1,6 +1,9 @@
 """Real isolated Fabric client, driven over a loopback HTTP endpoint."""
 import json
 import os
+import re
+import struct
+import uuid as uuid_module
 import shutil
 import signal
 import socket
@@ -30,7 +33,7 @@ class LabClient:
             s.bind(("127.0.0.1", 0))
             self.port = s.getsockname()[1]
         (self.directory / "driver.port").write_text(str(self.port))
-        (self.directory / "options.txt").write_text("onboardAccessibility:false\nrenderDistance:4\nsimulationDistance:4\nmaxFps:20\nvsync:false\npauseOnLostFocus:false\n")
+        (self.directory / "options.txt").write_text("onboardAccessibility:false\nrenderDistance:4\nsimulationDistance:5\nmaxFps:20\nvsync:false\npauseOnLostFocus:false\n")
         mods = self.directory / "mods"
         mods.mkdir()
         # The real current/baseline EndInv client mod, never a stub.
@@ -110,6 +113,18 @@ class LabClient:
             stream.close()
 
 
+def selected_endinv_uuid(codec, player_uuid):
+    """Read the actual codec's player-selection UUID int array from its diagnostic SNBT."""
+    selections = re.search(r'player_selections:\{([^}]*)\}', codec)
+    if selections is None:
+        raise AssertionError("EndInv codec player_selections missing")
+    match = re.search(r'"' + re.escape(str(uuid_module.UUID(player_uuid))) + r'":\[I;\s*(-?\d+),\s*(-?\d+),\s*(-?\d+),\s*(-?\d+)\]', selections.group(1))
+    if match is None:
+        raise AssertionError("EndInv codec selection missing for fixture player")
+    words = [int(value) for value in match.groups()]
+    return str(uuid_module.UUID(bytes=struct.pack(">4i", *words)))
+
+
 def populated_endinv_fixture(server, config, directory, variant):
     """Player command + actual menu quick-move; no synthetic inventory service."""
     import re
@@ -147,13 +162,15 @@ def populated_endinv_fixture(server, config, directory, variant):
         client.cmd("close")
         observed = {"client": client.cmd("state"), "created": message, "selected_uuid": uuid, "selected_index": index, "deposited_item": "minecraft:diamond", "deposited_count": 64}
         if variant == "prototype":
-            codec = server.cmd("endinv-cluster-snapshot")
-            observed["codec"] = codec
-            if "round-trip OK" not in codec or "stored_items=64;" not in codec or uuid not in codec:
-                raise AssertionError("Populated real EndInv codec/count/selection mismatch: " + codec)
             observed["player_snapshot"] = server.cmd("mtmc player-snapshot " + client.name)
             if "Player diagnostic snapshot OK" not in observed["player_snapshot"]:
                 raise AssertionError("Real player capture failed")
+            player_uuid = re.search(r"uuid=([0-9a-f-]{36});", observed["player_snapshot"]).group(1)
+            codec = server.cmd("endinv-cluster-snapshot")
+            observed["codec"] = codec
+            observed["codec_selection_uuid"] = selected_endinv_uuid(codec, player_uuid)
+            if "round-trip OK" not in codec or "stored_items=64;" not in codec or observed["codec_selection_uuid"] != str(uuid_module.UUID(uuid)):
+                raise AssertionError("Populated real EndInv codec/count/selection mismatch: " + codec)
         return observed
     finally:
         client.close()
